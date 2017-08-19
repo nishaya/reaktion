@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import type { Steps } from 'types/step'
 import { RaisedButton } from 'material-ui'
-import Step from './step'
-import Transpose from './transpose'
-import Repeat from './repeat'
-import Stairs from './stairs'
+import StepsGenerator from './fragments/steps_generator'
+// import Transpose from './transpose'
+// import Repeat from './repeat'
+// import Stairs from './stairs'
 import StepsPreview from './fragments/steps_preview'
 
 const Button = RaisedButton
@@ -20,12 +20,12 @@ export default class Pattern extends Component {
     numFragments: 0,
     initialSteps: [],
     stepsList: [[]],
-    fragments: [Step],
+    fragments: [StepsGenerator],
     playing: false,
   }
 
   componentDidMount() {
-    this.addFragment([Transpose, Repeat, Stairs], this.updateSteps)
+    this.addFragment([], this.updateSteps)
   }
 
   addFragment(klass, callback = () => {}) {
@@ -51,7 +51,7 @@ export default class Pattern extends Component {
     this.setState({ stepsList: list })
 
     if (index === list.length - 1) {
-      this.scheduler.setSteps(steps)
+      // this.scheduler.setSteps(steps)
     }
   }
 
@@ -94,7 +94,7 @@ export default class Pattern extends Component {
         {playing ? stopButton : playButton}
       </div>
       <div>
-        <Step
+        <StepsGenerator
           steps={initialSteps}
           onChange={(steps: Steps) => {
             this.modifySteps(0, steps)

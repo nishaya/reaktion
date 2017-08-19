@@ -1,12 +1,9 @@
 // @flow
 
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import type { Steps } from 'types/step'
 import StepsPreview from './steps_preview'
-
-const Box = styled.div`
-`
+import Box from './box'
 
 export type BaseFragmentProps = {
   steps: Steps,
