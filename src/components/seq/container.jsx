@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { RaisedButton } from 'material-ui'
+import { RaisedButton, FontIcon } from 'material-ui'
 import Rack from 'components/common/rack'
 import Track from './track'
 
@@ -48,9 +48,12 @@ export default class SeqContainer extends Component {
       <h2>seq</h2>
       {tracks}
       <div>
-        <Button disabled={tracks.length >= MAX_TRACKS} onClick={() => this.addTrack()}>
-          Add Track
-        </Button>
+        <Button
+          icon={<FontIcon className="material-icons">add</FontIcon>}
+          disabled={tracks.length >= MAX_TRACKS}
+          onClick={() => this.addTrack()}
+          label="Add Track"
+        />
       </div>
     </Rack>)
   }
