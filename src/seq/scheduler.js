@@ -1,6 +1,6 @@
 // @flow
 
-type Steps = Array<number>
+import type { Steps } from 'types/step'
 
 const trace = msg => console.log(msg)
 const now = (): number => performance.now()
