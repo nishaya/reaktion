@@ -48,7 +48,9 @@ export default class SeqContainer extends Component {
       <h2>seq</h2>
       {tracks}
       <div>
-        <Button onClick={() => this.addTrack()}>Add Track</Button>
+        <Button disabled={tracks.length >= MAX_TRACKS} onClick={() => this.addTrack()}>
+          Add Track
+        </Button>
       </div>
     </Rack>)
   }
