@@ -54,7 +54,7 @@ export default class BaseFragment extends Component {
 
   renderPreview() {
     const { steps } = this.state
-    return <StepPreview steps={steps} />
+    return <StepsPreview steps={steps} />
   }
 
   render() {
