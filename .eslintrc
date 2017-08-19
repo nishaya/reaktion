@@ -1,0 +1,21 @@
+extends: airbnb
+parser: babel-eslint
+env:
+  browser: 1
+rules:
+  no-unused-vars:
+    - error
+    - varsIgnorePattern: ^__
+  semi:
+    - error
+    - never
+  no-unused-expressions:
+    - error
+    - allowTaggedTemplates: true
+  import/extensions: 0
+  import/no-extraneous-dependencies: 0
+  import/no-unresolved: 0
+  react/prefer-stateless-function: 0
+  react/no-unused-prop-types: 0
+globals:
+  APP_CONFIG: false
