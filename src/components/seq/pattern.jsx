@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import type { Steps } from 'types/step'
 import { RaisedButton } from 'material-ui'
 import StepsGenerator from './fragments/steps_generator'
-// import Transpose from './transpose'
+import Transpose from './fragments/transpose'
 // import Repeat from './repeat'
 // import Stairs from './stairs'
 import StepsPreview from './fragments/steps_preview'
@@ -25,7 +25,7 @@ export default class Pattern extends Component {
   }
 
   componentDidMount() {
-    this.addFragment([], this.updateSteps)
+    this.addFragment([Transpose], this.updateSteps)
   }
 
   addFragment(klass, callback = () => {}) {
@@ -89,7 +89,7 @@ export default class Pattern extends Component {
       }}
     >Stop</Button>)
     return (<div>
-      <h2>track</h2>
+      <h2>pattern</h2>
       <div>
         {playing ? stopButton : playButton}
       </div>

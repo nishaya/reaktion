@@ -1,10 +1,11 @@
 // @flow
 
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import type { Steps } from 'types/step'
+import Box from './box'
 
-const Box = styled.div`
+const PreviewBox = Box.extend`
+  width: 160px;
 `
 
 const WIDTH = 128
@@ -51,7 +52,7 @@ export default class StepsPreview extends Component {
 
   render() {
     const { steps } = this.props
-    return (<Box>
+    return (<PreviewBox>
       length: {steps.length}<br />
       {steps.join(',')}
       <canvas
@@ -59,6 +60,6 @@ export default class StepsPreview extends Component {
         width={WIDTH}
         height={HEIGHT}
       />
-    </Box>)
+    </PreviewBox>)
   }
 }

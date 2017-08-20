@@ -19,7 +19,7 @@ type Props = {
   steps: Steps,
 }
 
-export default class BaseFragment extends Component {
+export default class BaseFragment extends Component<any, Props, BaseFragmentState> {
   static defaultProps: any = {
     onChange: (steps: Steps) => console.log('BaseFragment.onChange', steps),
   }
