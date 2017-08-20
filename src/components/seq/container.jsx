@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { RaisedButton, FontIcon } from 'material-ui'
+import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Track from './track'
 
@@ -35,8 +36,13 @@ export default class SeqContainer extends Component {
   addTrack(num: number = 1) {
     const { tracks } = this.state
     if (tracks.length + num <= MAX_TRACKS) {
+      const props = {
+        onPatternChanged: (steps: Steps) => {
+          console.log('pattern changed(SeqContainer)', steps)
+        },
+      }
       for (let i = 0; i < num; i += 1) {
-        tracks.push(<Track key={`track_${tracks.length}`} />)
+        tracks.push(<Track key={`track_${tracks.length}`} {...props} />)
       }
     }
     this.setState({ tracks })
