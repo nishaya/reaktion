@@ -5,6 +5,7 @@ import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
 import Box from './box'
 import StepsPreview from './steps_preview'
+import { icon } from './icon'
 
 type Props = {
   steps: Steps,
@@ -60,7 +61,7 @@ export default class Stairs extends Component<any, Props, State> {
   render() {
     const { steps, count } = this.state
     return (<Box theme={{ bgColor: '#bcfaef' }}>
-      <h2>repeat</h2>
+      <h2>{icon('repeat')}repeat</h2>
       <Slider
         max={4}
         min={1}

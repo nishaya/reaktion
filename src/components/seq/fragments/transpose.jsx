@@ -5,6 +5,7 @@ import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
 import Box from './box'
 import StepsPreview from './steps_preview'
+import { icon } from './icon'
 
 type Props = {
   steps: Steps,
@@ -73,7 +74,7 @@ export default class Transpose extends Component<any, Props, State> {
   render() {
     const { steps, transpose, octave, notes } = this.state
     return (<Box theme={{ bgColor: '#cdefab' }}>
-      <h2>transpose</h2>
+      <h2>{icon('transpose')}transpose</h2>
       <div>
         octave
         <Slider

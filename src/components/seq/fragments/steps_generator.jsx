@@ -4,7 +4,7 @@ import type { Steps } from 'types/step'
 import StepsEditor from './steps_editor'
 import StepsPreview from './steps_preview'
 import Box from './box'
-import Icon from './icon'
+import { icon } from './icon'
 
 type Props = {
   steps: Steps,
@@ -65,7 +65,7 @@ export default class StepsGenerator extends Component<any, Props, State> {
     }
 
     return (<Box theme={{ bgColor: '#abcdef' }}>
-      <h2><Icon name="generator" />step gen</h2>
+      <h2>{icon('generator')}step gen</h2>
       length: {length}
       <Slider
         max={16}

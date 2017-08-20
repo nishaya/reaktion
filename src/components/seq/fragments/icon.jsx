@@ -1,29 +1,19 @@
 // @flow
 
-import React, { Component } from 'react'
+import React from 'react'
 import { FontIcon } from 'material-ui'
 
 // https://material.io/icons/
 const iconNames = {
-  generator: 'mode_horiz',
+  generator: 'more_horiz',
   transpose: 'swap_vert',
   stairs: 'call_made',
   repeat: 'repeat',
 }
 
-type Props = {
-  name: string,
+export const icon = (name: string) => {
+  const iconName = iconNames[name] || name
+  return <FontIcon className="material-icons">{iconName}</FontIcon>
 }
 
-export default class Icon extends Component {
-  static defaultProps = {
-    name: 'generator',
-  }
-
-  props: Props
-
-  render() {
-    const icon = iconNames[this.props.name] || this.props.name
-    return <FontIcon className="material-icons">{icon}</FontIcon>
-  }
-}
+export default { icon }

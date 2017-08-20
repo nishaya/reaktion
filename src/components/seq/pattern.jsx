@@ -6,6 +6,7 @@ import Transpose from './fragments/transpose'
 import Repeat from './fragments/repeat'
 import Stairs from './fragments/stairs'
 import StepsPreview from './fragments/steps_preview'
+import { icon } from './fragments/icon'
 
 const Button = RaisedButton
 
@@ -114,9 +115,21 @@ export default class Pattern extends Component<any, State, Props> {
         />
         {this.renderFragments()}
         <StepsPreview steps={stepsList[stepsList.length - 1]} />
-        <Button onClick={() => this.addFragment(Transpose)}>add Transpose</Button>
-        <Button onClick={() => this.addFragment(Repeat)}>add Repeat</Button>
-        <Button onClick={() => this.addFragment(Stairs)}>add Stairs</Button>
+        <Button
+          onClick={() => this.addFragment(Transpose)}
+          label="Add Transpose"
+          icon={icon('transpose')}
+        />
+        <Button
+          onClick={() => this.addFragment(Repeat)}
+          label="Add Repeat"
+          icon={icon('repeat')}
+        />
+        <Button
+          onClick={() => this.addFragment(Stairs)}
+          label="Add Stairs"
+          icon={icon('stairs')}
+        />
       </div>
     </div>)
   }
