@@ -39,9 +39,19 @@ export default class StepEdit extends Component {
               style={{ padding: 0, margin: 0, width: 30 }}
               checked={checked}
               onCheck={(e, v) => {
-                const newSteps = steps.slice(0)
-                newSteps[index] = v ? 64 : -1
-                onEdit(newSteps)
+                if (v) {
+                  const newSteps = steps.list.slice(0)
+                  newSteps.push({
+                    note: 64,
+                    position: index,
+                    velocity: 100,
+                    duration: 1.0,
+                  })
+                  onEdit({ ...steps, list: newSteps })
+                } else {
+                  const newSteps = steps.list.filter(s => s.position !== index)
+                  onEdit({ ...steps, list: newSteps })
+                }
               }}
             />)
           })}
