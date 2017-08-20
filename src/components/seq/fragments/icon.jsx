@@ -9,6 +9,7 @@ const iconNames = {
   transpose: 'swap_vert',
   stairs: 'call_made',
   repeat: 'repeat',
+  limit: 'vertical_align_top',
 }
 
 export const icon = (name: string) => {

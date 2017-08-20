@@ -5,6 +5,7 @@ import StepsGenerator from './fragments/steps_generator'
 import Transpose from './fragments/transpose'
 import Repeat from './fragments/repeat'
 import Stairs from './fragments/stairs'
+import Limit from './fragments/limit'
 import StepsPreview from './fragments/steps_preview'
 import { icon } from './fragments/icon'
 
@@ -36,7 +37,7 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   componentDidMount() {
-    this.addFragment([Transpose, Stairs, Repeat], this.updateSteps)
+    this.addFragment([Transpose, Stairs, Limit], this.updateSteps)
   }
 
   props: Props
