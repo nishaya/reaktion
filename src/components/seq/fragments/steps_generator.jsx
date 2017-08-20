@@ -15,12 +15,21 @@ type State = {
   steps: Steps,
 }
 
-export const initSteps = (length: number): Steps => (
-  {
-    length,
-    list: {},
+export const initSteps = (length: number = 4): Steps => {
+  const list = []
+  for (let i = 0; i < length; i += 1) {
+    list.push({
+      position: i,
+      note: 64,
+      velocity: 0,
+      duration: 1.0,
+    })
   }
-)
+  return {
+    length,
+    list,
+  }
+}
 
 export default class StepsGenerator extends Component<any, Props, State> {
   static defaultProps = {

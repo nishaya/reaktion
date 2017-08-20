@@ -33,7 +33,7 @@ export default class StepsPreview extends Component {
     }
     const ctx = this.canvas.getContext('2d')
     const pixelsPerStep = WIDTH / steps.length
-    const activeNotes = steps.filter(step => step >= 0)
+    const activeNotes = steps.list.map(step => step.note)
     const min = Math.floor((Math.min(...activeNotes) / 12) - 1) * 12
     const max = Math.ceil((Math.max(...activeNotes) / 12) + 1) * 12
     const pixelsPerNote = HEIGHT / (max - min)
@@ -41,16 +41,14 @@ export default class StepsPreview extends Component {
     ctx.fillStyle = 'rgb(203, 213, 198)'
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     ctx.strokeStyle = 'rgb(98, 104, 95)'
-    steps.forEach((step, index) => {
-      if (step === -1) {
-        return
-      }
-      const top = (pixelsPerNote * (max - step))
-      const strokeWidth = Math.floor(top - (pixelsPerNote * (max - step - 1)))
+    steps.list.forEach((step) => {
+      const { note, position } = step
+      const top = (pixelsPerNote * (max - note))
+      const strokeWidth = Math.floor(top - (pixelsPerNote * (max - note - 1)))
       ctx.lineWidth = strokeWidth
       ctx.beginPath()
-      ctx.moveTo(Math.ceil(index * pixelsPerStep), top)
-      ctx.lineTo(Math.ceil((index + 1) * pixelsPerStep), top)
+      ctx.moveTo(Math.ceil(position * pixelsPerStep), top)
+      ctx.lineTo(Math.ceil((position + 1) * pixelsPerStep), top)
       ctx.stroke()
     })
   }
@@ -59,7 +57,6 @@ export default class StepsPreview extends Component {
     const { steps } = this.props
     return (<PreviewBox>
       length: {steps.length}<br />
-      {steps.join(',')}
       <canvas
         ref={(canvas) => { this.canvas = canvas }}
         width={WIDTH}

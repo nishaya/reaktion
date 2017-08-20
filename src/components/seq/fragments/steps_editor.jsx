@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { Dialog, Checkbox } from 'material-ui'
-import type { Steps } from 'types/step'
+import type { Steps, Step } from 'types/step'
 
 type Props = {
   show: boolean,
@@ -30,8 +30,9 @@ export default class StepEdit extends Component {
         title="edit steps"
       >
         <div style={{ width: '500px' }}>
-          {steps.map((step, index) => {
-            const checked = step !== -1
+          {new Array(steps.length).fill(null).map((x, index) => {
+            const step = steps.list.find(s => s.position === index)
+            const checked = step !== undefined
             const key = `e_${index}`
             return (<Checkbox
               key={key}
