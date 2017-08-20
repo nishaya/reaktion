@@ -33,18 +33,25 @@ export default class Transpose extends Component<any, Props, State> {
   }
 
   componentDidMount() {
-    const { transpose } = this.props
+    const { transpose, steps } = this.props
+    console.log('transpose did mount', transpose, steps)
     const octave = transpose >= 0 ? Math.floor(transpose / 12) : Math.ceil(transpose / 12)
     const notes = transpose % 12
-    this.changeTranspose(octave, notes)
+    this.changeTranspose(steps, octave, notes)
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.steps !== this.props.steps) {
+      this.transform(nextProps.steps)
+    }
   }
 
   props: Props
 
-  changeTranspose(octave: number, notes: number) {
-    console.log('changeTranspose', octave, notes)
+  changeTranspose(steps: Steps, octave: number, notes: number) {
+    console.log('changeTranspose', steps, octave, notes)
     this.setState({ transpose: (octave * 12) + notes, octave, notes }, () => {
-      this.transform(this.props.steps)
+      this.transform(steps)
     })
   }
 
@@ -74,7 +81,7 @@ export default class Transpose extends Component<any, Props, State> {
           min={-4}
           value={octave}
           step={1.0}
-          onChange={(e, v) => this.changeTranspose(v, notes)}
+          onChange={(e, v) => this.changeTranspose(steps, v, notes)}
         />
       </div>
       <div>
@@ -84,7 +91,7 @@ export default class Transpose extends Component<any, Props, State> {
           min={-12}
           value={notes}
           step={1.0}
-          onChange={(e, v) => this.changeTranspose(octave, v)}
+          onChange={(e, v) => this.changeTranspose(steps, octave, v)}
         />
       </div>
       <div>
