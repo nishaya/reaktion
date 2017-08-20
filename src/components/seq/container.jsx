@@ -69,6 +69,7 @@ export default class SeqContainer extends Component {
               list: [].concat(...stepsList.map(s => s.list)),
             }
             console.log('merged', newSteps)
+            this.scheduler.setSteps(newSteps)
             this.setState({ stepsMap, steps: newSteps })
           },
           trackId,
