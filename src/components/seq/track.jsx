@@ -4,20 +4,23 @@ import type { Steps } from 'types/step'
 import Pattern from './pattern'
 
 type Props = {
-  onPatternChanged: (steps: Steps) => any,
+  trackId: number,
+  onTrackFixed: (steps: Steps, trackId: number) => any,
 }
 
 export default class Track extends Component<any, any, Props> {
   static defaultProps = {
-    onPatternChanged: (steps: Steps) => console.log('pattern changed(Track)', steps),
+    trackId: -1,
+    onTrackFixed: (steps: Steps, trackId: number) => console.log(`track fixed(Track #${trackId})`, steps),
   }
 
   props: Props
 
   render() {
+    const { trackId } = this.props
     return (<Rack>
-      <h2>track</h2>
-      <Pattern onPatternChanged={this.props.onPatternChanged} />
+      <h2>track #{trackId}</h2>
+      <Pattern onPatternChanged={(steps: Steps) => this.props.onTrackFixed(steps, trackId)} />
     </Rack>)
   }
 }

@@ -11,7 +11,8 @@ const Button = RaisedButton
 const MAX_TRACKS = 4
 
 type State = {
-  tracks: Array<any>,
+  tracks: Array<Track>,
+  stepsMap: WeakMap<Track, Steps>,
 }
 
 type Props = {
@@ -25,6 +26,7 @@ export default class SeqContainer extends Component {
 
   state: State = {
     tracks: [],
+    stepsMap: new WeakMap(),
   }
 
   componentDidMount() {
@@ -36,13 +38,15 @@ export default class SeqContainer extends Component {
   addTrack(num: number = 1) {
     const { tracks } = this.state
     if (tracks.length + num <= MAX_TRACKS) {
-      const props = {
-        onPatternChanged: (steps: Steps) => {
-          console.log('pattern changed(SeqContainer)', steps)
-        },
-      }
       for (let i = 0; i < num; i += 1) {
-        tracks.push(<Track key={`track_${tracks.length}`} {...props} />)
+        const trackId = tracks.length
+        const props = {
+          onTrackFixed: (steps: Steps, id: number) => {
+            console.log(`track #${id} fixed(SeqContainer)`, steps)
+          },
+          trackId,
+        }
+        tracks.push(<Track key={`track_${trackId}`} {...props} />)
       }
     }
     this.setState({ tracks })

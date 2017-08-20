@@ -134,6 +134,11 @@ export default class Pattern extends Component<any, State, Props> {
             label="Add Stairs"
             icon={icon('stairs')}
           />
+          <Button
+            onClick={() => this.addFragment(Limit)}
+            label="Add Limit"
+            icon={icon('limit')}
+          />
         </div>
       </div>
     </div>)
