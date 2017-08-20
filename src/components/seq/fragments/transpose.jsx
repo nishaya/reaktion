@@ -82,7 +82,7 @@ export default class Transpose extends Component<any, Props, State> {
           min={-4}
           value={octave}
           step={1.0}
-          onChange={(e, v) => this.changeTranspose(steps, v, notes)}
+          onChange={(e, v) => this.changeTranspose(this.props.steps, v, notes)}
         />
       </div>
       <div>
@@ -92,7 +92,7 @@ export default class Transpose extends Component<any, Props, State> {
           min={-12}
           value={notes}
           step={1.0}
-          onChange={(e, v) => this.changeTranspose(steps, octave, v)}
+          onChange={(e, v) => this.changeTranspose(this.props.steps, octave, v)}
         />
       </div>
       <div>

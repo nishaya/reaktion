@@ -9,7 +9,7 @@ const PreviewBox = Box.extend`
 `
 
 const WIDTH = 128
-const HEIGHT = 128
+const HEIGHT = 64
 
 type Props = { steps: Steps }
 
