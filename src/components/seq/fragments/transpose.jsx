@@ -5,6 +5,7 @@ import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
 import Box from './box'
 import StepsPreview from './steps_preview'
+import { initSteps } from './steps_generator'
 import { icon } from './icon'
 
 type Props = {
@@ -23,14 +24,14 @@ type State = {
 export default class Transpose extends Component<any, Props, State> {
   static defaultProps = {
     transpose: -31,
-    steps: [],
+    steps: initSteps(0),
   }
 
   state: State = {
     transpose: 0,
     octave: 0,
     notes: 12,
-    steps: [],
+    steps: initSteps(0),
   }
 
   componentDidMount() {
@@ -57,16 +58,15 @@ export default class Transpose extends Component<any, Props, State> {
   }
 
   transform(steps: Steps) {
-    const newSteps = steps.map((step) => {
-      if (step === -1) {
-        return step
-      }
-      let note = step + this.state.transpose
+    console.log('transpose.transform', steps)
+    const newList = steps.list.map((step) => {
+      let note = step.note + this.state.transpose
       if (note > 127) {
         note = 127
       } else if (note < 0) { note = 0 }
-      return note
+      return { ...step, note }
     })
+    const newSteps = { ...steps, list: newList }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
   }

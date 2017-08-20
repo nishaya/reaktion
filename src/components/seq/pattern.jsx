@@ -31,13 +31,13 @@ export default class Pattern extends Component<any, State, Props> {
   state: State = {
     numFragments: 0,
     initialSteps: [],
-    stepsList: [[]],
+    stepsList: [initSteps(0)],
     fragments: [StepsGenerator],
     playing: false,
   }
 
   componentDidMount() {
-    this.addFragment([], this.updateSteps)
+    this.addFragment([Transpose], this.updateSteps)
   }
 
   props: Props
@@ -47,7 +47,7 @@ export default class Pattern extends Component<any, State, Props> {
     const stepsList = this.state.stepsList.slice(0)
     const fragments = this.state.fragments.slice(0)
     klasses.forEach((k) => {
-      stepsList.push([])
+      stepsList.push(initSteps(0))
       fragments.push(k)
     })
     this.setState({ stepsList, fragments }, callback)
