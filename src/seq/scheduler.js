@@ -14,7 +14,7 @@ export default class Scheduler {
   lastPlayed: number = 0
   step: number = 0
 
-  steps: Steps = [64, -1, -1, -1]
+  steps: Steps = { length: 0, list: [] }
 
   onScheduling = (offset: number, note: number) => trace(`onScheduling ${offset} ${note}`)
   onBeat = (offset: number, note: number) => trace(`onBeat ${offset} ${note}`)

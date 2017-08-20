@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { RaisedButton, FontIcon } from 'material-ui'
-import type { Steps } from 'types/step'
+import type { Steps, Step } from 'types/step'
 import Rack from 'components/common/rack'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
