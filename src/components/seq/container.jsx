@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { RaisedButton, FontIcon } from 'material-ui'
-import type { Steps, Step } from 'types/step'
+import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
@@ -12,10 +12,13 @@ const Button = RaisedButton
 
 const MAX_TRACKS = 4
 
+const map2Array = (map: {[string]: Steps}): Array<Steps> => Object.keys(map).map(k => map[k])
+
 type State = {
   tracks: Array<Track>,
-  stepsMap: { [number]: Steps },
+  stepsMap: { [string]: Steps },
   steps: Steps,
+  playing: boolean,
 }
 
 type Props = {
@@ -31,6 +34,7 @@ export default class SeqContainer extends Component {
     tracks: [],
     stepsMap: {},
     steps: initSteps(0),
+    playing: false,
   }
 
   componentDidMount() {
@@ -43,21 +47,21 @@ export default class SeqContainer extends Component {
     const { tracks } = this.state
     if (tracks.length + num <= MAX_TRACKS) {
       for (let i = 0; i < num; i += 1) {
-        const trackId = tracks.length
+        const trackId = `${tracks.length}`
         const props = {
-          onTrackFixed: (steps: Steps, id: number) => {
+          onTrackFixed: (steps: Steps, id: string) => {
             console.log(`track #${id} fixed(SeqContainer)`, steps)
             const { stepsMap } = this.state
             stepsMap[id] = steps
             console.log('stepsMap', stepsMap)
-            const stepsList = Object.values(stepsMap)
+            const stepsList = map2Array(stepsMap)
             const lengths = stepsList.map(s => s.length)
             console.log(lengths)
             const newSteps = {
               length: Math.max(...lengths),
               list: [].concat(...stepsList.map(s => s.list)),
             }
-            console.log(newSteps)
+            console.log('merged', newSteps)
             this.setState({ stepsMap, steps: newSteps })
           },
           trackId,
@@ -69,9 +73,24 @@ export default class SeqContainer extends Component {
   }
 
   render() {
-    const { tracks, steps } = this.state
+    const { tracks, steps, playing } = this.state
+    const playButton = (<Button
+      onClick={() => {
+        // this.scheduler.start()
+        this.setState({ playing: true })
+      }}
+    >Play</Button>)
+    const stopButton = (<Button
+      onClick={() => {
+        // this.scheduler.stop()
+        this.setState({ playing: false })
+      }}
+    >Stop</Button>)
     return (<Rack>
       <h2>seq</h2>
+      <div>
+        {playing ? stopButton : playButton}
+      </div>
       {tracks}
       <div>
         <Button

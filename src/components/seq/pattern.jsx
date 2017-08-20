@@ -20,7 +20,6 @@ type State = {
   initialSteps: Steps,
   stepsList: Array<Steps>,
   fragments: Array<Component>,
-  playing: boolean,
 }
 
 export default class Pattern extends Component<any, State, Props> {
@@ -33,7 +32,6 @@ export default class Pattern extends Component<any, State, Props> {
     initialSteps: [],
     stepsList: [initSteps(0)],
     fragments: [StepsGenerator],
-    playing: false,
   }
 
   componentDidMount() {
@@ -88,25 +86,10 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   render() {
-    const { stepsList, initialSteps, playing } = this.state
+    const { stepsList, initialSteps } = this.state
     console.log('stepsList', stepsList)
-    const playButton = (<Button
-      onClick={() => {
-        this.scheduler.start()
-        this.setState({ playing: true })
-      }}
-    >Play</Button>)
-    const stopButton = (<Button
-      onClick={() => {
-        this.scheduler.stop()
-        this.setState({ playing: false })
-      }}
-    >Stop</Button>)
     return (<div>
       <h2>pattern</h2>
-      <div>
-        {playing ? stopButton : playButton}
-      </div>
       <div>
         <div>
           <StepsGenerator
