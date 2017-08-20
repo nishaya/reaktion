@@ -12,7 +12,7 @@ const MAX_TRACKS = 4
 
 type State = {
   tracks: Array<Track>,
-  stepsMap: WeakMap<Track, Steps>,
+  stepsMap: Map<number, Steps>,
 }
 
 type Props = {
@@ -26,7 +26,7 @@ export default class SeqContainer extends Component {
 
   state: State = {
     tracks: [],
-    stepsMap: new WeakMap(),
+    stepsMap: new Map(),
   }
 
   componentDidMount() {
@@ -43,6 +43,10 @@ export default class SeqContainer extends Component {
         const props = {
           onTrackFixed: (steps: Steps, id: number) => {
             console.log(`track #${id} fixed(SeqContainer)`, steps)
+            const { stepsMap } = this.state
+            stepsMap.set(id, steps)
+            console.log('stepsMap', stepsMap)
+            this.setState({ stepsMap })
           },
           trackId,
         }
