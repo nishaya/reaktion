@@ -9,14 +9,24 @@ import StepsPreview from './fragments/steps_preview'
 
 const Button = RaisedButton
 
-export default class Pattern extends Component {
-  state: {
-    numFragments: number,
-    initialSteps: Steps,
-    stepsList: Array<Steps>,
-    fragments: Array<Component>,
-    playing: boolean,
-  } = {
+type Props = {
+  onPatternChanged: (steps: Steps) => void,
+}
+
+type State = {
+  numFragments: number,
+  initialSteps: Steps,
+  stepsList: Array<Steps>,
+  fragments: Array<Component>,
+  playing: boolean,
+}
+
+export default class Pattern extends Component<any, State, Props> {
+  static defaultProps = {
+    onPatternChanged: (steps: Steps) => console.log('PATTERN CHANGED', steps),
+  }
+
+  state: State = {
     numFragments: 0,
     initialSteps: [],
     stepsList: [[]],
@@ -27,6 +37,8 @@ export default class Pattern extends Component {
   componentDidMount() {
     this.addFragment([Transpose, Stairs, Repeat], this.updateSteps)
   }
+
+  props: Props
 
   addFragment(klass, callback = () => {}) {
     const klasses = Array.isArray(klass) ? klass : [klass]
@@ -51,8 +63,7 @@ export default class Pattern extends Component {
     this.setState({ stepsList: list })
 
     if (index === list.length - 1) {
-      console.log('PATTERN CHANGED', steps)
-      // this.scheduler.setSteps(steps)
+      this.props.onPatternChanged(steps)
     }
   }
 
