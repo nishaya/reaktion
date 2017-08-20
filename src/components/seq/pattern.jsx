@@ -3,7 +3,7 @@ import type { Steps } from 'types/step'
 import { RaisedButton } from 'material-ui'
 import StepsGenerator from './fragments/steps_generator'
 import Transpose from './fragments/transpose'
-// import Repeat from './repeat'
+import Repeat from './fragments/repeat'
 import Stairs from './fragments/stairs'
 import StepsPreview from './fragments/steps_preview'
 
@@ -25,7 +25,7 @@ export default class Pattern extends Component {
   }
 
   componentDidMount() {
-    this.addFragment([Transpose, Stairs], this.updateSteps)
+    this.addFragment([Transpose, Stairs, Repeat], this.updateSteps)
   }
 
   addFragment(klass, callback = () => {}) {
@@ -51,6 +51,7 @@ export default class Pattern extends Component {
     this.setState({ stepsList: list })
 
     if (index === list.length - 1) {
+      console.log('PATTERN CHANGED', steps)
       // this.scheduler.setSteps(steps)
     }
   }

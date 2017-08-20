@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { FlatButton, Slider } from 'material-ui'
 import type { Steps } from 'types/step'
 import StepsEditor from './steps_editor'
-import BaseFragment from './base'
+import StepsPreview from './steps_preview'
 import Box from './box'
 
 type Props = {
@@ -10,8 +10,11 @@ type Props = {
   onChange: (steps: Steps) => any,
 }
 
-export default class StepsGenerator extends BaseFragment {
-  props: Props
+type State = {
+  steps: Steps,
+}
+
+export default class StepsGenerator extends Component<any, Props, State> {
 
   static defaultProps = {
     steps: [],
@@ -24,6 +27,14 @@ export default class StepsGenerator extends BaseFragment {
     steps: [
       64, 64, 64, 64,
     ],
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    const { steps } = nextProps
+    if (steps !== this.props.steps) {
+      this.props.onChange(steps)
+      this.setState({ steps })
+    }
   }
 
   setLength(newLength) {
@@ -43,6 +54,8 @@ export default class StepsGenerator extends BaseFragment {
     this.props.onChange(newSteps)
   }
 
+  props: Props
+
   render() {
     const { showEdit, steps } = this.state
     const length = steps.length
@@ -51,7 +64,7 @@ export default class StepsGenerator extends BaseFragment {
     }
 
     return (<Box theme={{ bgColor: '#abcdef' }}>
-      <h2>step</h2>
+      <h2>step gen</h2>
       length: {length}
       <Slider
         max={16}
@@ -72,7 +85,7 @@ export default class StepsGenerator extends BaseFragment {
           this.setState({ showEdit: false })
         }}
       />
-      {this.renderPreview()}
+      <StepsPreview steps={steps} />
     </Box>)
   }
 }
