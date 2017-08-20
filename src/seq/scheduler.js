@@ -61,18 +61,21 @@ export default class Scheduler {
       // ms to sec
       const offset = (this.lastPlayed - current) / 1000
 
-      const note = this.steps[this.step % this.steps.length]
+      const currentStep = this.step % this.steps.length
+      this.steps.list
+        .filter(s => s.position >= currentStep && s.position < currentStep + 1)
+        .forEach((step) => {
+          const note = step.note
+          trace(`scheduleSound step: ${this.step}, offset: ${offset}, note: ${note}`)
+          this.onScheduling(offset, note)
+        })
+
       if (this.step % 4 === 0) {
         trace(`beat, offset: ${offset}`)
         this.onBeat(offset, 0)
       }
 
       this.step += 1
-
-      if (note > 0) {
-        trace(`scheduleSound step: ${this.step}, offset: ${offset}, note: ${note}`)
-        this.onScheduling(offset, note)
-      }
     }
 
     if (this.playing) {

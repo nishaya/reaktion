@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { RaisedButton, FontIcon } from 'material-ui'
 import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
+import Scheduler from 'seq/scheduler'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
 import StepsPreview from './fragments/steps_preview'
@@ -30,6 +31,7 @@ export default class SeqContainer extends Component {
     defaultTracks: 2,
   }
 
+
   state: State = {
     tracks: [],
     stepsMap: {},
@@ -37,10 +39,15 @@ export default class SeqContainer extends Component {
     playing: false,
   }
 
+  componentWillMount() {
+    this.scheduler = new Scheduler()
+  }
+
   componentDidMount() {
     this.addTrack(this.props.defaultTracks)
   }
 
+  scheduler: Scheduler
   props: Props
 
   addTrack(num: number = 1) {
@@ -76,13 +83,13 @@ export default class SeqContainer extends Component {
     const { tracks, steps, playing } = this.state
     const playButton = (<Button
       onClick={() => {
-        // this.scheduler.start()
+        this.scheduler.start()
         this.setState({ playing: true })
       }}
     >Play</Button>)
     const stopButton = (<Button
       onClick={() => {
-        // this.scheduler.stop()
+        this.scheduler.stop()
         this.setState({ playing: false })
       }}
     >Stop</Button>)
