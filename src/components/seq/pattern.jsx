@@ -4,7 +4,7 @@ import { RaisedButton } from 'material-ui'
 import StepsGenerator from './fragments/steps_generator'
 import Transpose from './fragments/transpose'
 // import Repeat from './repeat'
-// import Stairs from './stairs'
+import Stairs from './fragments/stairs'
 import StepsPreview from './fragments/steps_preview'
 
 const Button = RaisedButton
@@ -25,7 +25,7 @@ export default class Pattern extends Component {
   }
 
   componentDidMount() {
-    this.addFragment([Transpose], this.updateSteps)
+    this.addFragment([Transpose, Stairs], this.updateSteps)
   }
 
   addFragment(klass, callback = () => {}) {
@@ -41,7 +41,7 @@ export default class Pattern extends Component {
 
   updateSteps() {
     console.log('updateSteps')
-    this.setState({ initialSteps: [64, 64, -1] })
+    this.setState({ initialSteps: [64, 64, -1, 64, 64, -1] })
   }
 
   modifySteps(index:number, steps: Steps) {
