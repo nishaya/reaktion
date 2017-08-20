@@ -5,6 +5,8 @@ import { RaisedButton, FontIcon } from 'material-ui'
 import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Track from './track'
+import { initSteps } from './fragments/steps_generator'
+import StepsPreview from './fragments/steps_preview'
 
 const Button = RaisedButton
 
@@ -12,7 +14,8 @@ const MAX_TRACKS = 4
 
 type State = {
   tracks: Array<Track>,
-  stepsMap: Map<number, Steps>,
+  stepsMap: { [number]: Steps },
+  steps: Steps,
 }
 
 type Props = {
@@ -26,7 +29,8 @@ export default class SeqContainer extends Component {
 
   state: State = {
     tracks: [],
-    stepsMap: new Map(),
+    stepsMap: {},
+    steps: initSteps(0),
   }
 
   componentDidMount() {
@@ -44,9 +48,17 @@ export default class SeqContainer extends Component {
           onTrackFixed: (steps: Steps, id: number) => {
             console.log(`track #${id} fixed(SeqContainer)`, steps)
             const { stepsMap } = this.state
-            stepsMap.set(id, steps)
+            stepsMap[id] = steps
             console.log('stepsMap', stepsMap)
-            this.setState({ stepsMap })
+            const stepsList = Object.values(stepsMap)
+            const lengths = stepsList.map(s => s.length)
+            console.log(lengths)
+            const newSteps = {
+              length: Math.max(...lengths),
+              list: [].concat(...stepsList.map(s => s.list)),
+            }
+            console.log(newSteps)
+            this.setState({ stepsMap, steps: newSteps })
           },
           trackId,
         }
@@ -57,7 +69,7 @@ export default class SeqContainer extends Component {
   }
 
   render() {
-    const { tracks } = this.state
+    const { tracks, steps } = this.state
     return (<Rack>
       <h2>seq</h2>
       {tracks}
@@ -68,6 +80,7 @@ export default class SeqContainer extends Component {
           onClick={() => this.addTrack()}
           label="Add Track"
         />
+        <StepsPreview steps={steps} />
       </div>
     </Rack>)
   }

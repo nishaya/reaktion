@@ -55,8 +55,9 @@ export default class StepsPreview extends Component {
 
   render() {
     const { steps } = this.props
+    const num = Array.isArray(steps.list) ? steps.list.length : 0
     return (<PreviewBox>
-      length: {steps.length}<br />
+      l: {steps.length}, num: {num}<br />
       <canvas
         ref={(canvas) => { this.canvas = canvas }}
         width={WIDTH}

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { Dialog, Checkbox } from 'material-ui'
-import type { Steps, Step } from 'types/step'
+import type { Steps } from 'types/step'
 
 type Props = {
   show: boolean,
