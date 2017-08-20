@@ -6,6 +6,7 @@ import type { Steps } from 'types/step'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
+import { initSteps } from './steps_generator'
 
 type Props = {
   steps: Steps,
@@ -21,12 +22,12 @@ type State = {
 export default class Stairs extends Component<any, Props, State> {
   static defaultProps = {
     count: 2,
-    steps: [],
+    steps: initSteps(0),
   }
 
   state: State = {
     count: 1,
-    steps: [],
+    steps: initSteps(0),
   }
 
   componentDidMount() {
@@ -49,11 +50,13 @@ export default class Stairs extends Component<any, Props, State> {
 
   transform(steps: Steps) {
     console.log('repeat.transform', steps)
-    const newSteps = []
+    const newList = []
     const { count } = this.state
     for (let i = 0; i < count; i += 1) {
-      newSteps.push(...steps.slice(0))
+      const list = steps.list.map(s => ({ ...s, position: s.position + (i * steps.length) }))
+      newList.push(...list)
     }
+    const newSteps = { length: count * steps.length, list: newList }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
   }
