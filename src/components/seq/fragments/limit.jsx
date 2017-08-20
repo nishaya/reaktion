@@ -11,26 +11,32 @@ type Props = {
   steps: Steps,
   onChange: (steps: Steps) => any,
   count: number,
+  top: number,
+  bottom: number,
 }
 
 type State = {
-  count: number,
+  top: number,
+  bottom: number,
   steps: Steps,
 }
 
 export default class Limit extends Component<any, Props, State> {
   static defaultProps = {
+    top: 127,
+    bottom: 0,
     count: 2,
     steps: [],
   }
 
   state: State = {
-    count: 1,
+    top: 127,
+    bottom: 0,
     steps: [],
   }
 
   componentDidMount() {
-    this.setCount(this.props.count)
+    this.setLimit(this.props.top, this.props.bottom)
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -39,8 +45,8 @@ export default class Limit extends Component<any, Props, State> {
     }
   }
 
-  setCount(count: number) {
-    this.setState({ count }, () => {
+  setLimit(top: number, bottom: number) {
+    this.setState({ top, bottom }, () => {
       this.transform(this.props.steps)
     })
   }
@@ -48,29 +54,45 @@ export default class Limit extends Component<any, Props, State> {
   props: Props
 
   transform(steps: Steps) {
-    console.log('repeat.transform', steps)
-    const newSteps = []
-    const { count } = this.state
-    for (let i = 0; i < count; i += 1) {
-      newSteps.push(...steps.slice(0))
-    }
+    console.log('limit.transform', steps)
+    const { top, bottom } = this.state
+    const newSteps = steps.map((step) => {
+      if (step < 0) {
+        return step
+      }
+      if (step > top) {
+        return top
+      } else if (step < bottom) {
+        return bottom
+      }
+      return step
+    })
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
   }
 
   render() {
-    const { steps, count } = this.state
-    return (<Box theme={{ bgColor: '#bcfaef' }}>
+    const { steps, top, bottom } = this.state
+    return (<Box theme={{ bgColor: '#fabcef' }}>
       <h2>{icon('limit')}limit</h2>
+      top
       <Slider
-        max={4}
-        min={1}
-        value={count}
+        max={127}
+        min={bottom}
+        value={top}
         step={1.0}
-        onChange={(e, v) => this.setCount(v)}
+        onChange={(e, v) => this.setLimit(v, bottom)}
+      />
+      bottom
+      <Slider
+        max={top}
+        min={0}
+        value={bottom}
+        step={1.0}
+        onChange={(e, v) => this.setLimit(top, v)}
       />
       <div>
-        {count} times.
+        {bottom} - {top}
       </div>
       <StepsPreview steps={steps} />
     </Box>)
