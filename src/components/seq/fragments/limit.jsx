@@ -6,6 +6,7 @@ import type { Steps } from 'types/step'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
+import { initSteps } from './steps_generator'
 
 type Props = {
   steps: Steps,
@@ -26,13 +27,13 @@ export default class Limit extends Component<any, Props, State> {
     top: 127,
     bottom: 0,
     count: 2,
-    steps: [],
+    steps: initSteps(0),
   }
 
   state: State = {
     top: 127,
     bottom: 0,
-    steps: [],
+    steps: initSteps(0),
   }
 
   componentDidMount() {
@@ -56,17 +57,16 @@ export default class Limit extends Component<any, Props, State> {
   transform(steps: Steps) {
     console.log('limit.transform', steps)
     const { top, bottom } = this.state
-    const newSteps = steps.map((step) => {
-      if (step < 0) {
-        return step
+    const newList = steps.list.map((step) => {
+      let { note } = step
+      if (note > top) {
+        note = top
+      } else if (note < bottom) {
+        note = bottom
       }
-      if (step > top) {
-        return top
-      } else if (step < bottom) {
-        return bottom
-      }
-      return step
+      return { ...step, note }
     })
+    const newSteps = { ...steps, list: newList }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
   }
