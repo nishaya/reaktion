@@ -6,6 +6,7 @@ import type { Steps } from 'types/step'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
+import { initSteps } from './steps_generator'
 
 type Props = {
   steps: Steps,
@@ -24,13 +25,13 @@ export default class Stairs extends Component<any, Props, State> {
   static defaultProps = {
     perNote: true,
     notes: 5,
-    steps: [],
+    steps: initSteps(0),
   }
 
   state: State = {
     perNote: false,
     notes: 0,
-    steps: [],
+    steps: initSteps(0),
   }
 
   componentDidMount() {
@@ -53,20 +54,23 @@ export default class Stairs extends Component<any, Props, State> {
   transform(steps: Steps) {
     const { notes, perNote } = this.state
     let currentNotes = 0
-    const newSteps = steps.map((step) => {
-      const note = step + currentNotes
-      if (!perNote || step !== -1) {
+    const newList = []
+    new Array(steps.length).fill(null).forEach((x, index) => {
+      const list = steps.list.filter(s => s.position === index).map((step) => {
+        let note = step.note + currentNotes
+        if (note > 127) {
+          note = 127
+        } else if (note < 0) {
+          note = 0
+        }
+        return { ...step, note }
+      })
+      if (!perNote || list.length > 0) {
         currentNotes += notes
       }
-      if (step === -1) {
-        return step
-      } else if (note > 127) {
-        return 127
-      } else if (note < 0) {
-        return 0
-      }
-      return note
+      newList.push(...list)
     })
+    const newSteps = { ...steps, list: newList }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
   }

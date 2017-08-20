@@ -37,7 +37,7 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   componentDidMount() {
-    this.addFragment([Transpose, Repeat], this.updateSteps)
+    this.addFragment([Stairs, Transpose, Repeat], this.updateSteps)
   }
 
   props: Props
