@@ -15,19 +15,23 @@ type State = {
   steps: Steps,
 }
 
-export default class StepsGenerator extends Component<any, Props, State> {
+export const initSteps = (length: number): Steps => (
+  {
+    length,
+    list: {},
+  }
+)
 
+export default class StepsGenerator extends Component<any, Props, State> {
   static defaultProps = {
-    steps: [],
+    steps: initSteps(0),
     onChange: (steps: Steps) => console.log('Step.onChange', steps),
   }
 
   state: { showEdit: bool, steps: Steps } = {
     length: 4,
     showEdit: false,
-    steps: [
-      64, 64, 64, 64,
-    ],
+    steps: initSteps(0),
   }
 
   componentWillReceiveProps(nextProps: Props) {
