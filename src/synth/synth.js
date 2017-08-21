@@ -11,7 +11,7 @@ const defaultTone: Tone = {
   velocity: 100,
 }
 
-export default class SimpleSynth {
+export default class Synth {
   waveform: string = 'square'
 
   play(tone: Tone = {}) {

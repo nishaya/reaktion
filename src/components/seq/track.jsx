@@ -1,28 +1,28 @@
 import React, { Component } from 'react'
 import Rack from 'components/common/rack'
 import type { Steps } from 'types/step'
-import SimpleSynth from 'synth/simple_synth'
+import Synth from 'synth/synth'
 import Pattern from './pattern'
 
 type Props = {
   trackId: string,
   onTrackFixed: (steps: Steps, trackId: string) => any,
-  onSynthReady: (synth: SimpleSynth) => void,
+  onSynthReady: (synth: Synth) => void,
 }
 
 export default class Track extends Component<any, any, Props> {
   static defaultProps = {
     trackId: 'not set',
     onTrackFixed: (steps: Steps, trackId: string) => console.log(`track fixed(Track #${trackId})`, steps),
-    onSynthReady: (synth: SimpleSynth) => console.log('Track.onSynthReady', synth),
+    onSynthReady: (synth: Synth) => console.log('Track.onSynthReady', synth),
   }
 
   componentWillMount() {
-    this.synth = new SimpleSynth()
+    this.synth = new Synth()
     this.props.onSynthReady(this.synth)
   }
 
-  synth: SimpleSynth
+  synth: Synth
   props: Props
 
   render() {

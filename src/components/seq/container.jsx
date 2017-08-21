@@ -6,7 +6,7 @@ import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Scheduler from 'seq/scheduler'
 import type { Tone } from 'types/synth'
-import SimpleSynth from 'synth/simple_synth'
+import Synth from 'synth/synth'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
 import StepsPreview from './fragments/steps_preview'
@@ -20,7 +20,7 @@ const map2Array = (map: {[string]: Steps}): Array<Steps> => Object.keys(map).map
 type State = {
   tracks: Array<Track>,
   stepsMap: { [string]: Steps },
-  synthsMap: { [string]: SimpleSynth },
+  synthsMap: { [string]: Synth },
   steps: Steps,
   playing: boolean,
 }
@@ -86,7 +86,7 @@ export default class SeqContainer extends Component {
             this.scheduler.setSteps(newSteps)
             this.setState({ stepsMap, steps: newSteps })
           },
-          onSynthReady: (synth: SimpleSynth) => {
+          onSynthReady: (synth: Synth) => {
             console.log('Container.onSynthReady', synth)
             const { synthsMap } = this.state
             synthsMap[trackId] = synth
