@@ -21,7 +21,7 @@ export const initSteps = (length: number = 4): Steps => {
     list.push({
       position: i,
       note: 64,
-      velocity: 0,
+      velocity: 100,
       duration: 1.0,
     })
   }

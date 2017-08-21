@@ -66,12 +66,11 @@ export default class Scheduler {
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
           const { note, velocity } = step
-          console.log(`scheduleSound step: ${this.step}, offset: ${offset}, note: ${note}`)
+          console.log(step)
           this.onScheduling({ note, offset, velocity })
         })
 
       if (this.step % 4 === 0) {
-        console.log(`beat, offset: ${offset}`)
         this.onBeat({ note: 0, offset })
       }
 
