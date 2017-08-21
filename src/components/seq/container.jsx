@@ -49,7 +49,7 @@ export default class SeqContainer extends Component {
       const { synthsMap } = this.state
       const { trackId } = tone
       if (trackId && synthsMap[trackId]) {
-        synthsMap[tone.trackId].play(tone)
+        synthsMap[trackId].play(tone)
       }
     }
   }

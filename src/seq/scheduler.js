@@ -16,8 +16,8 @@ export default class Scheduler {
 
   steps: Steps = { length: 0, list: [] }
 
-  onScheduling = (tone: Tone = { note: 0 }) => console.log('onScheduling', tone)
-  onBeat = (tone: Tone = { note: 0 }) => console.log('onBeat', tone)
+  onScheduling: (tone: Tone) => void = tone => console.log('onScheduling', tone)
+  onBeat: (tone: Tone) => void = (tone: Tone) => console.log('onBeat', tone)
 
   constructor() {
     this.setBpm(130)
