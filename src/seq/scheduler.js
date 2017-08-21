@@ -65,9 +65,9 @@ export default class Scheduler {
       this.steps.list
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
-          const { note, velocity } = step
+          const { note, velocity, trackId } = step
           console.log(step)
-          this.onScheduling({ note, offset, velocity })
+          this.onScheduling({ note, offset, velocity, trackId })
         })
 
       if (this.step % 4 === 0) {

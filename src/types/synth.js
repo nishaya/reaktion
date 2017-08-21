@@ -5,4 +5,5 @@ export type Tone = {
   offset?: number,
   duration?: number,
   velocity?: number,
+  trackId?: string,
 }

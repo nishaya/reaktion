@@ -5,6 +5,7 @@ import { RaisedButton, FontIcon } from 'material-ui'
 import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Scheduler from 'seq/scheduler'
+import type { Tone } from 'types/synth'
 import SimpleSynth from 'synth/simple_synth'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
@@ -43,6 +44,14 @@ export default class SeqContainer extends Component {
 
   componentWillMount() {
     this.scheduler = new Scheduler()
+    this.scheduler.onScheduling = (tone: Tone) => {
+      console.log('onScheduling(on Container)', tone)
+      const { synthsMap } = this.state
+      const { trackId } = tone
+      if (trackId && synthsMap[trackId]) {
+        synthsMap[tone.trackId].play(tone)
+      }
+    }
   }
 
   componentDidMount() {

@@ -18,7 +18,7 @@ export default class SimpleSynth {
     const { note, offset, duration } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const frequency = 440 * (2 ** ((note - 69) / 12))
-    console.log(`Synth.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, ${frequency}`)
+    console.log(`Synth.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
 
