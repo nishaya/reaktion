@@ -52,18 +52,9 @@ export default class StepsGenerator extends Component<any, Props, State> {
   }
 
   setLength(newLength) {
-    console.log('setLength', newLength)
-    const newSteps = this.state.steps.slice(0)
-    if (newSteps.length > newLength) {
-      newSteps.splice(newLength - newSteps.length)
-    } else if (newSteps.length < newLength) {
-      const num = newLength - newSteps.length
-      for (let i = 0; i < num; i += 1) {
-        newSteps.push(-1)
-      }
-    }
-    console.log(newSteps)
-
+    const { steps } = this.state
+    const newList = steps.list.filter(s => s.position < newLength)
+    const newSteps = { length: newLength, list: newList }
     this.setState({ length: newLength, steps: newSteps })
     this.props.onChange(newSteps)
   }
