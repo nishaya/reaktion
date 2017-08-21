@@ -22,7 +22,8 @@ export default class Synth {
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
 
-    gain.gain.setValueAtTime(1, startTime)
+    gain.gain.setValueAtTime(0.01, startTime)
+    gain.gain.exponentialRampToValueAtTime(1, startTime + 0.01)
     gain.gain.setValueAtTime(1, startTime + (duration * 0.7))
     gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
     osc.type = this.waveform
