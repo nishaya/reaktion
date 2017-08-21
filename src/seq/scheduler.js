@@ -1,6 +1,7 @@
 // @flow
 
 import type { Steps } from 'types/step'
+import type { PlayOption } from 'types/synth'
 
 const trace = msg => console.log(msg)
 const now = (): number => performance.now()
@@ -16,8 +17,8 @@ export default class Scheduler {
 
   steps: Steps = { length: 0, list: [] }
 
-  onScheduling = (offset: number, note: number) => trace(`onScheduling ${offset} ${note}`)
-  onBeat = (offset: number, note: number) => trace(`onBeat ${offset} ${note}`)
+  onScheduling = (note: number, option: PlayOption = {}) => trace(`onScheduling ${note}`, option)
+  onBeat = (note: number, option: PlayOption = {}) => trace(`onBeat ${note}`, option)
 
   constructor() {
     this.setBpm(130)

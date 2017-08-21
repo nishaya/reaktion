@@ -1,12 +1,8 @@
 // @flow
 
-const ctx = new window.AudioContext()
+import type { PlayOption } from 'types/synth'
 
-type PlayOption = {
-  offset?: number,
-  duration?: number,
-  velocity?: number,
-}
+const ctx = new window.AudioContext()
 
 const defaultPlayOption: PlayOption = {
   offset: 0,

@@ -31,7 +31,6 @@ export default class SeqContainer extends Component {
     defaultTracks: 2,
   }
 
-
   state: State = {
     tracks: [],
     stepsMap: {},
