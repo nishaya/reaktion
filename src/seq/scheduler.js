@@ -1,9 +1,8 @@
 // @flow
 
 import type { Steps } from 'types/step'
-import type { PlayOption } from 'types/synth'
+import type { Tone } from 'types/synth'
 
-const trace = msg => console.log(msg)
 const now = (): number => performance.now()
 
 export default class Scheduler {
@@ -17,8 +16,8 @@ export default class Scheduler {
 
   steps: Steps = { length: 0, list: [] }
 
-  onScheduling = (note: number, option: PlayOption = {}) => trace(`onScheduling ${note}`, option)
-  onBeat = (note: number, option: PlayOption = {}) => trace(`onBeat ${note}`, option)
+  onScheduling = (tone: Tone = { note: 0 }) => console.log('onScheduling', tone)
+  onBeat = (tone: Tone = { note: 0 }) => console.log('onBeat', tone)
 
   constructor() {
     this.setBpm(130)
@@ -38,13 +37,13 @@ export default class Scheduler {
   }
 
   start() {
-    trace('Scheduler.start')
+    console.log('Scheduler.start')
     this.playing = true
     this.loop(true)
   }
 
   stop() {
-    trace('Scheduler.stop')
+    console.log('Scheduler.stop')
     this.playing = false
   }
 
@@ -54,7 +53,7 @@ export default class Scheduler {
       this.step = 0
       this.started = current
       this.lastPlayed = current - this.msPerStep
-      trace(`started at ${this.started}`)
+      console.log(`started at ${this.started}`)
     }
 
     if (this.lastPlayed < current) {
@@ -67,13 +66,13 @@ export default class Scheduler {
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
           const { note, velocity } = step
-          trace(`scheduleSound step: ${this.step}, offset: ${offset}, note: ${note}`)
-          this.onScheduling(note, { offset, velocity })
+          console.log(`scheduleSound step: ${this.step}, offset: ${offset}, note: ${note}`)
+          this.onScheduling({ note, offset, velocity })
         })
 
       if (this.step % 4 === 0) {
-        trace(`beat, offset: ${offset}`)
-        this.onBeat(0, { offset })
+        console.log(`beat, offset: ${offset}`)
+        this.onBeat({ note: 0, offset })
       }
 
       this.step += 1

@@ -1,10 +1,11 @@
 // @flow
 
-import type { PlayOption } from 'types/synth'
+import type { Tone } from 'types/synth'
 
 const ctx = new window.AudioContext()
 
-const defaultPlayOption: PlayOption = {
+const defaultTone: Tone = {
+  note: 0,
   offset: 0,
   duration: 0.2,
   velocity: 100,
@@ -13,8 +14,8 @@ const defaultPlayOption: PlayOption = {
 export default class SimpleSynth {
   waveform: string = 'square'
 
-  play(note: number, playOption: PlayOption = {}) {
-    const { offset, duration } = { ...defaultPlayOption, ...playOption }
+  play(tone: Tone = {}) {
+    const { note, offset, duration } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const frequency = 440 * (2 ** ((note - 69) / 12))
     console.log(`Synth.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, ${frequency}`)
