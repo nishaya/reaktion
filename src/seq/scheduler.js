@@ -66,14 +66,14 @@ export default class Scheduler {
       this.steps.list
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
-          const note = step.note
+          const { note, velocity } = step
           trace(`scheduleSound step: ${this.step}, offset: ${offset}, note: ${note}`)
-          this.onScheduling(offset, note)
+          this.onScheduling(note, { offset, velocity })
         })
 
       if (this.step % 4 === 0) {
         trace(`beat, offset: ${offset}`)
-        this.onBeat(offset, 0)
+        this.onBeat(0, { offset })
       }
 
       this.step += 1
