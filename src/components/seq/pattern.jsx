@@ -80,7 +80,6 @@ export default class Pattern extends Component<any, State, Props> {
         return null
       }
       props.steps = stepsList[index - 1]
-      console.log(props)
       return React.createElement(klass, props)
     })
   }

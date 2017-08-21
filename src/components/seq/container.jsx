@@ -5,6 +5,7 @@ import { RaisedButton, FontIcon } from 'material-ui'
 import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Scheduler from 'seq/scheduler'
+import SimpleSynth from 'synth/simple_synth'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
 import StepsPreview from './fragments/steps_preview'
@@ -18,6 +19,7 @@ const map2Array = (map: {[string]: Steps}): Array<Steps> => Object.keys(map).map
 type State = {
   tracks: Array<Track>,
   stepsMap: { [string]: Steps },
+  synthsMap: { [string]: SimpleSynth },
   steps: Steps,
   playing: boolean,
 }
@@ -34,6 +36,7 @@ export default class SeqContainer extends Component {
   state: State = {
     tracks: [],
     stepsMap: {},
+    synthsMap: {},
     steps: initSteps(0),
     playing: false,
   }
@@ -54,6 +57,7 @@ export default class SeqContainer extends Component {
     if (tracks.length + num <= MAX_TRACKS) {
       for (let i = 0; i < num; i += 1) {
         const trackId = `${tracks.length}`
+        console.log('trackId', trackId)
         const props = {
           onTrackFixed: (steps: Steps, id: string) => {
             console.log(`track #${id} fixed(SeqContainer)`, steps)
@@ -62,17 +66,26 @@ export default class SeqContainer extends Component {
             console.log('stepsMap', stepsMap)
             const stepsList = map2Array(stepsMap)
             const lengths = stepsList.map(s => s.length)
-            console.log(lengths)
+            const trackIds = Object.keys(stepsMap)
             const newSteps = {
               length: Math.max(...lengths),
-              list: [].concat(...stepsList.map(s => s.list)),
+              list: [].concat(...trackIds.map(tid => (
+                stepsMap[tid].list.map(st => ({ ...st, trackId: tid }))
+              ))),
             }
             console.log('merged', newSteps)
             this.scheduler.setSteps(newSteps)
             this.setState({ stepsMap, steps: newSteps })
           },
+          onSynthReady: (synth: SimpleSynth) => {
+            console.log('Container.onSynthReady', synth)
+            const { synthsMap } = this.state
+            synthsMap[trackId] = synth
+            this.setState({ synthsMap })
+          },
           trackId,
         }
+        console.log(props)
         tracks.push(<Track key={`track_${trackId}`} {...props} />)
       }
     }
