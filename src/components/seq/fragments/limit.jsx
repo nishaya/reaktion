@@ -74,25 +74,27 @@ export default class Limit extends Component<any, Props, State> {
   render() {
     const { steps, top, bottom } = this.state
     return (<Box theme={{ bgColor: '#fabcef' }}>
-      <h2>{icon('limit')}limit</h2>
-      top
-      <Slider
-        max={127}
-        min={bottom}
-        value={top}
-        step={1.0}
-        onChange={(e, v) => this.setLimit(v, bottom)}
-      />
-      bottom
-      <Slider
-        max={top}
-        min={0}
-        value={bottom}
-        step={1.0}
-        onChange={(e, v) => this.setLimit(top, v)}
-      />
-      <div>
-        {bottom} - {top}
+      <div className="control">
+        <h2>{icon('limit')}limit</h2>
+        top
+        <Slider
+          max={127}
+          min={bottom}
+          value={top}
+          step={1.0}
+          onChange={(e, v) => this.setLimit(v, bottom)}
+        />
+        bottom
+        <Slider
+          max={top}
+          min={0}
+          value={bottom}
+          step={1.0}
+          onChange={(e, v) => this.setLimit(top, v)}
+        />
+        <div>
+          {bottom} - {top}
+        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)

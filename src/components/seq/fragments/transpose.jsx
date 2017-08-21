@@ -74,29 +74,31 @@ export default class Transpose extends Component<any, Props, State> {
   render() {
     const { steps, transpose, octave, notes } = this.state
     return (<Box theme={{ bgColor: '#cdefab' }}>
-      <h2>{icon('transpose')}transpose</h2>
-      <div>
-        octave
-        <Slider
-          max={4}
-          min={-4}
-          value={octave}
-          step={1.0}
-          onChange={(e, v) => this.changeTranspose(this.props.steps, v, notes)}
-        />
-      </div>
-      <div>
-        notes
-        <Slider
-          max={12}
-          min={-12}
-          value={notes}
-          step={1.0}
-          onChange={(e, v) => this.changeTranspose(this.props.steps, octave, v)}
-        />
-      </div>
-      <div>
-        {transpose} notes.
+      <div className="control">
+        <h2>{icon('transpose')}transpose</h2>
+        <div>
+          octave
+          <Slider
+            max={4}
+            min={-4}
+            value={octave}
+            step={1.0}
+            onChange={(e, v) => this.changeTranspose(this.props.steps, v, notes)}
+          />
+        </div>
+        <div>
+          notes
+          <Slider
+            max={12}
+            min={-12}
+            value={notes}
+            step={1.0}
+            onChange={(e, v) => this.changeTranspose(this.props.steps, octave, v)}
+          />
+        </div>
+        <div>
+          {transpose} notes.
+        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)

@@ -15,6 +15,11 @@ const Box = styled.div`
     padding: 2px;
     margin: 2px;
   }
+
+  .control {
+    display: block;
+    height: 300px;
+  }
 `
 
 Box.defaultProps = {

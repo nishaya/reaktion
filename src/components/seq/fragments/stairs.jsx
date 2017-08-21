@@ -78,16 +78,18 @@ export default class Stairs extends Component<any, Props, State> {
   render() {
     const { steps, notes, perNote } = this.state
     return (<Box theme={{ bgColor: '#efabcd' }}>
-      <h2>{icon('stairs')}stairs</h2>
-      <Slider
-        max={12}
-        min={-12}
-        value={notes}
-        step={1.0}
-        onChange={(e, v) => this.setNotes(v, perNote)}
-      />
-      <div>
-        by {notes} notes / {perNote ? 'per note' : 'per step'}
+      <div className="control">
+        <h2>{icon('stairs')}stairs</h2>
+        <Slider
+          max={12}
+          min={-12}
+          value={notes}
+          step={1.0}
+          onChange={(e, v) => this.setNotes(v, perNote)}
+        />
+        <div>
+          by {notes} notes / {perNote ? 'per note' : 'per step'}
+        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)

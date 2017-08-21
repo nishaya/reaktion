@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatButton, Slider } from 'material-ui'
+import { RaisedButton, Slider } from 'material-ui'
 import type { Steps } from 'types/step'
 import StepsEditor from './steps_editor'
 import StepsPreview from './steps_preview'
@@ -78,27 +78,29 @@ export default class StepsGenerator extends Component<any, Props, State> {
     }
 
     return (<Box theme={{ bgColor: '#abcdef' }}>
-      <h2>{icon('generator')}step gen</h2>
-      length: {length}
-      <Slider
-        max={16}
-        min={1}
-        value={length}
-        step={1.0}
-        onChange={(e, v) => this.setLength(v)}
-      />
-      <FlatButton onClick={() => this.setState({ showEdit: !showEdit })}>Edit</FlatButton>
-      <StepsEditor
-        show={showEdit}
-        steps={steps}
-        onEdit={(newSteps: Steps) => {
-          this.setState({ steps: newSteps })
-          this.props.onChange(newSteps)
-        }}
-        onRequestClose={() => {
-          this.setState({ showEdit: false })
-        }}
-      />
+      <div className="control">
+        <h2>{icon('generator')}step gen</h2>
+        length: {length}
+        <Slider
+          max={16}
+          min={1}
+          value={length}
+          step={1.0}
+          onChange={(e, v) => this.setLength(v)}
+        />
+        <RaisedButton onClick={() => this.setState({ showEdit: !showEdit })}>Edit</RaisedButton>
+        <StepsEditor
+          show={showEdit}
+          steps={steps}
+          onEdit={(newSteps: Steps) => {
+            this.setState({ steps: newSteps })
+            this.props.onChange(newSteps)
+          }}
+          onRequestClose={() => {
+            this.setState({ showEdit: false })
+          }}
+        />
+      </div>
       <StepsPreview steps={steps} />
     </Box>)
   }

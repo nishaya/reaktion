@@ -64,16 +64,18 @@ export default class Stairs extends Component<any, Props, State> {
   render() {
     const { steps, count } = this.state
     return (<Box theme={{ bgColor: '#bcfaef' }}>
-      <h2>{icon('repeat')}repeat</h2>
-      <Slider
-        max={4}
-        min={1}
-        value={count}
-        step={1.0}
-        onChange={(e, v) => this.setCount(v)}
-      />
-      <div>
-        {count} times.
+      <div className="control">
+        <h2>{icon('repeat')}repeat</h2>
+        <Slider
+          max={4}
+          min={1}
+          value={count}
+          step={1.0}
+          onChange={(e, v) => this.setCount(v)}
+        />
+        <div>
+          {count} times.
+        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)
