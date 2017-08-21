@@ -5,7 +5,8 @@ import type { Steps } from 'types/step'
 import Box from './box'
 
 const PreviewBox = Box.extend`
-  width: 160px;
+  width: 128px;
+  margin: 0px;
 `
 
 const WIDTH = 128

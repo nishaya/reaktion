@@ -11,8 +11,11 @@ import { icon } from './fragments/icon'
 
 const Button = RaisedButton
 
+type PatternType = 'synth' | 'drums'
+
 type Props = {
   onPatternChanged: (steps: Steps) => void,
+  patternType: PatternType,
 }
 
 type State = {
@@ -24,6 +27,7 @@ type State = {
 
 export default class Pattern extends Component<any, State, Props> {
   static defaultProps = {
+    patternType: 'synth',
     onPatternChanged: (steps: Steps) => console.log('PATTERN CHANGED', steps),
   }
 
@@ -86,9 +90,10 @@ export default class Pattern extends Component<any, State, Props> {
 
   render() {
     const { stepsList, initialSteps } = this.state
+    const { patternType } = this.props
     console.log('stepsList', stepsList)
     return (<div>
-      <h2>pattern</h2>
+      <h2>pattern({patternType})</h2>
       <div>
         <div>
           <StepsGenerator
