@@ -6,7 +6,7 @@ import Transpose from './fragments/transpose'
 import Repeat from './fragments/repeat'
 import Stairs from './fragments/stairs'
 import Limit from './fragments/limit'
-import StepsPreview from './fragments/steps_preview'
+import Finishing from './fragments/finishing'
 import { icon } from './fragments/icon'
 
 const Button = RaisedButton
@@ -23,6 +23,7 @@ type State = {
   initialSteps: Steps,
   stepsList: Array<Steps>,
   fragments: Array<Component>,
+  finishedSteps: Steps,
 }
 
 export default class Pattern extends Component<any, State, Props> {
@@ -36,6 +37,7 @@ export default class Pattern extends Component<any, State, Props> {
     initialSteps: [],
     stepsList: [initSteps(0)],
     fragments: [StepsGenerator],
+    finishedSteps: initSteps(0),
   }
 
   componentDidMount() {
@@ -65,10 +67,6 @@ export default class Pattern extends Component<any, State, Props> {
     const list = this.state.stepsList.slice(0)
     list[index] = { ...steps }
     this.setState({ stepsList: list })
-
-    if (index === list.length - 1) {
-      this.props.onPatternChanged(steps)
-    }
   }
 
   renderFragments() {
@@ -103,7 +101,13 @@ export default class Pattern extends Component<any, State, Props> {
             }}
           />
           {this.renderFragments()}
-          <StepsPreview steps={stepsList[stepsList.length - 1]} />
+          <Finishing
+            steps={stepsList[stepsList.length - 1]}
+            onChange={(steps: Steps) => {
+              console.log('OPC', steps)
+              this.props.onPatternChanged(steps)
+            }}
+          />
         </div>
         <div>
           <Button
