@@ -14,7 +14,7 @@ const defaultTone: Tone = {
 export default class Synth {
   waveform: string = 'square'
 
-  play(tone: Tone = {}) {
+  play(tone: Tone) {
     const { note, offset, duration } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const frequency = 440 * (2 ** ((note - 69) / 12))
