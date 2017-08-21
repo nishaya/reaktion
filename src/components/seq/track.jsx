@@ -18,7 +18,9 @@ export default class Track extends Component<any, any, Props> {
   }
 
   componentWillMount() {
-    this.synth = new Synth()
+    const { trackId } = this.props
+    const synthType = trackId === '0' ? 'drums' : 'synth'
+    this.synth = new Synth(synthType)
     this.props.onSynthReady(this.synth)
   }
 
@@ -27,9 +29,15 @@ export default class Track extends Component<any, any, Props> {
 
   render() {
     const { trackId } = this.props
+    const patternProps = {
+      patternType: trackId === '0' ? 'drums' : 'synth',
+    }
     return (<Rack theme={{ bgColor: '#FAFAFA' }}>
       <h2>track #{trackId}</h2>
-      <Pattern onPatternChanged={(steps: Steps) => this.props.onTrackFixed(steps, trackId)} />
+      <Pattern
+        {...patternProps}
+        onPatternChanged={(steps: Steps) => this.props.onTrackFixed(steps, trackId)}
+      />
     </Rack>)
   }
 }
