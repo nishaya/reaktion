@@ -77,7 +77,7 @@ export default class StepsGenerator extends Component<any, Props, State> {
       return null
     }
 
-    return (<Box theme={{ bgColor: '#abcdef' }}>
+    return (<Box theme={{ bgColor: '#80DEEA' }}>
       <div className="control">
         <h2>{icon('generator')}step gen</h2>
         length: {length}

@@ -73,7 +73,7 @@ export default class Transpose extends Component<any, Props, State> {
 
   render() {
     const { steps, transpose, octave, notes } = this.state
-    return (<Box theme={{ bgColor: '#cdefab' }}>
+    return (<Box theme={{ bgColor: '#FFCC80' }}>
       <div className="control">
         <h2>{icon('transpose')}transpose</h2>
         <div>

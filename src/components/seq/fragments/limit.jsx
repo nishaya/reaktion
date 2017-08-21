@@ -73,7 +73,7 @@ export default class Limit extends Component<any, Props, State> {
 
   render() {
     const { steps, top, bottom } = this.state
-    return (<Box theme={{ bgColor: '#fabcef' }}>
+    return (<Box theme={{ bgColor: '#F48FB1' }}>
       <div className="control">
         <h2>{icon('limit')}limit</h2>
         top

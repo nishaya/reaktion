@@ -63,7 +63,7 @@ export default class Stairs extends Component<any, Props, State> {
 
   render() {
     const { steps, count } = this.state
-    return (<Box theme={{ bgColor: '#bcfaef' }}>
+    return (<Box theme={{ bgColor: '#B39DDB' }}>
       <div className="control">
         <h2>{icon('repeat')}repeat</h2>
         <Slider

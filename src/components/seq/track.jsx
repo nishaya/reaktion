@@ -27,7 +27,7 @@ export default class Track extends Component<any, any, Props> {
 
   render() {
     const { trackId } = this.props
-    return (<Rack>
+    return (<Rack theme={{ bgColor: '#FAFAFA' }}>
       <h2>track #{trackId}</h2>
       <Pattern onPatternChanged={(steps: Steps) => this.props.onTrackFixed(steps, trackId)} />
     </Rack>)
