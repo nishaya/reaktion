@@ -4,11 +4,12 @@ import styled from 'styled-components'
 
 const Box = styled.div`
   margin: 4px;
+  margin-bottom: 16px;
   padding: 8px;
-  border: 2px solid #999;
   background-color: ${props => props.theme.bgColor};
   display: inline-block;
   width: 148px;
+  box-shadow:1px 1px 2px 1px rgba(0,0,0,0.39);
 
   h2 {
     font-size: 16px;
