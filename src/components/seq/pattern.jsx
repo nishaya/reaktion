@@ -43,7 +43,12 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   componentDidMount() {
-    this.addFragment([Stairs, Transpose, Repeat, Limit], this.updateSteps)
+    const { patternType } = this.props
+    if (patternType === 'synth') {
+      this.addFragment([Stairs, Transpose, Repeat, Limit], this.updateSteps)
+    } else {
+      this.updateSteps()
+    }
   }
 
   props: Props
