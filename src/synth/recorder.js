@@ -39,6 +39,7 @@ export default class Recorder {
       this.monitor = ctx.createMediaStreamSource(this.stream)
       this.monitor.connect(ctx.destination)
     }
+    this.chunks = []
     this.mediaRecorder.start()
   }
 
