@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import SampleActions from 'actions/sample'
 import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
-import { MenuItem, SelectField } from 'material-ui'
+import { MenuItem, SelectField, RaisedButton } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
 import { generateWhiteNoise } from 'synth/gen/noise'
@@ -20,6 +20,7 @@ type Props = {
 
 type State = {
   sampleList: Array<MenuItem>,
+  recording: boolean,
 }
 
 class SamplerComponent extends Component {
@@ -27,6 +28,7 @@ class SamplerComponent extends Component {
 
   state: State = {
     sampleList: [],
+    recording: false,
   }
 
   componentWillMount() {
@@ -66,7 +68,22 @@ class SamplerComponent extends Component {
   }
 
   render() {
-    const { sampleList } = this.state
+    const { sampleList, recording } = this.state
+    const recordButton = recording ? (
+      <RaisedButton
+        label="Stop Recording"
+        onClick={() => {
+          this.setState({ recording: false })
+        }}
+      />
+    ) : (
+      <RaisedButton
+        label="Start Recording"
+        onClick={() => {
+          this.setState({ recording: true })
+        }}
+      />
+    )
     return (<Rack>
       <h2>sampler</h2>
       <SelectField
@@ -78,6 +95,7 @@ class SamplerComponent extends Component {
       >
         {sampleList}
       </SelectField>
+      {recordButton}
     </Rack>)
   }
 }
