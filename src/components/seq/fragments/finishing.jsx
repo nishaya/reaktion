@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import type { Steps } from 'types/step'
+import { Toggle } from 'material-ui'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -18,6 +19,7 @@ type Props = {
 
 type State = {
   steps: Steps,
+  mute: boolean,
 }
 
 export default class Finishing extends Component<any, Props, State> {
@@ -32,10 +34,12 @@ export default class Finishing extends Component<any, Props, State> {
 
   state: State = {
     steps: initSteps(0),
+    mute: false,
   }
 
-  componentDidMount() {
-    this.transform(this.props)
+  componentWillMount() {
+    const { mute } = this.props
+    this.setState({ mute }, () => this.transform(this.props))
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -46,6 +50,13 @@ export default class Finishing extends Component<any, Props, State> {
 
   transform(props: Props) {
     const { steps, patternLength, fill } = props
+    const { mute } = this.state
+    if (mute) {
+      const newSteps = { ...steps, list: [] }
+      this.props.onChange(newSteps)
+      this.setState({ steps: newSteps })
+      return
+    }
     const oldList = steps.list
     const oldLength = steps.length
     const newList = steps.list.slice(0)
@@ -69,10 +80,18 @@ export default class Finishing extends Component<any, Props, State> {
   }
 
   render() {
-    const { steps } = this.state
-    return (<Box theme={{ bgColor: '#90CAF9' }}>
+    const { steps, mute } = this.state
+    return (<Box theme={{ bgColor: '#FFAB91' }}>
       <div className="control">
         <h2>{icon('repeat')}finishing</h2>
+        <Toggle
+          toggled={mute}
+          label="Mute"
+          onToggle={(e, checked) => {
+            this.setState({ mute: checked }, () => this.transform(this.props))
+          }}
+          style={{ marginTop: 16 }}
+        />
       </div>
       <StepsPreview steps={steps} />
     </Box>)

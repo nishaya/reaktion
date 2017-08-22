@@ -16,7 +16,7 @@ export default class PlaybackSampler {
     this.buffer = buffer
   }
 
-  play(options: PlaybackOptions) {
+  play(options: PlaybackOptions = {}) {
     const { offset, loop, duration } = {
       ...{ duration: this.buffer.duration },
       ...defaultOptions,

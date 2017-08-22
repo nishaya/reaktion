@@ -20,8 +20,8 @@ export default class Recorder {
   monitor: MediaStreamAudioSourceNode
   onAudioBufferCaptured: (buffer: AudioBuffer) => void = buffer => console.log('onAudioBufferCaptured', buffer)
 
-  constructor(options: RecordingOptions = {}) {
-    this.options = { ...defaultRecordingOptions, ...options }
+  constructor() {
+    this.options = { ...defaultRecordingOptions }
     console.log('Recorder initialized', this.options)
     const { mimeType } = this.options
     if (!MediaRecorder.isTypeSupported(mimeType)) {
