@@ -22,12 +22,13 @@ export default class PlaybackSampler {
       ...defaultOptions,
       ...options,
     }
-    console.log('PlaybackSampler.play', duration)
+    console.log('PlaybackSampler.play', duration, offset, this.buffer)
     const source = ctx.createBufferSource()
+    const startTime = ctx.currentTime + offset
     source.buffer = this.buffer
     source.loop = loop
     source.connect(ctx.destination)
-    source.start(offset)
-    source.stop(offset + duration)
+    source.start(startTime)
+    source.stop(startTime + duration)
   }
 }
