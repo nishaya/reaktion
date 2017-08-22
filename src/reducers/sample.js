@@ -12,12 +12,13 @@ const initialState: SampleState = {
   samples: {},
 }
 export default createReducer(initialState, {
-  [STORE_SAMPLE]: (state: SampleState, action: { payload: Sample }) => {
-    const { samples } = state
-    samples[action.payload.id] = { ...action.payload }
-    return {
+  [STORE_SAMPLE]: (state: SampleState, action: { payload: Sample }) => (
+    {
       ...state,
-      samples,
+      samples: {
+        ...state.samples,
+        [action.payload.id]: { ...action.payload },
+      },
     }
-  },
+  ),
 })
