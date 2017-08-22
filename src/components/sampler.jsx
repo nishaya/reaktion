@@ -22,6 +22,7 @@ type Props = {
 type State = {
   sampleList: Array<MenuItem>,
   recording: boolean,
+  buffer: ?AudioBuffer,
 }
 
 class SamplerComponent extends Component {
@@ -30,6 +31,7 @@ class SamplerComponent extends Component {
   state: State = {
     sampleList: [],
     recording: false,
+    buffer: null,
   }
 
   componentWillMount() {
@@ -78,6 +80,7 @@ class SamplerComponent extends Component {
 
   captureAudioBuffer(buffer: AudioBuffer) {
     console.log('captureAudioBuffer', buffer)
+    this.setState({ buffer })
     const { sampleList } = this.state
     const index = sampleList.length
     this.props.storeSample({
@@ -94,7 +97,7 @@ class SamplerComponent extends Component {
   }
 
   render() {
-    const { sampleList, recording } = this.state
+    const { sampleList, recording, buffer } = this.state
     const recordButton = recording ? (
       <RaisedButton
         label="Stop Recording"
@@ -122,7 +125,7 @@ class SamplerComponent extends Component {
         {sampleList}
       </SelectField>
       {recordButton}
-      <SamplePreview />
+      <SamplePreview buffer={buffer} />
     </Rack>)
   }
 }

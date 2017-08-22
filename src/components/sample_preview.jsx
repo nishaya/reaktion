@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react'
-import type { Steps } from 'types/step'
 import Box from 'components/seq/fragments/box'
 
 const PreviewBox = Box.extend`
@@ -13,12 +12,12 @@ const WIDTH = 300
 const HEIGHT = 64
 
 type Props = {
-  buffer: AudioBuffer,
+  buffer: ?AudioBuffer,
 }
 
 export default class SamplePreview extends Component {
-  static defaultProps = {
-    buffer: new AudioBuffer({ length: 1, sampleRate: 44100 }),
+  static defaultProps: Props = {
+    buffer: null,
   }
   componentDidMount() {
     this.renderPreview(this.props.buffer)
@@ -33,38 +32,35 @@ export default class SamplePreview extends Component {
   canvas: any
   props: Props
 
-  renderPreview(buffer: AudioBuffer) {
-    if (buffer.length === 0) {
+  renderPreview(buffer: ?AudioBuffer) {
+    if (!buffer) {
       return
     }
-    /*
+    const samples = buffer.getChannelData(0)
+    console.log('len', samples.length)
+
     const ctx = this.canvas.getContext('2d')
-    const pixelsPerStep = WIDTH / steps.length
-    const activeNotes = steps.list.map(step => step.note)
-    const min = Math.floor((Math.min(...activeNotes) / 12) - 1) * 12
-    const max = Math.ceil((Math.max(...activeNotes) / 12) + 1) * 12
-    const pixelsPerNote = HEIGHT / (max - min)
+    const samplesPerPixel = samples.length / WIDTH
     ctx.imageSmoothingEnabled = false
     ctx.fillStyle = 'rgb(203, 213, 198)'
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     ctx.strokeStyle = 'rgb(98, 104, 95)'
-    steps.list.forEach((step) => {
-      const { note, position } = step
-      const top = (pixelsPerNote * (max - note))
-      const strokeWidth = Math.floor(top - (pixelsPerNote * (max - note - 1)))
-      ctx.lineWidth = strokeWidth
+    ctx.lineWidth = 1
+    const halfHeight = HEIGHT / 2
+    for (let i = 0; i < WIDTH; i += 1) {
+      const sample = samples[Math.floor(samplesPerPixel * i)]
+      const top = Math.ceil(halfHeight + sample * halfHeight)
       ctx.beginPath()
-      ctx.moveTo(Math.ceil(position * pixelsPerStep), top)
-      ctx.lineTo(Math.ceil((position + 1) * pixelsPerStep), top)
+      ctx.moveTo(i, top)
+      ctx.lineTo(i + 1, top)
       ctx.stroke()
-    })
-    */
+    }
   }
 
   render() {
     const { buffer } = this.props
     return (<PreviewBox theme={{ bgColor: '#fafafa' }}>
-      l: {buffer.length}<br />
+      length: {buffer ? buffer.length : '-'}<br />
       <canvas
         ref={(canvas) => { this.canvas = canvas }}
         width={WIDTH}
