@@ -1,6 +1,7 @@
 // @flow
 
 import type { Tone } from 'types/synth'
+import { generateWhiteNoise } from './gen/noise'
 
 const ctx = new window.AudioContext()
 
@@ -17,6 +18,7 @@ export default class Synth {
   waveform: string = 'square'
   kickWaveform: string = 'sine'
   type: SynthType
+  noise: AudioBuffer
   play: (tone: Tone) => void
 
   constructor(type: SynthType = 'synth') {
@@ -25,6 +27,7 @@ export default class Synth {
     if (type === 'synth') {
       this.play = this.playOsc
     } else if (type === 'drums') {
+      this.noise = generateWhiteNoise(ctx)
       this.play = this.playDrums
     }
   }
@@ -32,7 +35,8 @@ export default class Synth {
   playDrums(tone: Tone) {
     const { note, offset } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
-    if (note % 12 === 0) {
+    const part = note % 12
+    if (part === 0) { // kick
       const frequency = 440 * (2 ** ((note - 69) / 12))
       console.log(`Synth.playDrums, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
       const osc = ctx.createOscillator()
@@ -49,6 +53,23 @@ export default class Synth {
       gain.connect(ctx.destination)
       osc.start(startTime)
       osc.stop(startTime + duration)
+    } else if (part === 6) { // chh
+      const frequency = 900
+      console.log(`Synth.playDrums, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
+      const source = ctx.createBufferSource()
+      const duration = 0.02
+      const release = 0.1
+      const gain = ctx.createGain()
+
+      source.buffer = this.noise
+      source.loop = true
+      gain.gain.setValueAtTime(1, startTime)
+      gain.gain.setValueAtTime(1, startTime + duration)
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration + release)
+      source.connect(gain)
+      gain.connect(ctx.destination)
+      source.start(startTime)
+      source.stop(startTime + duration + release)
     }
   }
 
