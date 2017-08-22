@@ -10,6 +10,7 @@ import { MenuItem, SelectField, RaisedButton } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
 import { generateWhiteNoise } from 'synth/gen/noise'
+import SamplePreview from './sample_preview'
 
 const ctx: AudioContext = new window.AudioContext()
 
@@ -121,6 +122,7 @@ class SamplerComponent extends Component {
         {sampleList}
       </SelectField>
       {recordButton}
+      <SamplePreview />
     </Rack>)
   }
 }
