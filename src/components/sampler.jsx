@@ -33,6 +33,9 @@ class SamplerComponent extends Component {
 
   componentWillMount() {
     this.recorder = new Recorder()
+    this.recorder.onAudioBufferCaptured = (buffer: AudioBuffer) => {
+      this.captureAudioBuffer(buffer)
+    }
   }
 
   componentDidMount() {
@@ -70,6 +73,17 @@ class SamplerComponent extends Component {
   startRecording() {
     this.recorder.prepare()
     this.setState({ recording: true })
+  }
+
+  captureAudioBuffer(buffer: AudioBuffer) {
+    console.log('captureAudioBuffer', buffer)
+    const { sampleList } = this.state
+    const index = sampleList.length
+    this.props.storeSample({
+      id: `sample_${index}`,
+      name: `recorded #${index}`,
+      buffer,
+    })
   }
 
   stopRecording() {
