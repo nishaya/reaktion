@@ -4,17 +4,15 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import RedBox from 'redbox-react'
-// import { buildStore } from 'utils/build_store'
+import { buildStore } from 'utils/build_store'
 import IndexComponent from 'components/index'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 injectTapEventPlugin()
 
-// const store = buildStore()
+const store = buildStore()
 const root = document.getElementById('app')
-
-const store = {}
 
 try {
   render(
