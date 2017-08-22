@@ -7,6 +7,10 @@ import SampleActions from 'actions/sample'
 import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
 import { MenuItem, SelectField } from 'material-ui'
+import PlaybackSampler from 'synth/playback_sampler'
+import { generateWhiteNoise } from 'synth/gen/noise'
+
+const ctx: AudioContext = new window.AudioContext()
 
 type Props = {
   storeSample: (sample: Sample) => any,
@@ -28,7 +32,7 @@ class SamplerComponent extends Component {
       this.props.storeSample({
         id: `sample_${i}`,
         name: `noise #${i}`,
-        buffer: new ArrayBuffer(),
+        buffer: generateWhiteNoise(ctx),
       })
     }
   }
@@ -50,6 +54,8 @@ class SamplerComponent extends Component {
     const sample = samples[sampleId]
     if (sample) {
       console.log('playback', sample)
+      const sampler = new PlaybackSampler(sample.buffer)
+      sampler.play()
     }
   }
 

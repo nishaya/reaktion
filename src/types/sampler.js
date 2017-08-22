@@ -1,7 +1,7 @@
 // @flow
 
 export type Sample = {
-  buffer: ArrayBuffer,
+  buffer: AudioBuffer,
   id: string,
   name: string,
 }

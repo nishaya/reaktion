@@ -1,7 +1,8 @@
 // @flow
 
 import type { PlaybackOptions } from 'types/synth'
-import { ctx } from './audio_context'
+
+const ctx: AudioContext = new window.AudioContext()
 
 const defaultOptions: PlaybackOptions = {
   offset: 0,
@@ -9,16 +10,20 @@ const defaultOptions: PlaybackOptions = {
 }
 
 export default class PlaybackSampler {
-  buffer: ArrayBuffer
+  buffer: AudioBuffer
 
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: AudioBuffer) {
     this.buffer = buffer
   }
 
   play(options: PlaybackOptions) {
-    const { offset, loop } = { ...defaultOptions, ...options }
+    const { offset, loop, duration } = {
+      ...{ duration: this.buffer.duration },
+      ...defaultOptions,
+      ...options,
+    }
+    console.log('PlaybackSampler.play', duration)
     const source = ctx.createBufferSource()
-    const duration = 0.02
     source.buffer = this.buffer
     source.loop = loop
     source.connect(ctx.destination)
