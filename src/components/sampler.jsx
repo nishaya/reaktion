@@ -45,11 +45,25 @@ class SamplerComponent extends Component {
 
   props: Props
 
+  playback(sampleId: string) {
+    const { samples } = this.props
+    const sample = samples[sampleId]
+    if (sample) {
+      console.log('playback', sample)
+    }
+  }
+
   render() {
     const { sampleList } = this.state
     return (<Rack>
       <h2>sampler</h2>
-      <SelectField hintText="please select">
+      <SelectField
+        hintText="please select"
+        onChange={(ev: any, key: number, sampleId: string) => {
+          console.log('onChange', sampleId)
+          this.playback(sampleId)
+        }}
+      >
         {sampleList}
       </SelectField>
     </Rack>)

@@ -7,3 +7,7 @@ export type Tone = {
   velocity?: number,
   trackId?: string,
 }
+
+export type PlaybackOptions = {
+  offset?: number,
+}
