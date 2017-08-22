@@ -67,20 +67,31 @@ class SamplerComponent extends Component {
     }
   }
 
+  startRecording() {
+    this.recorder.prepare()
+    this.setState({ recording: true })
+  }
+
+  stopRecording() {
+    this.recorder.stopRecording()
+    this.recorder.destroy()
+    this.setState({ recording: false })
+  }
+
   render() {
     const { sampleList, recording } = this.state
     const recordButton = recording ? (
       <RaisedButton
         label="Stop Recording"
         onClick={() => {
-          this.setState({ recording: false })
+          this.stopRecording()
         }}
       />
     ) : (
       <RaisedButton
         label="Start Recording"
         onClick={() => {
-          this.setState({ recording: true })
+          this.startRecording()
         }}
       />
     )
