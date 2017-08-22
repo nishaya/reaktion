@@ -8,6 +8,7 @@ import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
 import { MenuItem, SelectField } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
+import Recorder from 'synth/recorder'
 import { generateWhiteNoise } from 'synth/gen/noise'
 
 const ctx: AudioContext = new window.AudioContext()
@@ -22,9 +23,14 @@ type State = {
 }
 
 class SamplerComponent extends Component {
+  recorder: Recorder
 
   state: State = {
     sampleList: [],
+  }
+
+  componentWillMount() {
+    this.recorder = new Recorder()
   }
 
   componentDidMount() {
