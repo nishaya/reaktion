@@ -125,7 +125,16 @@ class SamplerComponent extends Component {
         {sampleList}
       </SelectField>
       {recordButton}
-      <SamplePreview buffer={buffer} />
+      {buffer ? (<div>
+        <RaisedButton
+          label="Play"
+          onClick={() => {
+            const sampler = new PlaybackSampler(buffer)
+            sampler.play()
+          }}
+        />
+        <SamplePreview buffer={buffer} />
+      </div>) : null}
     </Rack>)
   }
 }
