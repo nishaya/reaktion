@@ -75,7 +75,7 @@ export default class Recorder {
 
     this.mediaRecorder.addEventListener('stop', () => {
       console.log('recorder stopped.')
-      const url = this.chunks.length === 1 ? this.chunks[0] : new Blob(this.chunks)
+      const blob: Blob = this.chunks.length === 1 ? this.chunks[0] : new Blob(this.chunks)
       console.log(this.chunks)
 
       const fileReader = new FileReader()
@@ -83,9 +83,9 @@ export default class Recorder {
         const arrayBuffer = e.target.result
         console.log('arrayBuffer', arrayBuffer)
         ctx.decodeAudioData(arrayBuffer)
-          .then((decodedData) => {
-            console.log('decoded', decodedData)
-            this.onAudioBufferCaptured(decodedData)
+          .then((decodeAudioBuffer: AudioBuffer) => {
+            console.log('AudioBuffer decoded', decodeAudioBuffer)
+            this.onAudioBufferCaptured(decodeAudioBuffer)
             /* preview
             const source = ctx.createBufferSource()
             source.buffer = decodedData
@@ -95,7 +95,7 @@ export default class Recorder {
           })
       }
 
-      fileReader.readAsArrayBuffer(url)
+      fileReader.readAsArrayBuffer(blob)
     })
 
     this.startRecording()
