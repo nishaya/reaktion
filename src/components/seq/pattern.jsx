@@ -16,6 +16,7 @@ type PatternType = 'synth' | 'drums'
 type Props = {
   onPatternChanged: (steps: Steps) => void,
   patternType: PatternType,
+  steps: Steps,
 }
 
 type State = {
@@ -28,13 +29,14 @@ type State = {
 
 export default class Pattern extends Component<any, State, Props> {
   static defaultProps = {
+    steps: initSteps(4),
     patternType: 'synth',
     onPatternChanged: (steps: Steps) => console.log('PATTERN CHANGED', steps),
   }
 
   state: State = {
     numFragments: 0,
-    initialSteps: [],
+    initialSteps: initSteps(0),
     stepsList: [initSteps(0)],
     fragments: [StepsGenerator],
     finishedSteps: initSteps(0),
@@ -59,7 +61,8 @@ export default class Pattern extends Component<any, State, Props> {
 
   updateSteps() {
     console.log('updateSteps')
-    this.setState({ initialSteps: initSteps(4) })
+    const { steps } = this.props
+    this.setState({ initialSteps: steps })
   }
 
   modifySteps(index:number, steps: Steps) {

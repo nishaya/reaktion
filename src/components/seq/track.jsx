@@ -2,12 +2,28 @@ import React, { Component } from 'react'
 import Rack from 'components/common/rack'
 import type { Steps } from 'types/step'
 import Synth from 'synth/synth'
+import { basicBeats } from 'seq/steps/drums'
 import Pattern from './pattern'
+import { initSteps } from './fragments/steps_generator'
 
 type Props = {
   trackId: string,
   onTrackFixed: (steps: Steps, trackId: string) => any,
   onSynthReady: (synth: Synth) => void,
+}
+
+const buildPatternProps = (trackId: string) => {
+  let patternType = 'synth'
+  let steps = initSteps(4)
+  if (trackId === '0') {
+    patternType = 'drums'
+    steps = basicBeats
+  }
+
+  return {
+    patternType,
+    steps,
+  }
 }
 
 export default class Track extends Component<any, any, Props> {
@@ -29,9 +45,7 @@ export default class Track extends Component<any, any, Props> {
 
   render() {
     const { trackId } = this.props
-    const patternProps = {
-      patternType: trackId === '0' ? 'drums' : 'synth',
-    }
+    const patternProps = buildPatternProps(trackId)
     return (<Rack theme={{ bgColor: '#FAFAFA' }}>
       <h2>track #{trackId}</h2>
       <Pattern
