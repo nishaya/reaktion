@@ -7,6 +7,11 @@ import type { Sample } from 'types/sampler'
 import { DropDownMenu, MenuItem } from 'material-ui'
 import SampleSelect from './sample_select'
 
+type Samples = { [string]: Sample }
+type Context = {
+  samples: Samples,
+}
+
 type State = SynthParams & {
   sampleList: { [string]: string },
   drumList: { [DrumType]: string },
@@ -32,8 +37,8 @@ export default class SynthControl extends Component {
     drumList: {},
   }
 
-  componentWillReceiveProps(nextProps: Props, nextContext) {
-    if (nextContext.samples !== this.context.samples) {
+  componentWillReceiveProps(nextProps: Props, nextContext: ?Context) {
+    if (nextContext && nextContext.samples !== this.context.samples) {
       console.log('CONTEXT UPDATED', nextContext.samples)
       this.updateSampleList(nextContext.samples)
     }
@@ -51,7 +56,7 @@ export default class SynthControl extends Component {
     this.props.onControlChanged(controlParams)
   }
 
-  updateSampleList(samples: { [string]: Sample }) {
+  updateSampleList(samples: Samples) {
     const sampleList = Object.keys(samples).reduce((prev, id) => (
       { ...prev, [id]: samples[id].name }
     ), {})
@@ -85,21 +90,21 @@ export default class SynthControl extends Component {
         value={drumList.snare}
         sampleList={sampleList}
         onChange={(sampleId) => {
-          this.selectDrumSample('snare', sampleId)
+          this.selectDrumSample('snare', sampleId, this.context.samples)
         }}
       /><br />
       cymbal: <SampleSelect
         value={drumList.cymbal}
         sampleList={sampleList}
         onChange={(sampleId) => {
-          this.selectDrumSample('cymbal', sampleId)
+          this.selectDrumSample('cymbal', sampleId, this.context.samples)
         }}
       /><br />
     </div>)
   }
 
-  selectDrumSample(type: DrumType, sampleId: string) {
-    const sample = this.context.samples[sampleId]
+  selectDrumSample(type: DrumType, sampleId: string, samples: Samples) {
+    const sample = samples[sampleId]
     const { drumList } = this.state
     this.setState({ drumList: { ...drumList, [type]: sampleId } })
     console.log('sample selected', sampleId, sample)
