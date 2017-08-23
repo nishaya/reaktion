@@ -23,7 +23,7 @@ export class IndexComponent extends Component {
     return { samples: this.props.samples }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.samples !== nextProps.samples) {
       console.log('samples updated', nextProps.samples)
     }
