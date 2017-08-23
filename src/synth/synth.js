@@ -8,6 +8,8 @@ import type {
   DrumType,
   DrumPreset,
   SynthPreset,
+  OscSynthPreset,
+  SampleSynthPreset,
 } from 'types/synth'
 import PlaybackSampler from './playback_sampler'
 import { generateWhiteNoise } from './gen/noise'
@@ -30,7 +32,8 @@ export default class Synth {
   noise: AudioBuffer
   play: (tone: Tone) => void
   drumsMap: DrumsMap = {}
-  synthPreset: SynthPreset = { type: 'osc', waveform: 'square' }
+  oscSynthPreset: OscSynthPreset = { type: 'osc', waveform: 'square' }
+  sampleSynthPreset: SampleSynthPreset
 
   constructor(type: SynthType = 'synth') {
     console.log('init Synth', type)
@@ -56,9 +59,13 @@ export default class Synth {
 
   setSynth(preset: SynthPreset) {
     console.log('Synth.setSynth', preset)
-    this.synthPreset = preset
     if (preset.type === 'osc') {
       this.waveform = preset.waveform
+      this.play = this.playSynth
+      this.oscSynthPreset = preset
+    } else if (preset.type === 'sample') {
+      this.play = this.playSample
+      this.sampleSynthPreset = preset
     }
   }
 
@@ -137,5 +144,15 @@ export default class Synth {
     gain.connect(ctx.destination)
     osc.start(startTime)
     osc.stop(startTime + duration)
+  }
+
+  playSample(tone: Tone) {
+    const { note, offset } = { ...defaultTone, ...tone }
+    const startTime = ctx.currentTime + offset
+    const frequency = 440 * (2 ** ((note - 69) / 12))
+    console.log(`Sample.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
+    // const volume = velocity / 127 * 0.7
+    const sampler = new PlaybackSampler(this.sampleSynthPreset.sample)
+    sampler.play({ when: offset })
   }
 }

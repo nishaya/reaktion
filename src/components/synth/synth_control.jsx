@@ -76,21 +76,40 @@ export default class SynthControl extends Component {
   }
 
   renderSynthControl(synthPreset: SynthPreset) {
-    const { waveform } = synthPreset
-    return (<div>
-      <h4>synth control</h4>
-      Waveform: <DropDownMenu
-        value={waveform}
-        onChange={(ev, key, value) => {
-          this.changeSynthPreset({ ...synthPreset, waveform: value })
-        }}
-      >
-        <MenuItem key="w1" value="square" primaryText="Square" />
-        <MenuItem key="w2" value="sawtooth" primaryText="Sawtooth" />
-        <MenuItem key="w3" value="sine" primaryText="Sine" />
-        <MenuItem key="w4" value="triangle" primaryText="Triangle" />
-      </DropDownMenu>
-    </div>)
+    if (false && synthPreset.type === 'osc') {
+      const { waveform } = synthPreset
+      return (<div>
+        <h4>synth control(osc)</h4>
+        Waveform: <DropDownMenu
+          value={waveform}
+          onChange={(ev, key, value) => {
+            this.changeSynthPreset({ ...synthPreset, waveform: value })
+          }}
+        >
+          <MenuItem key="w1" value="square" primaryText="Square" />
+          <MenuItem key="w2" value="sawtooth" primaryText="Sawtooth" />
+          <MenuItem key="w3" value="sine" primaryText="Sine" />
+          <MenuItem key="w4" value="triangle" primaryText="Triangle" />
+        </DropDownMenu>
+      </div>)
+    } else if (true || synthPreset.type === 'sample') {
+      const { sampleList } = this.state
+      const { samples } = this.context
+      const { sample } = synthPreset
+      return (<div>
+        <h4>synth control(sample)</h4>
+        Sample: <SampleSelect
+          selected={sample ? sample.id : null}
+          sampleList={sampleList}
+          onChange={(sampleId) => {
+            const selectedSample = samples[sampleId]
+            this.changeSynthPreset({ type: 'sample', sample: selectedSample })
+          }}
+        />
+      </div>)
+    }
+
+    return null
   }
 
   renderDrumsControl() {
