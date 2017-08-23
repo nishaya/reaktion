@@ -14,8 +14,8 @@ export type PlaybackOptions = {
   loop?: boolean,
 }
 
+export type SynthType = 'synth' | 'drums'
 export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle'
-
 export type SynthParams = {
   waveform: Waveform,
 }

@@ -1,12 +1,13 @@
 // @flow
 
 import React, { Component } from 'react'
-import type { SynthParams } from 'types/synth'
+import type { SynthParams, SynthType } from 'types/synth'
 import { DropDownMenu, MenuItem } from 'material-ui'
 
 type State = SynthParams
 
 type Props = {
+  synthType: SynthType,
   onControlChanged: (synthParams: SynthParams) => any,
 }
 
@@ -26,21 +27,36 @@ export default class SynthControl extends Component {
     this.props.onControlChanged(controlParams)
   }
 
-  render() {
-    const { waveform } = this.state
-    const controlParams = { waveform }
+  renderSynthControl(params: SynthParams) {
+    const { waveform } = params
     return (<div>
-      <div>simple synth control</div>
       Waveform: <DropDownMenu
         value={waveform}
         onChange={(ev, key, value) => {
-          this.changeControlParams({ ...controlParams, waveform: value })
+          this.changeControlParams({ ...params, waveform: value })
         }}
       >
         <MenuItem key="w1" value="square" primaryText="Square" />
         <MenuItem key="w2" value="sawtooth" primaryText="Sawtooth" />
         <MenuItem key="w3" value="sine" primaryText="Sine" />
       </DropDownMenu>
+    </div>)
+  }
+
+  renderDrumsControl(params: SynthParams) {
+    return (<div>
+      drums control
+    </div>)
+  }
+
+  render() {
+    const { waveform } = this.state
+    const { synthType } = this.props
+    const params = { waveform }
+    return (<div>
+      <div>simple synth control ({synthType})</div>
+      {synthType === 'drums' ? this.renderDrumsControl(params)
+        : this.renderSynthControl(params)}
     </div>)
   }
 }
