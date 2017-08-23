@@ -1,6 +1,13 @@
 // @flow
 
-import type { Tone, SynthParams, Waveform } from 'types/synth'
+import type {
+  Tone,
+  SynthParams,
+  Waveform,
+  DrumsMap,
+  DrumType,
+  DrumPreset,
+} from 'types/synth'
 import { generateWhiteNoise } from './gen/noise'
 
 const ctx: AudioContext = new window.AudioContext()
@@ -20,6 +27,7 @@ export default class Synth {
   type: SynthType
   noise: AudioBuffer
   play: (tone: Tone) => void
+  drumsMap: DrumsMap = {}
 
   constructor(type: SynthType = 'synth') {
     console.log('init Synth', type)
@@ -36,6 +44,10 @@ export default class Synth {
     console.log('synth.setParams', params)
     const { waveform } = params
     this.waveform = waveform
+  }
+
+  setDrum(type: DrumType, preset: DrumPreset) {
+    this.drumsMap[type] = preset
   }
 
   playDrums(tone: Tone) {
