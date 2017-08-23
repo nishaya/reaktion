@@ -1,10 +1,10 @@
 // @flow
 
 import React, { Component } from 'react'
-import type { SynthParams, SynthType } from 'types/synth'
+import type { SynthParams, SynthType, DrumsMap } from 'types/synth'
 import { DropDownMenu, MenuItem } from 'material-ui'
 
-type State = SynthParams
+type State = SynthParams & { drums: DrumsMap }
 
 type Props = {
   synthType: SynthType,
@@ -15,6 +15,23 @@ export default class SynthControl extends Component {
   props: Props
   state: State = {
     waveform: 'sine',
+    drums: {
+      kick: {
+        type: 'synth',
+      },
+      chh: {
+        type: 'synth',
+      },
+      ohh: {
+        type: 'synth',
+      },
+      snare: {
+        type: 'synth',
+      },
+      cymbal: {
+        type: 'synth',
+      },
+    },
   }
 
   componentWillMount() {
