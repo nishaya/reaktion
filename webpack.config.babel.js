@@ -26,7 +26,7 @@ module.exports = {
   plugins,
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
     loaders: [

@@ -12,6 +12,8 @@
     "lint": "eslint . --ext .js,.jsx --cache --fix"
   },
   "dependencies": {
+    "audio-buffer-utils": "^5.1.1",
+    "audio-format": "^2.2.1",
     "config": "^1.26.2",
     "material-ui": "0.18.7",
     "react": "^15.5.4",
@@ -22,6 +24,7 @@
     "redux": "^3.6.0",
     "redux-actions": "^2.0.1",
     "redux-logger": "^3.0.1",
+    "sample-rate": "^2.0.0",
     "styled-components": "^2.1.2"
   },
   "devDependencies": {

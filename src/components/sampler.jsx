@@ -12,6 +12,7 @@ import Recorder from 'synth/recorder'
 import { generateWhiteNoise } from 'synth/gen/noise'
 import SamplePreview from 'components/sampler/sample_preview'
 import { sliderStyle } from 'components/common/styles'
+import ABU from 'audio-buffer-utils'
 
 const ctx: AudioContext = new window.AudioContext()
 
@@ -112,6 +113,9 @@ class SamplerComponent extends Component {
 
   captureAudioBuffer(buffer: AudioBuffer) {
     console.log('captureAudioBuffer', buffer)
+    const normalized = ABU.create(buffer.length, 1, buffer.sampleRate)
+    ABU.normalize(buffer, normalized)
+    console.log('normalized', normalized)
     const { sampleList } = this.state
     const index = sampleList.length
     const loopStart = buffer.duration * 0.2
@@ -119,7 +123,7 @@ class SamplerComponent extends Component {
     const sample: Sample = {
       id: `sample_${index}`,
       name: `recorded #${index}`,
-      buffer,
+      buffer: normalized,
       start: loopStart,
       end: loopEnd,
     }
