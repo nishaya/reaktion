@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import type { SynthParams, SynthType, DrumsMap } from 'types/synth'
+import type { SynthParams, SynthType, DrumsMap, DrumType, DrumPreset } from 'types/synth'
 import { DropDownMenu, MenuItem } from 'material-ui'
 import SampleSelect from './sample_select'
 
@@ -11,11 +11,15 @@ type State = SynthParams & { drums: DrumsMap } & { sampleList: { [string]: strin
 type Props = {
   synthType: SynthType,
   onControlChanged: (synthParams: SynthParams) => any,
+  setDrum: (type: DrumType, preset: DrumPreset) => any,
 }
 
 export default class SynthControl extends Component {
   static contextTypes = {
     samples: PropTypes.shape(),
+  }
+  static defaultProps = {
+    setDrum: (type, sample) => console.log('setDrum', type, sample),
   }
   props: Props
   state: State = {
@@ -88,7 +92,20 @@ export default class SynthControl extends Component {
     const { sampleList } = this.state
     return (<div>
       drums control
-      <SampleSelect sampleList={sampleList} />
+      snare: <SampleSelect
+        sampleList={sampleList}
+        onChange={(sampleId) => {
+          const sample = this.context.samples[sampleId]
+          console.log('sample selected', sample)
+          this.props.setDrum(
+            'snare',
+            {
+              type: 'sample',
+              sample,
+            },
+          )
+        }}
+      />
     </div>)
   }
 

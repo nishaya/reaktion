@@ -28,7 +28,7 @@ export default class PlaybackSampler {
     const { start, end } = this.sample
     const loopStart = start || 0
     const loopEnd = end || this.sample.buffer.duration
-    const playDuration = duration || end - start
+    const playDuration = duration || loopEnd - loopStart
     console.log(`start: ${loopStart}, end: ${loopEnd}`, loop, offset, playDuration)
     const source = ctx.createBufferSource()
     const startTime = ctx.currentTime + when

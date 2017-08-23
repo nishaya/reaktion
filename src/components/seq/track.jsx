@@ -72,6 +72,7 @@ export default class Track extends Component<any, any, Props> {
       <SynthControl
         synthType={synthType}
         onControlChanged={(synthParams: SynthParams) => this.onControlChanged(synthParams)}
+        setDrum={(type, preset) => this.synth.setDrum(type, preset)}
       />
     </Rack>)
   }

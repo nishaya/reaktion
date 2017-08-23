@@ -8,6 +8,7 @@ import type {
   DrumType,
   DrumPreset,
 } from 'types/synth'
+import PlaybackSampler from './playback_sampler'
 import { generateWhiteNoise } from './gen/noise'
 
 const ctx: AudioContext = new window.AudioContext()
@@ -47,6 +48,7 @@ export default class Synth {
   }
 
   setDrum(type: DrumType, preset: DrumPreset) {
+    console.log('Synth.setDrum', type, preset)
     this.drumsMap[type] = preset
   }
 
@@ -88,6 +90,12 @@ export default class Synth {
       gain.connect(ctx.destination)
       source.start(startTime)
       source.stop(startTime + duration + release)
+    } else if (part === 2) { // snare
+      const preset = this.drumsMap.snare
+      if (preset && preset.type === 'sample') {
+        const sampler = new PlaybackSampler(preset.sample)
+        sampler.play({ when: offset })
+      }
     }
   }
 
