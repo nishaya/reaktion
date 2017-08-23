@@ -86,8 +86,8 @@ class SamplerComponent extends Component {
       id: `sample_${index}`,
       name: `recorded #${index}`,
       buffer,
-      start: 0,
-      end: buffer.duration,
+      start: buffer.duration * 0.2,
+      end: buffer.duration * 0.8,
     }
     this.setState({ recordedSample: sample })
     this.props.storeSample(sample)
