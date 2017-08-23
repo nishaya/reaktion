@@ -4,8 +4,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import type { SynthParams, SynthType, DrumsMap } from 'types/synth'
 import { DropDownMenu, MenuItem } from 'material-ui'
+import SampleSelect from './sample_select'
 
-type State = SynthParams & { drums: DrumsMap }
+type State = SynthParams & { drums: DrumsMap } & { sampleList: { [string]: string } }
 
 type Props = {
   synthType: SynthType,
@@ -19,6 +20,7 @@ export default class SynthControl extends Component {
   props: Props
   state: State = {
     waveform: 'sine',
+    sampleList: {},
     drums: {
       kick: {
         type: 'synth',
@@ -41,18 +43,28 @@ export default class SynthControl extends Component {
   componentWillReceiveProps(nextProps, nextContext) {
     if (nextContext.samples !== this.context.samples) {
       console.log('CONTEXT UPDATED', nextContext.samples)
+      this.updateSampleList(nextContext.samples)
     }
   }
 
   componentWillMount() {
     const { waveform } = this.state
     console.log('CONTEXT INIT', this.context)
+    this.updateSampleList(this.context.samples)
     this.props.onControlChanged({ waveform })
   }
 
   changeControlParams(controlParams: SynthParams) {
     this.setState(controlParams)
     this.props.onControlChanged(controlParams)
+  }
+
+  updateSampleList(samples) {
+    const sampleList = Object.values(samples).reduce((prev, s) => (
+      { ...prev, [s.id]: s.name }
+    ), {})
+
+    this.setState({ sampleList })
   }
 
   renderSynthControl(params: SynthParams) {
@@ -72,9 +84,11 @@ export default class SynthControl extends Component {
     </div>)
   }
 
-  renderDrumsControl(params: SynthParams) {
+  renderDrumsControl() {
+    const { sampleList } = this.state
     return (<div>
       drums control
+      <SampleSelect sampleList={sampleList} />
     </div>)
   }
 
@@ -84,7 +98,7 @@ export default class SynthControl extends Component {
     const params = { waveform }
     return (<div>
       <div>simple synth control ({synthType})</div>
-      {synthType === 'drums' ? this.renderDrumsControl(params)
+      {synthType === 'drums' ? this.renderDrumsControl()
         : this.renderSynthControl(params)}
     </div>)
   }
