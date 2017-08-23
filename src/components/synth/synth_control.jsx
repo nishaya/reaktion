@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import type { SynthParams, SynthType, DrumsMap } from 'types/synth'
 import { DropDownMenu, MenuItem } from 'material-ui'
 
@@ -12,6 +13,9 @@ type Props = {
 }
 
 export default class SynthControl extends Component {
+  static contextTypes = {
+    samples: PropTypes.shape(),
+  }
   props: Props
   state: State = {
     waveform: 'sine',
@@ -32,6 +36,10 @@ export default class SynthControl extends Component {
         type: 'synth',
       },
     },
+  }
+
+  componentWillReceiveProps(nextProps, nextState, nextContext) {
+    console.log('nextContext', nextContext)
   }
 
   componentWillMount() {

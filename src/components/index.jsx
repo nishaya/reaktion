@@ -14,7 +14,7 @@ type Props = {
 
 export class IndexComponent extends Component {
   static childContextTypes = {
-    samples: PropTypes.shape,
+    samples: PropTypes.shape(),
   }
 
   props: Props
