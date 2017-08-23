@@ -98,7 +98,7 @@ export default class SynthControl extends Component {
           this.selectDrumSample('snare', sampleId)
         }}
       /><br />
-      snare: <SampleSelect
+      cymbal: <SampleSelect
         sampleList={sampleList}
         onChange={(sampleId) => {
           this.selectDrumSample('cymbal', sampleId)
