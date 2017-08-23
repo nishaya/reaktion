@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import Box from 'components/seq/fragments/box'
+import type { Sample } from 'types/sampler'
 
 const PreviewBox = Box.extend`
   width: 300px;
@@ -12,7 +13,7 @@ const WIDTH = 300
 const HEIGHT = 64
 
 type Props = {
-  buffer: ?AudioBuffer,
+  sample: ?Sample,
 }
 
 export default class SamplePreview extends Component {
@@ -20,22 +21,24 @@ export default class SamplePreview extends Component {
     buffer: null,
   }
   componentDidMount() {
-    this.renderPreview(this.props.buffer)
+    this.renderPreview(this.props.sample)
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.buffer !== this.props.buffer) {
-      this.renderPreview(nextProps.buffer)
+    if (nextProps.sample !== this.props.sample) {
+      this.renderPreview(nextProps.sample)
     }
   }
 
   canvas: any
   props: Props
 
-  renderPreview(buffer: ?AudioBuffer) {
-    if (!buffer) {
+  renderPreview(sample: ?Sample) {
+    console.log('renderPreview', sample)
+    if (!sample) {
       return
     }
+    const { buffer } = sample
     const samples = buffer.getChannelData(0)
     console.log('len', samples.length)
 
@@ -48,8 +51,8 @@ export default class SamplePreview extends Component {
     ctx.lineWidth = 1
     const halfHeight = HEIGHT / 2
     for (let i = 0; i < WIDTH; i += 1) {
-      const sample = samples[Math.floor(samplesPerPixel * i)]
-      const top = Math.ceil(halfHeight + sample * halfHeight)
+      const s = samples[Math.floor(samplesPerPixel * i)]
+      const top = Math.ceil(halfHeight + s * halfHeight)
       ctx.beginPath()
       ctx.moveTo(i, top)
       ctx.lineTo(i + 1, top)
@@ -58,9 +61,9 @@ export default class SamplePreview extends Component {
   }
 
   render() {
-    const { buffer } = this.props
+    const { sample } = this.props
     return (<PreviewBox theme={{ bgColor: '#fafafa' }}>
-      length: {buffer ? buffer.length : '-'}<br />
+      length: {sample ? sample.buffer.length : '-'}<br />
       <canvas
         ref={(canvas) => { this.canvas = canvas }}
         width={WIDTH}

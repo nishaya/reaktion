@@ -22,7 +22,7 @@ type Props = {
 type State = {
   sampleList: Array<MenuItem>,
   recording: boolean,
-  buffer: ?AudioBuffer,
+  recordedSample: ?Sample,
 }
 
 class SamplerComponent extends Component {
@@ -31,7 +31,7 @@ class SamplerComponent extends Component {
   state: State = {
     sampleList: [],
     recording: false,
-    buffer: null,
+    recordedSample: null,
   }
 
   componentWillMount() {
@@ -68,7 +68,7 @@ class SamplerComponent extends Component {
     const sample = samples[sampleId]
     if (sample) {
       console.log('playback', sample)
-      const sampler = new PlaybackSampler(sample.buffer)
+      const sampler = new PlaybackSampler(sample)
       sampler.play()
     }
   }
@@ -80,14 +80,17 @@ class SamplerComponent extends Component {
 
   captureAudioBuffer(buffer: AudioBuffer) {
     console.log('captureAudioBuffer', buffer)
-    this.setState({ buffer })
     const { sampleList } = this.state
     const index = sampleList.length
-    this.props.storeSample({
+    const sample: Sample = {
       id: `sample_${index}`,
       name: `recorded #${index}`,
       buffer,
-    })
+      start: 0,
+      end: buffer.duration,
+    }
+    this.setState({ recordedSample: sample })
+    this.props.storeSample(sample)
   }
 
   stopRecording() {
@@ -97,7 +100,7 @@ class SamplerComponent extends Component {
   }
 
   render() {
-    const { sampleList, recording, buffer } = this.state
+    const { sampleList, recording, recordedSample } = this.state
     const recordButton = recording ? (
       <RaisedButton
         label="Stop Recording"
@@ -125,15 +128,15 @@ class SamplerComponent extends Component {
         {sampleList}
       </SelectField>
       {recordButton}
-      {buffer ? (<div>
+      {recordedSample ? (<div>
         <RaisedButton
           label="Play"
           onClick={() => {
-            const sampler = new PlaybackSampler(buffer)
+            const sampler = new PlaybackSampler(recordedSample)
             sampler.play()
           }}
         />
-        <SamplePreview buffer={buffer} />
+        <SamplePreview sample={recordedSample} />
       </div>) : null}
     </Rack>)
   }
