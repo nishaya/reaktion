@@ -6,11 +6,12 @@ import { connect } from 'react-redux'
 import SampleActions from 'actions/sample'
 import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
-import { MenuItem, SelectField, RaisedButton } from 'material-ui'
+import { MenuItem, SelectField, RaisedButton, Slider } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
 import { generateWhiteNoise } from 'synth/gen/noise'
 import SamplePreview from 'components/sampler/sample_preview'
+import { sliderStyle } from 'components/common/styles'
 
 const ctx: AudioContext = new window.AudioContext()
 
@@ -23,6 +24,8 @@ type State = {
   sampleList: Array<MenuItem>,
   recording: boolean,
   recordedSample: ?Sample,
+  loopStart: number,
+  loopEnd: number,
 }
 
 class SamplerComponent extends Component {
@@ -32,6 +35,8 @@ class SamplerComponent extends Component {
     sampleList: [],
     recording: false,
     recordedSample: null,
+    loopStart: 0,
+    loopEnd: 0,
   }
 
   componentWillMount() {
@@ -82,14 +87,16 @@ class SamplerComponent extends Component {
     console.log('captureAudioBuffer', buffer)
     const { sampleList } = this.state
     const index = sampleList.length
+    const loopStart = buffer.duration * 0.2
+    const loopEnd = buffer.duration * 0.8
     const sample: Sample = {
       id: `sample_${index}`,
       name: `recorded #${index}`,
       buffer,
-      start: buffer.duration * 0.2,
-      end: buffer.duration * 0.8,
+      start: loopStart,
+      end: loopEnd,
     }
-    this.setState({ recordedSample: sample })
+    this.setState({ recordedSample: sample, loopStart, loopEnd })
     this.props.storeSample(sample)
   }
 
@@ -97,6 +104,32 @@ class SamplerComponent extends Component {
     this.recorder.stopRecording()
     this.recorder.destroy()
     this.setState({ recording: false })
+  }
+
+  renderSliders() {
+    const { recordedSample, loopStart, loopEnd } = this.state
+    if (!recordedSample) {
+      return null
+    }
+
+    return (<div>
+      <Slider
+        sliderStyle={sliderStyle}
+        max={recordedSample.buffer.duration}
+        min={0}
+        step={0.005}
+        value={loopStart}
+        onChange={(e, v) => console.log(v)}
+      />
+      <Slider
+        sliderStyle={sliderStyle}
+        max={recordedSample.buffer.duration}
+        min={0}
+        step={0.005}
+        value={loopEnd}
+        onChange={(e, v) => console.log(v)}
+      />
+    </div>)
   }
 
   render() {
@@ -136,6 +169,7 @@ class SamplerComponent extends Component {
             sampler.play()
           }}
         />
+        {this.renderSliders()}
         <SamplePreview sample={recordedSample} />
       </div>) : null}
     </Rack>)

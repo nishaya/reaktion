@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
+import { sliderStyle } from 'components/common/styles'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -78,6 +79,7 @@ export default class Limit extends Component<any, Props, State> {
         <h2>{icon('limit')}limit</h2>
         top
         <Slider
+          sliderStyle={sliderStyle}
           max={127}
           min={bottom}
           value={top}
@@ -86,6 +88,7 @@ export default class Limit extends Component<any, Props, State> {
         />
         bottom
         <Slider
+          sliderStyle={sliderStyle}
           max={top}
           min={0}
           value={bottom}

@@ -19,7 +19,7 @@ const Box = styled.div`
 
   .control {
     display: block;
-    height: 300px;
+    height: 200px;
   }
 `
 

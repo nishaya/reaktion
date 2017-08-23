@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { RaisedButton, Slider } from 'material-ui'
 import type { Steps } from 'types/step'
+import { sliderStyle } from 'components/common/styles'
 import StepsEditor from './steps_editor'
 import StepsPreview from './steps_preview'
 import Box from './box'
@@ -73,6 +74,7 @@ export default class StepsGenerator extends Component<any, Props, State> {
         <h2>{icon('generator')}step gen</h2>
         length: {length}
         <Slider
+          sliderStyle={sliderStyle}
           max={16}
           min={1}
           value={length}

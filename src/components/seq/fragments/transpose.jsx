@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
+import { sliderStyle } from 'components/common/styles'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { initSteps } from './steps_generator'
@@ -79,6 +80,7 @@ export default class Transpose extends Component<any, Props, State> {
         <div>
           octave
           <Slider
+            sliderStyle={sliderStyle}
             max={4}
             min={-4}
             value={octave}
@@ -89,6 +91,7 @@ export default class Transpose extends Component<any, Props, State> {
         <div>
           notes
           <Slider
+            sliderStyle={sliderStyle}
             max={12}
             min={-12}
             value={notes}
