@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import SeqContainer from 'components/seq/container'
@@ -12,7 +13,15 @@ type Props = {
 }
 
 export class IndexComponent extends Component {
+  static childContextTypes = {
+    samples: PropTypes.shape,
+  }
+
   props: Props
+
+  getChildContext() {
+    return { samples: this.props.samples }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.samples !== nextProps.samples) {
