@@ -2,11 +2,15 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import type { SynthParams, SynthType, DrumsMap, DrumType, DrumPreset } from 'types/synth'
+import type { SynthParams, SynthType, DrumType, DrumPreset } from 'types/synth'
+import type { Sample } from 'types/sampler'
 import { DropDownMenu, MenuItem } from 'material-ui'
 import SampleSelect from './sample_select'
 
-type State = SynthParams & { drums: DrumsMap } & { sampleList: { [string]: string } }
+type State = SynthParams & {
+  sampleList: { [string]: string },
+  drumList: { [DrumType]: string },
+}
 
 type Props = {
   synthType: SynthType,
@@ -25,26 +29,10 @@ export default class SynthControl extends Component {
   state: State = {
     waveform: 'sine',
     sampleList: {},
-    drums: {
-      kick: {
-        type: 'synth',
-      },
-      chh: {
-        type: 'synth',
-      },
-      ohh: {
-        type: 'synth',
-      },
-      snare: {
-        type: 'synth',
-      },
-      cymbal: {
-        type: 'synth',
-      },
-    },
+    drumList: {},
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps: Props, nextContext) {
     if (nextContext.samples !== this.context.samples) {
       console.log('CONTEXT UPDATED', nextContext.samples)
       this.updateSampleList(nextContext.samples)
@@ -63,9 +51,9 @@ export default class SynthControl extends Component {
     this.props.onControlChanged(controlParams)
   }
 
-  updateSampleList(samples) {
-    const sampleList = Object.values(samples).reduce((prev, s) => (
-      { ...prev, [s.id]: s.name }
+  updateSampleList(samples: { [string]: Sample }) {
+    const sampleList = Object.keys(samples).reduce((prev, id) => (
+      { ...prev, [id]: samples[id].name }
     ), {})
 
     this.setState({ sampleList })
@@ -89,16 +77,19 @@ export default class SynthControl extends Component {
   }
 
   renderDrumsControl() {
-    const { sampleList } = this.state
+    const { sampleList, drumList } = this.state
+    console.log(drumList)
     return (<div>
       <h3>drums control</h3>
       snare: <SampleSelect
+        value={drumList.snare}
         sampleList={sampleList}
         onChange={(sampleId) => {
           this.selectDrumSample('snare', sampleId)
         }}
       /><br />
       cymbal: <SampleSelect
+        value={drumList.cymbal}
         sampleList={sampleList}
         onChange={(sampleId) => {
           this.selectDrumSample('cymbal', sampleId)
@@ -109,7 +100,9 @@ export default class SynthControl extends Component {
 
   selectDrumSample(type: DrumType, sampleId: string) {
     const sample = this.context.samples[sampleId]
-    console.log('sample selected', sample)
+    const { drumList } = this.state
+    this.setState({ drumList: { ...drumList, [type]: sampleId } })
+    console.log('sample selected', sampleId, sample)
     this.props.setDrum(
       type,
       {

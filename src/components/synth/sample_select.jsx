@@ -8,16 +8,24 @@ type Props = {
   onChange: (key: string) => void,
 }
 
+type State = {
+  selected: ?string,
+}
+
 export default class SampleSelect extends Component {
   static defaultProps = {
     onChange: (key: string) => console.log('sample selected', key),
   }
   props: Props
+  state: State = { selected: null }
 
   render() {
     const { sampleList } = this.props
+    const { selected } = this.state
     return (<DropDownMenu
-      onChange={(ev, key, value) => {
+      value={selected}
+      onChange={(ev, key, value: string) => {
+        this.setState({ selected: value })
         this.props.onChange(value)
       }}
     >

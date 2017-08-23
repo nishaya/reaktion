@@ -27,6 +27,6 @@ export type DrumType = 'kick' | 'snare' | 'ohh' | 'chh' | 'cymbal'
 export type DrumPresetType = 'sample' | 'synth'
 export type DrumPreset = {
   type: DrumPresetType,
-  sample: ?Sample,
+  sample: Sample,
 }
 export type DrumsMap = { [DrumType]: DrumPreset }
