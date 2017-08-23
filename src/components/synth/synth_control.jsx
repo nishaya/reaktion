@@ -48,10 +48,12 @@ export default class SynthControl extends Component {
   }
 
   componentWillMount() {
-    const { synthPreset } = this.state
-    console.log('CONTEXT INIT', this.context)
     this.updateSampleList(this.context.samples)
-    this.props.onPresetChanged(synthPreset)
+    const { synthPreset } = this.state
+    const { synthType } = this.props
+    if (synthType === 'synth') {
+      this.props.onPresetChanged(synthPreset)
+    }
   }
 
   changeSynthPreset(synthPreset: SynthPreset) {

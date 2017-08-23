@@ -31,6 +31,7 @@ type State = {
 const sampleFiles = [
   'snare',
   'cymbal',
+  'str',
 ]
 
 class SamplerComponent extends Component {
