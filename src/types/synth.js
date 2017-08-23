@@ -14,6 +14,7 @@ export type PlaybackOptions = {
   offset?: number,
   when?: number,
   loop?: boolean,
+  playbackRate?: number,
 }
 
 export type SynthType = 'synth' | 'drums'
@@ -23,14 +24,12 @@ export type SynthParams = {
   waveform: Waveform,
 }
 
-export type SYNTH_PRESET_TYPE_OSC = 'osc'
-export type SYNTH_PRESET_TYPE_SAMPLE = 'sample'
 export type OscSynthPreset = {
-  type: SYNTH_PRESET_TYPE_OSC,
+  type: string,
   waveform: Waveform,
 }
 export type SampleSynthPreset = {
-  type: SYNTH_PRESET_TYPE_SAMPLE,
+  type: string,
   sample: Sample,
 }
 export type SynthPreset = OscSynthPreset | SampleSynthPreset

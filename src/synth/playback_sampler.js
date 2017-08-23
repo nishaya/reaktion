@@ -9,6 +9,7 @@ const defaultOptions: PlaybackOptions = {
   when: 0,
   loop: true,
   offset: 0,
+  playBackRate: 1.0,
 }
 
 export default class PlaybackSampler {
@@ -20,7 +21,7 @@ export default class PlaybackSampler {
 
   play(options: PlaybackOptions = {}) {
     console.log('PlaybackSampler.play', this.sample)
-    const { when, duration, loop, offset } = {
+    const { when, duration, loop, offset, playbackRate } = {
       ...defaultOptions,
       ...{ offset: this.sample.start || 0 },
       ...options,
@@ -34,6 +35,7 @@ export default class PlaybackSampler {
     const startTime = ctx.currentTime + when
     source.buffer = this.sample.buffer
     source.loop = loop
+    source.playbackRate.value = playbackRate
     source.loopStart = loopStart
     source.loopEnd = loopEnd
     source.connect(ctx.destination)

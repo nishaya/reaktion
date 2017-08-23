@@ -149,10 +149,10 @@ export default class Synth {
   playSample(tone: Tone) {
     const { note, offset } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
-    const frequency = 440 * (2 ** ((note - 69) / 12))
-    console.log(`Sample.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
+    const playbackRate = (2 ** ((note - 69) / 12))
+    console.log(`Sample.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, rate: ${playbackRate}`)
     // const volume = velocity / 127 * 0.7
     const sampler = new PlaybackSampler(this.sampleSynthPreset.sample)
-    sampler.play({ when: offset })
+    sampler.play({ when: offset, playbackRate })
   }
 }
