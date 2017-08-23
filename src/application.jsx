@@ -5,7 +5,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import RedBox from 'redbox-react'
 import { buildStore } from 'utils/build_store'
-import IndexComponent from 'components/index'
+import IndexContainer from 'components/index'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -19,7 +19,7 @@ try {
     (<Provider store={store}>
       <MuiThemeProvider>
         <div>
-          <IndexComponent />
+          <IndexContainer />
         </div>
       </MuiThemeProvider>
     </Provider>),
