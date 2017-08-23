@@ -61,7 +61,7 @@ class SamplerComponent extends Component {
         end: (i + 1) * 0.2,
       })
     }
-    sampleFiles.forEach(file => this.loadSampleFile(`/samples/${file}`))
+    sampleFiles.forEach(file => this.loadSampleFile(`./samples/${file}`))
   }
 
   componentWillReceiveProps(nextProps: Props) {
