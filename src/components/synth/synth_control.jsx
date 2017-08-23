@@ -23,6 +23,8 @@ type Props = {
   setDrum: (type: DrumType, preset: DrumPreset) => any,
 }
 
+const preloadDrums: Array<DrumType> = ['snare', 'cymbal']
+
 export default class SynthControl extends Component {
   static contextTypes = {
     samples: PropTypes.shape(),
@@ -61,6 +63,14 @@ export default class SynthControl extends Component {
       { ...prev, [id]: samples[id].name }
     ), {})
 
+    const { drumList } = this.state
+    preloadDrums.forEach((type) => {
+      const id = `sample_${type}`
+      if (!drumList[type] && sampleList[id]) {
+        this.selectDrumSample(type, id, samples)
+      }
+    })
+
     this.setState({ sampleList })
   }
 
@@ -87,14 +97,14 @@ export default class SynthControl extends Component {
     return (<div>
       <h3>drums control</h3>
       snare: <SampleSelect
-        value={drumList.snare}
+        selected={drumList.snare}
         sampleList={sampleList}
         onChange={(sampleId) => {
           this.selectDrumSample('snare', sampleId, this.context.samples)
         }}
       /><br />
       cymbal: <SampleSelect
-        value={drumList.cymbal}
+        selected={drumList.cymbal}
         sampleList={sampleList}
         onChange={(sampleId) => {
           this.selectDrumSample('cymbal', sampleId, this.context.samples)
