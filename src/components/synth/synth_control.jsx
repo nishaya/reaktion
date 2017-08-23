@@ -38,12 +38,15 @@ export default class SynthControl extends Component {
     },
   }
 
-  componentWillReceiveProps(nextProps, nextState, nextContext) {
-    console.log('nextContext', nextContext)
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextContext.samples !== this.context.samples) {
+      console.log('CONTEXT UPDATED', nextContext.samples)
+    }
   }
 
   componentWillMount() {
     const { waveform } = this.state
+    console.log('CONTEXT INIT', this.context)
     this.props.onControlChanged({ waveform })
   }
 
