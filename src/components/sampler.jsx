@@ -74,7 +74,7 @@ class SamplerComponent extends Component {
     if (sample) {
       console.log('playback', sample)
       const sampler = new PlaybackSampler(sample)
-      sampler.play()
+      sampler.play({ duration: 3.0 })
     }
   }
 
@@ -119,7 +119,9 @@ class SamplerComponent extends Component {
         min={0}
         step={0.005}
         value={loopStart}
-        onChange={(e, v) => console.log(v)}
+        onChange={(e, v) => {
+          this.setTrim(v > loopEnd ? loopEnd : v, loopEnd)
+        }}
       />
       <Slider
         sliderStyle={sliderStyle}
@@ -127,9 +129,18 @@ class SamplerComponent extends Component {
         min={0}
         step={0.005}
         value={loopEnd}
-        onChange={(e, v) => console.log(v)}
+        onChange={(e, v) => {
+          this.setTrim(loopStart, v < loopStart ? loopStart : v)
+        }}
       />
     </div>)
+  }
+
+  setTrim(loopStart: number, loopEnd: number) {
+    const { recordedSample } = this.state
+    const newSample = { ...recordedSample, start: loopStart, end: loopEnd }
+    console.log('setTrim', loopStart, loopEnd)
+    this.setState({ loopStart, loopEnd, recordedSample: newSample })
   }
 
   render() {

@@ -6,8 +6,9 @@ import type { Sample } from 'types/sampler'
 const ctx: AudioContext = new window.AudioContext()
 
 const defaultOptions: PlaybackOptions = {
+  when: 0,
+  loop: true,
   offset: 0,
-  loop: false,
 }
 
 export default class PlaybackSampler {
@@ -19,23 +20,23 @@ export default class PlaybackSampler {
 
   play(options: PlaybackOptions = {}) {
     console.log('PlaybackSampler.play', this.sample)
-    const { offset, loop, duration } = {
-      ...{ duration: this.sample.buffer.duration },
+    const { when, duration, loop, offset } = {
       ...defaultOptions,
+      ...{ offset: this.sample.start || 0 },
       ...options,
     }
     const { start, end } = this.sample
     const loopStart = start || 0
     const loopEnd = end || this.sample.buffer.duration
-    console.log(`start: ${loopStart}, end: ${loopEnd}`)
+    const playDuration = duration || end - start
+    console.log(`start: ${loopStart}, end: ${loopEnd}`, loop, offset, playDuration)
     const source = ctx.createBufferSource()
-    const startTime = ctx.currentTime + offset
+    const startTime = ctx.currentTime + when
     source.buffer = this.sample.buffer
     source.loop = loop
     source.loopStart = loopStart
     source.loopEnd = loopEnd
     source.connect(ctx.destination)
-    source.start(startTime)
-    source.stop(startTime + duration)
+    source.start(startTime, offset, playDuration)
   }
 }
