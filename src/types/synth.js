@@ -13,3 +13,9 @@ export type PlaybackOptions = {
   when?: number,
   loop?: boolean,
 }
+
+export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle'
+
+export type SynthParams = {
+  waveform: Waveform,
+}
