@@ -24,7 +24,7 @@ type SynthType = 'synth' | 'drums'
 
 export default class Synth {
   waveform: Waveform = 'square'
-  kickWaveform: string = 'sine'
+  kickWaveform: Waveform = 'sine'
   type: SynthType
   noise: AudioBuffer
   play: (tone: Tone) => void
@@ -34,7 +34,7 @@ export default class Synth {
     console.log('init Synth', type)
     this.type = type
     if (type === 'synth') {
-      this.play = this.playOsc
+      this.play = this.playSynth
     } else if (type === 'drums') {
       this.noise = generateWhiteNoise(ctx)
       this.play = this.playDrums
@@ -107,7 +107,7 @@ export default class Synth {
     }
   }
 
-  playOsc(tone: Tone) {
+  playSynth(tone: Tone) {
     const { note, offset, duration } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const frequency = 440 * (2 ** ((note - 69) / 12))
