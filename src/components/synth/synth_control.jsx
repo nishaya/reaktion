@@ -56,6 +56,7 @@ export default class SynthControl extends Component {
         <MenuItem key="w1" value="square" primaryText="Square" />
         <MenuItem key="w2" value="sawtooth" primaryText="Sawtooth" />
         <MenuItem key="w3" value="sine" primaryText="Sine" />
+        <MenuItem key="w4" value="triangle" primaryText="Triangle" />
       </DropDownMenu>
     </div>)
   }
