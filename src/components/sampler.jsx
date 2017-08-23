@@ -28,6 +28,11 @@ type State = {
   loopEnd: number,
 }
 
+const sampleFiles = [
+  'snare.webm',
+  'cymbal.webm',
+]
+
 class SamplerComponent extends Component {
   recorder: Recorder
 
@@ -56,6 +61,7 @@ class SamplerComponent extends Component {
         end: (i + 1) * 0.2,
       })
     }
+    sampleFiles.forEach(file => this.loadSampleFile(`/samples/${file}`))
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -69,6 +75,24 @@ class SamplerComponent extends Component {
   }
 
   props: Props
+
+  loadSampleFile(fileUrl: string) {
+    const request = new Request(fileUrl)
+    fetch(request).then((res) => {
+      res.arrayBuffer().then((arrayBuffer) => {
+        ctx.decodeAudioData(arrayBuffer).then((decodedBuffer) => {
+          console.log('decoded', decodedBuffer)
+          this.props.storeSample({
+            id: `sample_${fileUrl}`,
+            name: fileUrl,
+            buffer: decodedBuffer,
+            start: 0,
+            end: decodedBuffer.duration,
+          })
+        })
+      })
+    })
+  }
 
   playback(sampleId: string) {
     const { samples } = this.props

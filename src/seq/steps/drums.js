@@ -3,6 +3,7 @@
 import type { Steps, Step } from 'types/step'
 
 const kick: Step = { position: 0, note: 0, velocity: 100 }
+const cymbal: Step = { position: 0, note: 1, velocity: 100 }
 const chh: Step = { position: 0, note: 6, velocity: 100 }
 const snare: Step = { position: 0, note: 2, velocity: 100 }
 
@@ -10,6 +11,7 @@ export const basicBeats: Steps = {
   length: 16,
   list: [
     { ...kick, position: 0 },
+    { ...cymbal, position: 0 },
     { ...chh, position: 2 },
     { ...kick, position: 4 },
     { ...snare, position: 4 },

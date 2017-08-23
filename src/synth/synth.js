@@ -53,7 +53,7 @@ export default class Synth {
   }
 
   playDrums(tone: Tone) {
-    const { note, offset } = { ...defaultTone, ...tone }
+    const { note, offset, velocity } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const part = note % 12
     if (part === 0) { // kick
@@ -62,9 +62,10 @@ export default class Synth {
       const osc = ctx.createOscillator()
       const duration = 0.18
       const gain = ctx.createGain()
+      const volume = velocity / 127 * 0.8
 
-      gain.gain.setValueAtTime(1, startTime)
-      gain.gain.setValueAtTime(1, startTime + (duration * 0.7))
+      gain.gain.setValueAtTime(volume, startTime)
+      gain.gain.setValueAtTime(volume, startTime + (duration * 0.7))
       gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
       osc.type = this.kickWaveform
       osc.frequency.setValueAtTime(330, startTime)
@@ -83,13 +84,20 @@ export default class Synth {
 
       source.buffer = this.noise
       source.loop = true
-      gain.gain.setValueAtTime(1, startTime)
-      gain.gain.setValueAtTime(1, startTime + duration)
+      const volume = velocity / 127 * 0.8
+      gain.gain.setValueAtTime(volume, startTime)
+      gain.gain.setValueAtTime(volume, startTime + duration)
       gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration + release)
       source.connect(gain)
       gain.connect(ctx.destination)
       source.start(startTime)
       source.stop(startTime + duration + release)
+    } else if (part === 1) { // cymbal
+      const preset = this.drumsMap.cymbal
+      if (preset && preset.type === 'sample') {
+        const sampler = new PlaybackSampler(preset.sample)
+        sampler.play({ when: offset })
+      }
     } else if (part === 2) { // snare
       const preset = this.drumsMap.snare
       if (preset && preset.type === 'sample') {
