@@ -52,6 +52,8 @@ class SamplerComponent extends Component {
         id: `sample_${i}`,
         name: `noise #${i}`,
         buffer: generateWhiteNoise(ctx),
+        start: 0,
+        end: (i + 1) * 0.2,
       })
     }
   }
