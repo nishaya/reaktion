@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import type { SynthParams, SynthType, DrumType, DrumPreset } from 'types/synth'
+import type { SynthParams, SynthType, DrumType, DrumPreset, SynthPreset } from 'types/synth'
 import type { Sample } from 'types/sampler'
-import { DropDownMenu, MenuItem } from 'material-ui'
+import { DropDownMenu, MenuItem, Paper } from 'material-ui'
 import SampleSelect from './sample_select'
 
 type Samples = { [string]: Sample }
@@ -12,14 +12,15 @@ type Context = {
   samples: Samples,
 }
 
-type State = SynthParams & {
+type State = {
   sampleList: { [string]: string },
   drumList: { [DrumType]: string },
+  synthPreset: SynthPreset,
 }
 
 type Props = {
   synthType: SynthType,
-  onControlChanged: (synthParams: SynthParams) => any,
+  onPresetChanged: (synthPreset: SynthPreset) => any,
   setDrum: (type: DrumType, preset: DrumPreset) => any,
 }
 
@@ -34,9 +35,9 @@ export default class SynthControl extends Component {
   }
   props: Props
   state: State = {
-    waveform: 'sine',
     sampleList: {},
     drumList: {},
+    synthPreset: { type: 'osc', waveform: 'square' },
   }
 
   componentWillReceiveProps(nextProps: Props, nextContext: ?Context) {
@@ -47,15 +48,15 @@ export default class SynthControl extends Component {
   }
 
   componentWillMount() {
-    const { waveform } = this.state
+    const { synthPreset } = this.state
     console.log('CONTEXT INIT', this.context)
     this.updateSampleList(this.context.samples)
-    this.props.onControlChanged({ waveform })
+    this.props.onPresetChanged(synthPreset)
   }
 
-  changeControlParams(controlParams: SynthParams) {
-    this.setState(controlParams)
-    this.props.onControlChanged(controlParams)
+  changeSynthPreset(synthPreset: SynthPreset) {
+    this.setState({ synthPreset })
+    this.props.onPresetChanged(synthPreset)
   }
 
   updateSampleList(samples: Samples) {
@@ -74,13 +75,14 @@ export default class SynthControl extends Component {
     this.setState({ sampleList })
   }
 
-  renderSynthControl(params: SynthParams) {
-    const { waveform } = params
+  renderSynthControl(synthPreset: SynthPreset) {
+    const { waveform } = synthPreset
     return (<div>
+      <h4>synth control</h4>
       Waveform: <DropDownMenu
         value={waveform}
         onChange={(ev, key, value) => {
-          this.changeControlParams({ ...params, waveform: value })
+          this.changeSynthPreset({ ...synthPreset, waveform: value })
         }}
       >
         <MenuItem key="w1" value="square" primaryText="Square" />
@@ -95,7 +97,7 @@ export default class SynthControl extends Component {
     const { sampleList, drumList } = this.state
     console.log(drumList)
     return (<div>
-      <h3>drums control</h3>
+      <h4>drums control</h4>
       snare: <SampleSelect
         selected={drumList.snare}
         sampleList={sampleList}
@@ -128,13 +130,11 @@ export default class SynthControl extends Component {
   }
 
   render() {
-    const { waveform } = this.state
+    const { synthPreset } = this.state
     const { synthType } = this.props
-    const params = { waveform }
-    return (<div>
-      <div>simple synth control ({synthType})</div>
+    return (<Paper style={{ padding: 8 }}>
       {synthType === 'drums' ? this.renderDrumsControl()
-        : this.renderSynthControl(params)}
-    </div>)
+        : this.renderSynthControl(synthPreset)}
+    </Paper>)
   }
 }

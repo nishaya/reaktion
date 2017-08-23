@@ -7,6 +7,7 @@ import type {
   DrumsMap,
   DrumType,
   DrumPreset,
+  SynthPreset,
 } from 'types/synth'
 import PlaybackSampler from './playback_sampler'
 import { generateWhiteNoise } from './gen/noise'
@@ -29,6 +30,7 @@ export default class Synth {
   noise: AudioBuffer
   play: (tone: Tone) => void
   drumsMap: DrumsMap = {}
+  synthPreset: SynthPreset = { type: 'osc', waveform: 'square' }
 
   constructor(type: SynthType = 'synth') {
     console.log('init Synth', type)
@@ -50,6 +52,14 @@ export default class Synth {
   setDrum(type: DrumType, preset: DrumPreset) {
     console.log('Synth.setDrum', type, preset)
     this.drumsMap[type] = preset
+  }
+
+  setSynth(preset: SynthPreset) {
+    console.log('Synth.setSynth', preset)
+    this.synthPreset = preset
+    if (preset.type === 'osc') {
+      this.waveform = preset.waveform
+    }
   }
 
   playDrums(tone: Tone) {
@@ -108,16 +118,18 @@ export default class Synth {
   }
 
   playSynth(tone: Tone) {
-    const { note, offset, duration } = { ...defaultTone, ...tone }
+    const { note, offset, duration, velocity } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const frequency = 440 * (2 ** ((note - 69) / 12))
     console.log(`Synth.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
 
+    const volume = velocity / 127 * 0.7
+
     gain.gain.setValueAtTime(0.01, startTime)
-    gain.gain.exponentialRampToValueAtTime(1, startTime + 0.01)
-    gain.gain.setValueAtTime(1, startTime + (duration * 0.7))
+    gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.01)
+    gain.gain.setValueAtTime(volume, startTime + (duration * 0.7))
     gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
     osc.type = this.waveform
     osc.frequency.value = frequency

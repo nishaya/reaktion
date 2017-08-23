@@ -23,6 +23,13 @@ export type SynthParams = {
   waveform: Waveform,
 }
 
+export type SynthPresetType = 'osc' | 'sample'
+export type OscSynthPreset = {
+  type: SynthPresetType,
+  waveform: Waveform,
+}
+export type SynthPreset = OscSynthPreset
+
 export type DrumType = 'kick' | 'snare' | 'ohh' | 'chh' | 'cymbal'
 export type DrumPresetType = 'sample' | 'synth'
 export type DrumPreset = {

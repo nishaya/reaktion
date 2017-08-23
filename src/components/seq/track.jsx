@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Rack from 'components/common/rack'
 import type { Steps } from 'types/step'
-import type { SynthParams, SynthType } from 'types/synth'
+import type { SynthPreset, SynthType } from 'types/synth'
 import Synth from 'synth/synth'
 import SynthControl from 'components/synth/synth_control'
 import { basicBeats } from 'seq/steps/drums'
@@ -51,9 +51,9 @@ export default class Track extends Component<any, any, Props> {
     this.setState({ synthType })
   }
 
-  onControlChanged(synthParams: SynthParams) {
-    console.log('track.onControlChanged', synthParams)
-    this.synth.setParams(synthParams)
+  onPresetChanged(synthPreset: SynthPreset) {
+    console.log('track.onPresetChanged', synthPreset)
+    this.synth.setSynth(synthPreset)
   }
 
   synth: Synth
@@ -71,7 +71,7 @@ export default class Track extends Component<any, any, Props> {
       />
       <SynthControl
         synthType={synthType}
-        onControlChanged={(synthParams: SynthParams) => this.onControlChanged(synthParams)}
+        onPresetChanged={(synthPreset: SynthPreset) => this.onPresetChanged(synthPreset)}
         setDrum={(type, preset) => this.synth.setDrum(type, preset)}
       />
     </Rack>)
