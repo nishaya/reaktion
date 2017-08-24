@@ -24,7 +24,7 @@ type State = {
 export default class Stairs extends Component<any, Props, State> {
   static defaultProps = {
     perNote: true,
-    notes: 5,
+    notes: 0,
     steps: initSteps(0),
   }
 

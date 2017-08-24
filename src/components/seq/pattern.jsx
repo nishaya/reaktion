@@ -12,6 +12,10 @@ import { icon } from './fragments/icon'
 const Button = RaisedButton
 
 type PatternType = 'synth' | 'drums'
+type FragmentSetting = {
+  class: Function,
+  props: { [string]: any },
+}
 
 type Props = {
   onPatternChanged: (steps: Steps) => void,
@@ -23,9 +27,28 @@ type State = {
   numFragments: number,
   initialSteps: Steps,
   stepsList: Array<Steps>,
-  fragments: Array<Component>,
+  fragments: Array<FragmentSetting>,
   finishedSteps: Steps,
 }
+
+const defaultFragments: Array<FragmentSetting> = [
+  {
+    class: Stairs,
+    props: { notes: 5 },
+  },
+  {
+    class: Transpose,
+    props: {},
+  },
+  {
+    class: Repeat,
+    props: {},
+  },
+  {
+    class: Limit,
+    props: {},
+  },
+]
 
 export default class Pattern extends Component<any, State, Props> {
   static defaultProps = {
@@ -45,7 +68,7 @@ export default class Pattern extends Component<any, State, Props> {
   componentDidMount() {
     const { patternType } = this.props
     if (patternType === 'synth') {
-      this.addFragment([Stairs, Transpose, Repeat, Limit], this.updateSteps)
+      this.addFragment(defaultFragments, this.updateSteps)
     } else {
       this.updateSteps()
     }
@@ -53,13 +76,12 @@ export default class Pattern extends Component<any, State, Props> {
 
   props: Props
 
-  addFragment(klass, callback = () => {}) {
-    const klasses = Array.isArray(klass) ? klass : [klass]
+  addFragment(fragmentSettings: Array<FragmentSetting>, callback = () => {}) {
     const stepsList = this.state.stepsList.slice(0)
     const fragments = this.state.fragments.slice(0)
-    klasses.forEach((k) => {
+    fragmentSettings.forEach((fs) => {
       stepsList.push(initSteps(0))
-      fragments.push(k)
+      fragments.push(fs)
     })
     this.setState({ stepsList, fragments }, callback)
   }
@@ -77,18 +99,19 @@ export default class Pattern extends Component<any, State, Props> {
 
   renderFragments() {
     const { stepsList, fragments } = this.state
-    return fragments.map((klass, index) => {
+    return fragments.map((fragment, index) => {
       const props = {
         key: `f_${index}`,
         onChange: (steps: Steps) => {
           this.modifySteps(index, steps)
         },
+        ...fragment.props,
       }
       if (index === 0) {
         return null
       }
       props.steps = stepsList[index - 1]
-      return React.createElement(klass, props)
+      return React.createElement(fragment.class, props)
     })
   }
 
