@@ -100,7 +100,7 @@ export default class SamplePreview extends Component {
     return (<PreviewBox theme={{ bgColor: '#fafafa' }}>
       {sample ? (<div>
         length: {sample.buffer.length}, duration: {sample.buffer.duration}<br />
-        offset: {sample.offset}, start: {sample.loopStart}, end: {sample.loopEnd}<br />
+        loop: {sample.loop ? 'on' : 'off'}, offset: {sample.offset}, start: {sample.loopStart}, end: {sample.loopEnd}<br />
         <canvas
           ref={(canvas) => { this.canvas = canvas }}
           width={WIDTH}
