@@ -24,4 +24,16 @@ export const seqFragments: Array<FragmentSetting> = [
   },
 ]
 
+export const padFragments: Array<FragmentSetting> = [
+  {
+    class: Repeat,
+    props: { count: 8 },
+  },
+  {
+    class: Stairs,
+    props: { notes: 5 },
+  },
+]
+
+
 export default {}

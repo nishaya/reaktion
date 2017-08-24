@@ -66,7 +66,7 @@ export default class Stairs extends Component<any, Props, State> {
       <div className="control">
         <h2>{icon('repeat')}repeat</h2>
         <Slider
-          max={4}
+          max={8}
           min={1}
           value={count}
           step={1.0}

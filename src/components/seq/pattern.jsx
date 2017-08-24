@@ -94,22 +94,22 @@ export default class Pattern extends Component<any, State, Props> {
     return (<div>
       <div>
         <Button
-          onClick={() => this.addFragment(Transpose)}
+          onClick={() => this.addFragment([{ class: Transpose }])}
           label="Add Transpose"
           icon={icon('transpose')}
         />
         <Button
-          onClick={() => this.addFragment(Repeat)}
+          onClick={() => this.addFragment([{ class: Repeat }])}
           label="Add Repeat"
           icon={icon('repeat')}
         />
         <Button
-          onClick={() => this.addFragment(Stairs)}
+          onClick={() => this.addFragment([{ class: Stairs }])}
           label="Add Stairs"
           icon={icon('stairs')}
         />
         <Button
-          onClick={() => this.addFragment(Limit)}
+          onClick={() => this.addFragment([{ class: Limit }])}
           label="Add Limit"
           icon={icon('limit')}
         />
@@ -124,6 +124,7 @@ export default class Pattern extends Component<any, State, Props> {
           />
           {this.renderFragments()}
           <Finishing
+            patternLength={64}
             steps={stepsList[stepsList.length - 1]}
             onChange={(steps: Steps) => {
               this.props.onPatternChanged(steps)
