@@ -7,7 +7,6 @@ const ctx: AudioContext = new window.AudioContext()
 
 const defaultOptions: PlaybackOptions = {
   when: 0,
-  loop: true,
   playbackRate: 1.0,
 }
 
@@ -20,11 +19,11 @@ export default class PlaybackSampler {
 
   play(options: PlaybackOptions = {}) {
     console.log('PlaybackSampler.play', this.sample)
-    const { when, duration, loop, playbackRate } = {
+    const { when, duration, playbackRate } = {
       ...defaultOptions,
       ...options,
     }
-    const { loopStart, loopEnd, offset } = this.sample
+    const { loopStart, loopEnd, offset, loop } = this.sample
     const playDuration = duration || loopEnd - offset
     console.log(`start: ${loopStart}, end: ${loopEnd}`, loop, offset, playDuration, playbackRate)
     const source = ctx.createBufferSource()

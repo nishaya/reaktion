@@ -12,7 +12,6 @@ export type Tone = {
 
 export type PlaybackOptions = {
   when?: number,
-  loop?: boolean,
   playbackRate?: number,
 }
 
