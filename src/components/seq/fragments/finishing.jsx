@@ -83,7 +83,7 @@ export default class Finishing extends Component<any, Props, State> {
     const { steps, mute } = this.state
     return (<Box theme={{ bgColor: '#FFAB91' }}>
       <div className="control">
-        <h2>{icon('repeat')}finishing</h2>
+        <h2>{icon('finishing')}finishing</h2>
         <Toggle
           toggled={mute}
           label="Mute"

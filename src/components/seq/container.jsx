@@ -98,17 +98,21 @@ export default class SeqContainer extends Component {
   render() {
     const { tracks, steps, playing } = this.state
     const playButton = (<Button
+      icon={<FontIcon className="material-icons">play_arrow</FontIcon>}
       onClick={() => {
         this.scheduler.start()
         this.setState({ playing: true })
       }}
-    >Play</Button>)
+      label="Play"
+    />)
     const stopButton = (<Button
+      icon={<FontIcon className="material-icons">pause</FontIcon>}
       onClick={() => {
         this.scheduler.stop()
         this.setState({ playing: false })
       }}
-    >Stop</Button>)
+      label="Stop"
+    />)
     return (<Rack>
       <h2>seq</h2>
       <div>
