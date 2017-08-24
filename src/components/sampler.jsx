@@ -221,9 +221,9 @@ class SamplerComponent extends Component {
         }}
       >
         {sampleList}
-      </SelectField>
-      {recordButton}
-      {recordedSample ? (<div style={{ width: 600 }}>
+      </SelectField><br />
+      {recordButton}<br />
+      {recordedSample ? (<div style={{ width: 600, marginTop: 30 }}>
         <RaisedButton
           label="Play"
           onClick={() => {
