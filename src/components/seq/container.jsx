@@ -9,9 +9,10 @@ import type { Tone } from 'types/synth'
 import Synth from 'synth/synth'
 import Track from './track'
 import { initSteps } from './fragments/steps_generator'
-import StepsPreview from './fragments/steps_preview'
+
 
 const Button = RaisedButton
+const buttonStyle = { margin: 8, width: 200 }
 
 const MAX_TRACKS = 4
 
@@ -95,8 +96,10 @@ export default class SeqContainer extends Component {
   }
 
   render() {
-    const { tracks, steps, playing } = this.state
+    const { tracks, playing } = this.state
     const playButton = (<Button
+      primary
+      style={buttonStyle}
       icon={<FontIcon className="material-icons">play_arrow</FontIcon>}
       onClick={() => {
         this.scheduler.start()
@@ -105,6 +108,7 @@ export default class SeqContainer extends Component {
       label="Play"
     />)
     const stopButton = (<Button
+      style={buttonStyle}
       icon={<FontIcon className="material-icons">pause</FontIcon>}
       onClick={() => {
         this.scheduler.stop()
@@ -115,17 +119,15 @@ export default class SeqContainer extends Component {
     return (<Rack>
       <div>
         {playing ? stopButton : playButton}
-      </div>
-      {tracks}
-      <div>
         <Button
+          style={buttonStyle}
           icon={<FontIcon className="material-icons">add</FontIcon>}
           disabled={tracks.length >= MAX_TRACKS}
           onClick={() => this.addTrack()}
           label="Add Track"
         />
-        <StepsPreview steps={steps} />
       </div>
+      {tracks}
     </Rack>)
   }
 }
