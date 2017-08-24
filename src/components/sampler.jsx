@@ -54,6 +54,7 @@ class SamplerComponent extends Component {
   }
 
   componentDidMount() {
+    /*
     for (let i = 0; i < 3; i += 1) {
       this.props.storeSample({
         id: `sample_${i}`,
@@ -63,6 +64,7 @@ class SamplerComponent extends Component {
         end: (i + 1) * 0.2,
       })
     }
+    */
     sampleFiles.forEach(file => this.loadSampleFile(`./samples/${file}.webm`, file, file))
   }
 
@@ -96,13 +98,16 @@ class SamplerComponent extends Component {
     })
   }
 
-  playback(sampleId: string) {
+  setSampleEdit(sampleId: string) {
     const { samples } = this.props
     const sample = samples[sampleId]
     if (sample) {
-      console.log('playback', sample)
+      console.log('setSampleEdit', sample)
       const sampler = new PlaybackSampler(sample)
-      sampler.play({ duration: 3.0 })
+      sampler.play()
+      const loopStart = sample.start || 0
+      const loopEnd = sample.end || sample.buffer.duration
+      this.setState({ recordedSample: sample, loopStart, loopEnd })
     }
   }
 
@@ -197,7 +202,7 @@ class SamplerComponent extends Component {
         hintText="please select"
         onChange={(ev: any, key: number, sampleId: string) => {
           console.log('onChange', sampleId)
-          this.playback(sampleId)
+          this.setSampleEdit(sampleId)
         }}
       >
         {sampleList}
