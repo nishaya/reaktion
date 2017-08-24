@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import SampleActions from 'actions/sample'
 import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
-import { MenuItem, SelectField, RaisedButton, Slider } from 'material-ui'
+import { MenuItem, SelectField, RaisedButton, Slider, Toggle } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
 import SamplePreview from 'components/sampler/sample_preview'
@@ -134,12 +134,19 @@ class SamplerComponent extends Component {
       return null
     }
 
-    const offset = recordedSample.offset
+    const { loop, offset } = recordedSample
     const start = recordedSample.loopStart
     const end = recordedSample.loopEnd
     const step = recordedSample.buffer.duration / 1000
 
     return (<div>
+      loop:
+      <Toggle
+        toggled={loop}
+        onToggle={(event: any, v: boolean) => {
+          this.setTrim(offset, start, end, v)
+        }}
+      />
       offset:
       <Slider
         sliderStyle={sliderStyle}
@@ -149,7 +156,7 @@ class SamplerComponent extends Component {
         value={offset}
         onChange={(e, v) => {
           const newOffset = v > start ? start : v
-          this.setTrim(newOffset, start, end)
+          this.setTrim(newOffset, start, end, loop)
         }}
       />
       start:
@@ -161,7 +168,7 @@ class SamplerComponent extends Component {
         value={start}
         onChange={(e, v) => {
           const newStart = v > end ? end : v
-          this.setTrim(offset, newStart, end)
+          this.setTrim(offset, newStart, end, loop)
         }}
       />
       end:
@@ -179,10 +186,10 @@ class SamplerComponent extends Component {
     </div>)
   }
 
-  setTrim(offset: number, loopStart: number, loopEnd: number) {
+  setTrim(offset: number, loopStart: number, loopEnd: number, loop: boolean) {
     console.log(`setTrim: ${offset}, ${loopStart}, ${loopEnd}`)
     const { recordedSample } = this.state
-    const newSample = { ...recordedSample, loopStart, loopEnd, offset }
+    const newSample = { ...recordedSample, loopStart, loopEnd, offset, loop }
     this.setState({ recordedSample: newSample })
     this.props.storeSample(newSample)
   }
