@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import SampleActions from 'actions/sample'
 import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
-import { MenuItem, SelectField, RaisedButton, Slider, Toggle, FontIcon } from 'material-ui'
+import { MenuItem, SelectField, RaisedButton, Slider, Toggle, FontIcon, Paper } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
 import SamplePreview from 'components/sampler/sample_preview'
@@ -153,9 +153,9 @@ class SamplerComponent extends Component {
     const end = recordedSample.loopEnd
     const step = recordedSample.buffer.duration / 1000
 
-    return (<div>
-      loop:
+    return (<div style={{ padding: 16 }}>
       <Toggle
+        label="Loop"
         toggled={loop}
         onToggle={(event: any, v: boolean) => {
           this.setTrim(offset, start, end, v)
@@ -239,7 +239,7 @@ class SamplerComponent extends Component {
         {sampleList}
       </SelectField><br />
       {recordButton}<br />
-      {recordedSample ? (<div style={{ width: 600, marginTop: 30 }}>
+      {recordedSample ? (<Paper style={{ width: 660, marginTop: 30, padding: 20 }}>
         <RaisedButton
           icon={<FontIcon className="material-icons">hearing</FontIcon>}
           label="Preview"
@@ -250,7 +250,7 @@ class SamplerComponent extends Component {
         />
         {this.renderSliders()}
         <SamplePreview sample={recordedSample} />
-      </div>) : null}
+      </Paper>) : null}
     </Rack>)
   }
 }
