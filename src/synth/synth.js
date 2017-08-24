@@ -35,6 +35,7 @@ export default class Synth {
   drumsMap: DrumsMap = {}
   oscSynthPreset: OscSynthPreset = { type: 'osc', waveform: 'square' }
   sampleSynthPreset: SampleSynthPreset
+  sampler: PlaybackSampler
 
   constructor(type: SynthType = 'synth') {
     console.log('init Synth', type)
@@ -61,6 +62,7 @@ export default class Synth {
     } else if (preset.type === 'sample') {
       this.play = this.playSample
       this.sampleSynthPreset = preset
+      this.sampler = new PlaybackSampler(preset.sample)
     }
   }
 
@@ -147,7 +149,7 @@ export default class Synth {
     const playbackRate = (2 ** ((note - CENTER_C) / 12))
     console.log(`Sample.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, rate: ${playbackRate}`)
     // const volume = velocity / 127 * 0.7
-    const sampler = new PlaybackSampler(this.sampleSynthPreset.sample)
-    sampler.play({ when: offset, playbackRate, duration, loop: true })
+    // const sampler = new PlaybackSampler(this.sampleSynthPreset.sample)
+    this.sampler.play({ when: offset, playbackRate, duration, loop: true })
   }
 }

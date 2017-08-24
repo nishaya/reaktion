@@ -71,6 +71,7 @@ class SamplerComponent extends Component {
     if (id === 'str') {
       additionalParams = {
         loop: true,
+        offset: 0.1,
         loopStart: 0.26407,
         loopEnd: 1.37713,
         transpose: 2,
