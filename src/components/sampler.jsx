@@ -152,13 +152,15 @@ class SamplerComponent extends Component {
     const step = recordedSample.buffer.duration / 1000
 
     return (<div style={{ padding: 16 }}>
-      <Toggle
-        label="Loop"
-        toggled={loop}
-        onToggle={(event: any, v: boolean) => {
-          this.setTrim(offset, start, end, v)
-        }}
-      />
+      <div style={{ maxWidth: 200, marginBottom: 20 }}>
+        <Toggle
+          label="Loop"
+          toggled={loop}
+          onToggle={(event: any, v: boolean) => {
+            this.setTrim(offset, start, end, v)
+          }}
+        />
+      </div>
       offset:
       <Slider
         sliderStyle={sliderStyle}
@@ -226,16 +228,17 @@ class SamplerComponent extends Component {
       />
     )
     return (<Rack>
+      {recordButton}<br />
       <SelectField
-        hintText="please select"
+        value={recordedSample ? recordedSample.id : null}
+        hintText="Load sample"
         onChange={(ev: any, key: number, sampleId: string) => {
           console.log('onChange', sampleId)
           this.setSampleEdit(sampleId)
         }}
       >
         {sampleList}
-      </SelectField><br />
-      {recordButton}<br />
+      </SelectField>
       {recordedSample ? (<Paper style={{ width: 660, marginTop: 30, padding: 20 }}>
         <RaisedButton
           icon={<FontIcon className="material-icons">hearing</FontIcon>}
