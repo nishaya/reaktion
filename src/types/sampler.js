@@ -7,4 +7,5 @@ export type Sample = {
   loopStart: number,
   loopEnd: number,
   offset: number,
+  loop: boolean,
 }

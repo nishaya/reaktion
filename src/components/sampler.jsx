@@ -77,6 +77,7 @@ class SamplerComponent extends Component {
             loopStart: 0,
             loopEnd: decodedBuffer.duration,
             offset: 0,
+            loop: false,
           })
         })
       })
@@ -115,6 +116,7 @@ class SamplerComponent extends Component {
       loopStart,
       loopEnd,
       offset: 0,
+      loop: false,
     }
     this.setState({ recordedSample: sample })
     this.props.storeSample(sample)
