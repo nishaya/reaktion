@@ -5,11 +5,11 @@ import Box from 'components/seq/fragments/box'
 import type { Sample } from 'types/sampler'
 
 const PreviewBox = Box.extend`
-  width: 300px;
+  width: 600px;
   margin: 0px;
 `
 
-const WIDTH = 300
+const WIDTH = 600
 const HEIGHT = 64
 
 type Props = {
@@ -42,8 +42,8 @@ export default class SamplePreview extends Component {
     const samples = buffer.getChannelData(0)
     console.log('len', samples.length)
 
-    const start = sample.start || 0
-    const end = sample.end || sample.buffer.duration
+    const start = sample.loopStart || 0
+    const end = sample.loopEnd || sample.buffer.duration
     console.log('start/end', start, end)
 
     const ctx = this.canvas.getContext('2d')
@@ -84,15 +84,15 @@ export default class SamplePreview extends Component {
   render() {
     const { sample } = this.props
     return (<PreviewBox theme={{ bgColor: '#fafafa' }}>
-      length: {sample ? sample.buffer.length : '-'}<br />
       {sample ? (<div>
-        start: {sample.start || 0}, end: {sample.end || sample.buffer.duration}<br />
-      </div>) : null}
-      <canvas
-        ref={(canvas) => { this.canvas = canvas }}
-        width={WIDTH}
-        height={HEIGHT}
-      />
+        length: {sample.buffer.length}, duration: {sample.buffer.duration}<br />
+        offset: {sample.offset}, start: {sample.loopStart}, end: {sample.loopEnd}<br />
+        <canvas
+          ref={(canvas) => { this.canvas = canvas }}
+          width={WIDTH}
+          height={HEIGHT}
+        />
+      </div>) : 'no sample'}
     </PreviewBox>)
   }
 }

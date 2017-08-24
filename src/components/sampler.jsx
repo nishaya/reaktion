@@ -9,7 +9,6 @@ import type { Sample } from 'types/sampler'
 import { MenuItem, SelectField, RaisedButton, Slider } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
-import { generateWhiteNoise } from 'synth/gen/noise'
 import SamplePreview from 'components/sampler/sample_preview'
 import { sliderStyle } from 'components/common/styles'
 import ABU from 'audio-buffer-utils'
@@ -25,8 +24,6 @@ type State = {
   sampleList: Array<MenuItem>,
   recording: boolean,
   recordedSample: ?Sample,
-  loopStart: number,
-  loopEnd: number,
 }
 
 const sampleFiles = [
@@ -42,8 +39,6 @@ class SamplerComponent extends Component {
     sampleList: [],
     recording: false,
     recordedSample: null,
-    loopStart: 0,
-    loopEnd: 0,
   }
 
   componentWillMount() {
@@ -54,17 +49,6 @@ class SamplerComponent extends Component {
   }
 
   componentDidMount() {
-    /*
-    for (let i = 0; i < 3; i += 1) {
-      this.props.storeSample({
-        id: `sample_${i}`,
-        name: `noise #${i}`,
-        buffer: generateWhiteNoise(ctx),
-        start: 0,
-        end: (i + 1) * 0.2,
-      })
-    }
-    */
     sampleFiles.forEach(file => this.loadSampleFile(`./samples/${file}.webm`, file, file))
   }
 
@@ -90,8 +74,9 @@ class SamplerComponent extends Component {
             id: `sample_${name}`,
             name,
             buffer: decodedBuffer,
-            start: 0,
-            end: decodedBuffer.duration,
+            loopStart: 0,
+            loopEnd: decodedBuffer.duration,
+            offset: 0,
           })
         })
       })
@@ -105,9 +90,7 @@ class SamplerComponent extends Component {
       console.log('setSampleEdit', sample)
       const sampler = new PlaybackSampler(sample)
       sampler.play()
-      const loopStart = sample.start || 0
-      const loopEnd = sample.end || sample.buffer.duration
-      this.setState({ recordedSample: sample, loopStart, loopEnd })
+      this.setState({ recordedSample: sample })
     }
   }
 
@@ -123,16 +106,17 @@ class SamplerComponent extends Component {
     console.log('normalized', normalized)
     const { sampleList } = this.state
     const index = sampleList.length
-    const loopStart = buffer.duration * 0.2
-    const loopEnd = buffer.duration * 0.8
+    const loopStart = 0
+    const loopEnd = buffer.duration
     const sample: Sample = {
       id: `sample_${index}`,
       name: `recorded #${index}`,
       buffer: normalized,
-      start: loopStart,
-      end: loopEnd,
+      loopStart,
+      loopEnd,
+      offset: 0,
     }
-    this.setState({ recordedSample: sample, loopStart, loopEnd })
+    this.setState({ recordedSample: sample })
     this.props.storeSample(sample)
   }
 
@@ -143,40 +127,48 @@ class SamplerComponent extends Component {
   }
 
   renderSliders() {
-    const { recordedSample, loopStart, loopEnd } = this.state
+    const { recordedSample } = this.state
     if (!recordedSample) {
       return null
     }
+
+    const offset = recordedSample.offset
+    const start = recordedSample.loopStart
+    const end = recordedSample.loopEnd
+    const step = recordedSample.buffer.duration / 1000
 
     return (<div>
       <Slider
         sliderStyle={sliderStyle}
         max={recordedSample.buffer.duration}
         min={0}
-        step={0.005}
-        value={loopStart}
+        step={step}
+        value={start}
         onChange={(e, v) => {
-          this.setTrim(v > loopEnd ? loopEnd : v, loopEnd)
+          const newStart = v > end ? end : v
+          this.setTrim(offset, newStart, end)
         }}
       />
       <Slider
         sliderStyle={sliderStyle}
         max={recordedSample.buffer.duration}
         min={0}
-        step={0.005}
-        value={loopEnd}
+        step={step}
+        value={end}
         onChange={(e, v) => {
-          this.setTrim(loopStart, v < loopStart ? loopStart : v)
+          const newEnd = v < start ? start : v
+          this.setTrim(offset, start, newEnd)
         }}
       />
     </div>)
   }
 
-  setTrim(loopStart: number, loopEnd: number) {
+  setTrim(offset: number, loopStart: number, loopEnd: number) {
+    console.log(`setTrim: ${offset}, ${loopStart}, ${loopEnd}`)
     const { recordedSample } = this.state
-    const newSample = { ...recordedSample, start: loopStart, end: loopEnd }
-    console.log('setTrim', loopStart, loopEnd)
-    this.setState({ loopStart, loopEnd, recordedSample: newSample })
+    const newSample = { ...recordedSample, loopStart, loopEnd, offset }
+    this.setState({ recordedSample: newSample })
+    this.props.storeSample(newSample)
   }
 
   render() {
@@ -208,7 +200,7 @@ class SamplerComponent extends Component {
         {sampleList}
       </SelectField>
       {recordButton}
-      {recordedSample ? (<div>
+      {recordedSample ? (<div style={{ width: 600 }}>
         <RaisedButton
           label="Play"
           onClick={() => {
