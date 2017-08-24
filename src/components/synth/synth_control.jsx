@@ -28,8 +28,6 @@ type Props = {
   preloadSample: ?string,
 }
 
-// const preloadDrums: Array<DrumType> = ['snare', 'cymbal']
-
 export default class SynthControl extends Component {
   static contextTypes = {
     samples: PropTypes.shape(),
@@ -82,7 +80,6 @@ export default class SynthControl extends Component {
     })
 
     if (preloadSample && synthPreset.type !== 'sample') {
-      console.log('LOAD SAMPLE', preloadSample, samples)
       const selectedSample = samples[preloadSample]
       if (selectedSample) {
         this.changeSynthPreset({ type: 'sample', sample: selectedSample })

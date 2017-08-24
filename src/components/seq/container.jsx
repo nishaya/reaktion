@@ -31,7 +31,7 @@ type Props = {
 
 export default class SeqContainer extends Component {
   static defaultProps = {
-    defaultTracks: 2,
+    defaultTracks: 3,
   }
 
   state: State = {

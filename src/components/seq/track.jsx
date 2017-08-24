@@ -5,6 +5,7 @@ import type { SynthPreset, SynthType } from 'types/synth'
 import Synth from 'synth/synth'
 import SynthControl from 'components/synth/synth_control'
 import { basicBeats } from 'seq/steps/drums'
+import { basicPad } from 'seq/steps/pad'
 import Pattern from './pattern'
 import { initSteps } from './fragments/steps_generator'
 
@@ -27,6 +28,10 @@ const buildPatternProps = (trackId: string) => {
     steps = basicBeats
   }
 
+  if (trackId === '2') {
+    steps = basicPad
+  }
+
   return {
     patternType,
     steps,
@@ -36,7 +41,7 @@ const buildPatternProps = (trackId: string) => {
 // FIXME: preset for demo
 const buildSynthProps = (trackId: string) => {
   const preloadDrums = trackId === '0' ? ['snare', 'cymbal'] : []
-  const preloadSample = trackId === '1' ? 'sample_str' : null
+  const preloadSample = trackId === '2' ? 'sample_str' : null
 
   return {
     preloadDrums,

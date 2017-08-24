@@ -94,9 +94,29 @@ export default class Pattern extends Component<any, State, Props> {
 
   render() {
     const { stepsList, initialSteps } = this.state
-    const { patternType } = this.props
     return (<div>
-      <h2>pattern({patternType})</h2>
+      <div>
+        <Button
+          onClick={() => this.addFragment(Transpose)}
+          label="Add Transpose"
+          icon={icon('transpose')}
+        />
+        <Button
+          onClick={() => this.addFragment(Repeat)}
+          label="Add Repeat"
+          icon={icon('repeat')}
+        />
+        <Button
+          onClick={() => this.addFragment(Stairs)}
+          label="Add Stairs"
+          icon={icon('stairs')}
+        />
+        <Button
+          onClick={() => this.addFragment(Limit)}
+          label="Add Limit"
+          icon={icon('limit')}
+        />
+      </div>
       <div>
         <div>
           <StepsGenerator
@@ -111,28 +131,6 @@ export default class Pattern extends Component<any, State, Props> {
             onChange={(steps: Steps) => {
               this.props.onPatternChanged(steps)
             }}
-          />
-        </div>
-        <div>
-          <Button
-            onClick={() => this.addFragment(Transpose)}
-            label="Add Transpose"
-            icon={icon('transpose')}
-          />
-          <Button
-            onClick={() => this.addFragment(Repeat)}
-            label="Add Repeat"
-            icon={icon('repeat')}
-          />
-          <Button
-            onClick={() => this.addFragment(Stairs)}
-            label="Add Stairs"
-            icon={icon('stairs')}
-          />
-          <Button
-            onClick={() => this.addFragment(Limit)}
-            label="Add Limit"
-            icon={icon('limit')}
           />
         </div>
       </div>
