@@ -23,14 +23,15 @@ export default class PlaybackSampler {
       ...defaultOptions,
       ...options,
     }
-    const { loopStart, loopEnd, offset, loop } = this.sample
+    const { loopStart, loopEnd, offset, loop, transpose } = this.sample
     const playDuration = duration || loopEnd - offset
     console.log(`start: ${loopStart}, end: ${loopEnd}`, loop, offset, playDuration, playbackRate)
     const source = ctx.createBufferSource()
     const startTime = ctx.currentTime + when
     source.buffer = this.sample.buffer
     source.loop = loop
-    source.playbackRate.value = playbackRate
+    const modifiedRate = (2 ** (transpose / 12))
+    source.playbackRate.value = playbackRate * modifiedRate
     source.loopStart = loopStart || 0
     source.loopEnd = loopEnd || this.sample.buffer.duration
     source.connect(ctx.destination)

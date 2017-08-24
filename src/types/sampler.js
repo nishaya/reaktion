@@ -8,4 +8,5 @@ export type Sample = {
   loopEnd: number,
   offset: number,
   loop: boolean,
+  transpose: number,
 }

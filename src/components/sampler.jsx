@@ -73,6 +73,7 @@ class SamplerComponent extends Component {
         loop: true,
         loopStart: 0.26407,
         loopEnd: 1.37713,
+        transpose: 2,
       }
     }
     fetch(request).then((res) => {
@@ -87,6 +88,7 @@ class SamplerComponent extends Component {
             loopEnd: decodedBuffer.duration,
             offset: 0,
             loop: false,
+            transpose: 0,
             ...additionalParams,
           })
         })
@@ -127,6 +129,7 @@ class SamplerComponent extends Component {
       loopEnd,
       offset: 0,
       loop: false,
+      transpose: 0,
     }
     this.setState({ recordedSample: sample })
     this.props.storeSample(sample)
