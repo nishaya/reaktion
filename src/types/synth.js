@@ -19,9 +19,6 @@ export type PlaybackOptions = {
 export type SynthType = 'synth' | 'drums'
 
 export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle'
-export type SynthParams = {
-  waveform: Waveform,
-}
 
 export type OscSynthPreset = {
   type: string,

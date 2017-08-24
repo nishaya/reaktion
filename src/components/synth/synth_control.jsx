@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import type { SynthParams, SynthType, DrumType, DrumPreset, SynthPreset } from 'types/synth'
+import type { SynthType, DrumType, DrumPreset, SynthPreset } from 'types/synth'
 import type { Sample } from 'types/sampler'
 import { DropDownMenu, MenuItem, Paper } from 'material-ui'
 import SampleSelect from './sample_select'

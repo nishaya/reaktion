@@ -2,7 +2,6 @@
 
 import type {
   Tone,
-  SynthParams,
   Waveform,
   DrumsMap,
   DrumType,
@@ -44,12 +43,6 @@ export default class Synth {
       this.noise = generateWhiteNoise(ctx)
       this.play = this.playDrums
     }
-  }
-
-  setParams(params: SynthParams) {
-    console.log('synth.setParams', params)
-    const { waveform } = params
-    this.waveform = waveform
   }
 
   setDrum(type: DrumType, preset: DrumPreset) {
