@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import SampleActions from 'actions/sample'
 import Rack from 'components/common/rack'
 import type { Sample } from 'types/sampler'
-import { MenuItem, SelectField, RaisedButton, Slider, Toggle } from 'material-ui'
+import { MenuItem, SelectField, RaisedButton, Slider, Toggle, FontIcon } from 'material-ui'
 import PlaybackSampler from 'synth/playback_sampler'
 import Recorder from 'synth/recorder'
 import SamplePreview from 'components/sampler/sample_preview'
@@ -212,6 +212,7 @@ class SamplerComponent extends Component {
     const { sampleList, recording, recordedSample } = this.state
     const recordButton = recording ? (
       <RaisedButton
+        icon={<FontIcon className="material-icons">stop</FontIcon>}
         label="Stop Recording"
         onClick={() => {
           this.stopRecording()
@@ -219,6 +220,7 @@ class SamplerComponent extends Component {
       />
     ) : (
       <RaisedButton
+        icon={<FontIcon className="material-icons">fiber_manual_record</FontIcon>}
         label="Start Recording"
         onClick={() => {
           this.startRecording()
@@ -239,7 +241,8 @@ class SamplerComponent extends Component {
       {recordButton}<br />
       {recordedSample ? (<div style={{ width: 600, marginTop: 30 }}>
         <RaisedButton
-          label="Play"
+          icon={<FontIcon className="material-icons">hearing</FontIcon>}
+          label="Preview"
           onClick={() => {
             const sampler = new PlaybackSampler(recordedSample)
             sampler.play({ duration: 3.0 })
