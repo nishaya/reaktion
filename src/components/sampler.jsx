@@ -138,6 +138,19 @@ class SamplerComponent extends Component {
     const step = recordedSample.buffer.duration / 1000
 
     return (<div>
+      offset:
+      <Slider
+        sliderStyle={sliderStyle}
+        max={recordedSample.buffer.duration}
+        min={0}
+        step={step}
+        value={offset}
+        onChange={(e, v) => {
+          const newOffset = v > start ? start : v
+          this.setTrim(newOffset, start, end)
+        }}
+      />
+      start:
       <Slider
         sliderStyle={sliderStyle}
         max={recordedSample.buffer.duration}
@@ -149,6 +162,7 @@ class SamplerComponent extends Component {
           this.setTrim(offset, newStart, end)
         }}
       />
+      end:
       <Slider
         sliderStyle={sliderStyle}
         max={recordedSample.buffer.duration}
