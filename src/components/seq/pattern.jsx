@@ -16,6 +16,7 @@ type Props = {
   onPatternChanged: (steps: Steps) => void,
   patternType: PatternType,
   steps: Steps,
+  defaultFragments: Array<FragmentSetting>,
 }
 
 type State = {
@@ -26,29 +27,11 @@ type State = {
   finishedSteps: Steps,
 }
 
-const defaultFragments: Array<FragmentSetting> = [
-  {
-    class: Stairs,
-    props: { notes: 5 },
-  },
-  {
-    class: Transpose,
-    props: { transpose: -31 },
-  },
-  {
-    class: Repeat,
-    props: { count: 2 },
-  },
-  {
-    class: Limit,
-    props: { top: 100, bottom: 10 },
-  },
-]
-
 export default class Pattern extends Component<any, State, Props> {
   static defaultProps = {
     steps: initSteps(4),
     patternType: 'synth',
+    defaultFragments: [],
     onPatternChanged: (steps: Steps) => console.log('PATTERN CHANGED', steps),
   }
 
@@ -61,12 +44,8 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   componentDidMount() {
-    const { patternType } = this.props
-    if (patternType === 'synth') {
-      this.addFragment(defaultFragments, this.updateSteps)
-    } else {
-      this.updateSteps()
-    }
+    const { defaultFragments } = this.props
+    this.addFragment(defaultFragments, this.updateSteps)
   }
 
   props: Props

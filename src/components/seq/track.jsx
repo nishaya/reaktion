@@ -6,6 +6,7 @@ import Synth from 'synth/synth'
 import SynthControl from 'components/synth/synth_control'
 import { basicBeats } from 'seq/steps/drums'
 import { basicPad } from 'seq/steps/pad'
+import { seqFragments } from 'seq/fragments/preset'
 import Pattern from './pattern'
 import { initSteps } from './fragments/steps_generator'
 
@@ -23,9 +24,14 @@ type State = {
 const buildPatternProps = (trackId: string) => {
   let patternType = 'synth'
   let steps = initSteps(4)
+  let defaultFragments = []
   if (trackId === '0') {
     patternType = 'drums'
     steps = basicBeats
+  }
+
+  if (trackId === '1') {
+    defaultFragments = seqFragments
   }
 
   if (trackId === '2') {
@@ -35,6 +41,7 @@ const buildPatternProps = (trackId: string) => {
   return {
     patternType,
     steps,
+    defaultFragments,
   }
 }
 
