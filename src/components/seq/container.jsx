@@ -114,7 +114,6 @@ export default class SeqContainer extends Component {
       label="Stop"
     />)
     return (<Rack>
-      <h2>seq</h2>
       <div>
         {playing ? stopButton : playButton}
       </div>

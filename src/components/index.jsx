@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import SeqContainer from 'components/seq/container'
 import SamplerContainer from 'components/sampler'
 import type { Sample } from 'types/sampler'
+import { Tabs, Tab } from 'material-ui'
 
 type Props = {
   samples: { [string]: Sample },
@@ -24,10 +25,14 @@ export class IndexComponent extends Component {
   }
 
   render() {
-    return (<div>
-      <SamplerContainer />
-      <SeqContainer />
-    </div>)
+    return (<Tabs>
+      <Tab label="Sequencer">
+        <SeqContainer />
+      </Tab>
+      <Tab label="Sampler">
+        <SamplerContainer />
+      </Tab>
+    </Tabs>)
   }
 }
 

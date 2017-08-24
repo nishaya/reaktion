@@ -228,7 +228,6 @@ class SamplerComponent extends Component {
       />
     )
     return (<Rack>
-      <h2>sampler</h2>
       <SelectField
         hintText="please select"
         onChange={(ev: any, key: number, sampleId: string) => {
