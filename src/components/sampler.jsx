@@ -66,6 +66,15 @@ class SamplerComponent extends Component {
 
   loadSampleFile(fileUrl: string, id: string, name: string) {
     const request = new Request(fileUrl)
+    let additionalParams = {}
+    // FIXME: for demo
+    if (id === 'str') {
+      additionalParams = {
+        loop: true,
+        loopStart: 0.26407,
+        loopEnd: 1.37713,
+      }
+    }
     fetch(request).then((res) => {
       res.arrayBuffer().then((arrayBuffer) => {
         ctx.decodeAudioData(arrayBuffer).then((decodedBuffer) => {
@@ -78,6 +87,7 @@ class SamplerComponent extends Component {
             loopEnd: decodedBuffer.duration,
             offset: 0,
             loop: false,
+            ...additionalParams,
           })
         })
       })
@@ -180,7 +190,7 @@ class SamplerComponent extends Component {
         value={end}
         onChange={(e, v) => {
           const newEnd = v < start ? start : v
-          this.setTrim(offset, start, newEnd)
+          this.setTrim(offset, start, newEnd, loop)
         }}
       />
     </div>)
@@ -228,7 +238,7 @@ class SamplerComponent extends Component {
           label="Play"
           onClick={() => {
             const sampler = new PlaybackSampler(recordedSample)
-            sampler.play()
+            sampler.play({ duration: 3.0 })
           }}
         />
         {this.renderSliders()}
