@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import type { SynthType, DrumType, DrumPreset, SynthPreset } from 'types/synth'
 import type { Sample } from 'types/sampler'
-import { DropDownMenu, MenuItem, Paper, Toggle } from 'material-ui'
+import { MenuItem, Paper, Toggle, SelectField } from 'material-ui'
 import SampleSelect from './sample_select'
 
 type Samples = { [string]: Sample }
@@ -92,18 +92,21 @@ export default class SynthControl extends Component {
   renderSynthControl(synthPreset: SynthPreset) {
     const { synthEditType } = this.state
     let control = null
-    const toggle = (<Toggle
-      toggled={synthEditType === 'osc'}
-      onToggle={(ev: any, checked: boolean) => {
-        this.setState({ synthEditType: checked ? 'osc' : 'sample' })
-      }}
-    />)
+    const toggle = (<div style={{ maxWidth: 200 }}>
+      <Toggle
+        label={`Synth type: ${synthEditType}`}
+        toggled={synthEditType === 'osc'}
+        onToggle={(ev: any, checked: boolean) => {
+          this.setState({ synthEditType: checked ? 'osc' : 'sample' })
+        }}
+      />
+    </div>)
     if (synthEditType === 'osc') {
       const { waveform } = synthPreset
       control = (<div>
-        <h4>synth control(osc)</h4>
         {toggle}<br />
-        Waveform: <DropDownMenu
+        <SelectField
+          floatingLabelText="Waveform"
           value={waveform}
           onChange={(ev, key, value) => {
             this.changeSynthPreset({ ...synthPreset, waveform: value })
@@ -113,16 +116,16 @@ export default class SynthControl extends Component {
           <MenuItem key="w2" value="sawtooth" primaryText="Sawtooth" />
           <MenuItem key="w3" value="sine" primaryText="Sine" />
           <MenuItem key="w4" value="triangle" primaryText="Triangle" />
-        </DropDownMenu>
+        </SelectField>
       </div>)
     } else if (synthEditType === 'sample') {
       const { sampleList } = this.state
       const { samples } = this.context
       const { sample } = synthPreset
       control = (<div>
-        <h4>synth control(sample)</h4>
         {toggle}<br />
-        Sample: <SampleSelect
+        <SampleSelect
+          label="sample"
           selected={sample ? sample.id : null}
           sampleList={sampleList}
           onChange={(sampleId) => {
@@ -139,15 +142,16 @@ export default class SynthControl extends Component {
   renderDrumsControl() {
     const { sampleList, drumList } = this.state
     return (<div>
-      <h4>drums control</h4>
-      snare: <SampleSelect
+      <SampleSelect
+        label="snare"
         selected={drumList.snare}
         sampleList={sampleList}
         onChange={(sampleId) => {
           this.selectDrumSample('snare', sampleId, this.context.samples)
         }}
       /><br />
-      cymbal: <SampleSelect
+      <SampleSelect
+        label="cymbal"
         selected={drumList.cymbal}
         sampleList={sampleList}
         onChange={(sampleId) => {
