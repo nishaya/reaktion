@@ -4,6 +4,7 @@ export type Step = {
   position: number,
   note: number,
   velocity: number,
+  duration: number,
   trackId?: string,
 }
 export type Steps = {

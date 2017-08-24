@@ -19,6 +19,8 @@ export type SynthType = 'synth' | 'drums'
 
 export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle'
 
+export type SynthPresetType = 'osc' | 'sample'
+
 export type OscSynthPreset = {
   type: string,
   waveform: Waveform,

@@ -17,7 +17,7 @@ type Props = {
 }
 
 export default class SamplePreview extends Component {
-  static defaultProps: Props = {
+  static defaultProps = {
     buffer: null,
   }
   componentDidMount() {
