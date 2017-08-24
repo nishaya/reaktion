@@ -11,11 +11,13 @@ const plugins = [
   }),
 ]
 
+/*
 if (process.env.NODE_ENV === 'production') {
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({ compress: { drop_debugger: true, drop_console: true } }),
   )
 }
+*/
 
 module.exports = {
   entry: './src/application.jsx',
