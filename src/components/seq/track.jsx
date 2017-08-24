@@ -18,6 +18,7 @@ type State = {
   synthType: SynthType,
 }
 
+// FIXME: preset for demo
 const buildPatternProps = (trackId: string) => {
   let patternType = 'synth'
   let steps = initSteps(4)
@@ -29,6 +30,17 @@ const buildPatternProps = (trackId: string) => {
   return {
     patternType,
     steps,
+  }
+}
+
+// FIXME: preset for demo
+const buildSynthProps = (trackId: string) => {
+  const preloadDrums = trackId === '0' ? ['snare', 'cymbal'] : []
+  const preloadSample = trackId === '1' ? 'sample_str' : null
+
+  return {
+    preloadDrums,
+    preloadSample,
   }
 }
 
@@ -52,7 +64,6 @@ export default class Track extends Component<any, any, Props> {
   }
 
   onPresetChanged(synthPreset: SynthPreset) {
-    console.log('track.onPresetChanged', synthPreset)
     this.synth.setSynth(synthPreset)
   }
 
@@ -63,6 +74,7 @@ export default class Track extends Component<any, any, Props> {
     const { trackId } = this.props
     const { synthType } = this.state
     const patternProps = buildPatternProps(trackId)
+    const synthProps = buildSynthProps(trackId)
     return (<Rack theme={{ bgColor: '#FAFAFA' }}>
       <h2>track #{trackId}({synthType})</h2>
       <Pattern
@@ -73,6 +85,7 @@ export default class Track extends Component<any, any, Props> {
         synthType={synthType}
         onPresetChanged={(synthPreset: SynthPreset) => this.onPresetChanged(synthPreset)}
         setDrum={(type, preset) => this.synth.setDrum(type, preset)}
+        {...synthProps}
       />
     </Rack>)
   }

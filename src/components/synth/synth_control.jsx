@@ -24,9 +24,11 @@ type Props = {
   synthType: SynthType,
   onPresetChanged: (synthPreset: SynthPreset) => any,
   setDrum: (type: DrumType, preset: DrumPreset) => any,
+  preloadDrums: Array<DrumType>,
+  preloadSample: ?string,
 }
 
-const preloadDrums: Array<DrumType> = ['snare', 'cymbal']
+// const preloadDrums: Array<DrumType> = ['snare', 'cymbal']
 
 export default class SynthControl extends Component {
   static contextTypes = {
@@ -34,6 +36,8 @@ export default class SynthControl extends Component {
   }
   static defaultProps = {
     setDrum: (type, sample) => console.log('setDrum', type, sample),
+    preloadDrums: [],
+    preloadSample: null,
   }
   props: Props
   state: State = {
@@ -59,7 +63,7 @@ export default class SynthControl extends Component {
   }
 
   changeSynthPreset(synthPreset: SynthPreset) {
-    this.setState({ synthPreset })
+    this.setState({ synthPreset, synthEditType: synthPreset.type })
     this.props.onPresetChanged(synthPreset)
   }
 
@@ -68,13 +72,22 @@ export default class SynthControl extends Component {
       { ...prev, [id]: samples[id].name }
     ), {})
 
-    const { drumList } = this.state
+    const { preloadDrums, preloadSample } = this.props
+    const { drumList, synthPreset } = this.state
     preloadDrums.forEach((type) => {
       const id = `sample_${type}`
       if (!drumList[type] && sampleList[id]) {
         this.selectDrumSample(type, id, samples)
       }
     })
+
+    if (preloadSample && synthPreset.type !== 'sample') {
+      console.log('LOAD SAMPLE', preloadSample, samples)
+      const selectedSample = samples[preloadSample]
+      if (selectedSample) {
+        this.changeSynthPreset({ type: 'sample', sample: selectedSample })
+      }
+    }
 
     this.setState({ sampleList })
   }
