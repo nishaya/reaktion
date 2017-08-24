@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import type { Steps } from 'types/step'
 import { RaisedButton } from 'material-ui'
+import { PatternType, FragmentSetting } from 'types/pattern'
 import StepsGenerator, { initSteps } from './fragments/steps_generator'
 import Transpose from './fragments/transpose'
 import Repeat from './fragments/repeat'
@@ -10,12 +11,6 @@ import Finishing from './fragments/finishing'
 import { icon } from './fragments/icon'
 
 const Button = RaisedButton
-
-type PatternType = 'synth' | 'drums'
-type FragmentSetting = {
-  class: Function,
-  props: { [string]: any },
-}
 
 type Props = {
   onPatternChanged: (steps: Steps) => void,
@@ -38,15 +33,15 @@ const defaultFragments: Array<FragmentSetting> = [
   },
   {
     class: Transpose,
-    props: {},
+    props: { transpose: -31 },
   },
   {
     class: Repeat,
-    props: {},
+    props: { count: 2 },
   },
   {
     class: Limit,
-    props: {},
+    props: { top: 100, bottom: 10 },
   },
 ]
 
@@ -61,7 +56,7 @@ export default class Pattern extends Component<any, State, Props> {
     numFragments: 0,
     initialSteps: initSteps(0),
     stepsList: [initSteps(0)],
-    fragments: [StepsGenerator],
+    fragments: [{ class: StepsGenerator, props: {} }],
     finishedSteps: initSteps(0),
   }
 

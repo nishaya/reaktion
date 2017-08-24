@@ -24,7 +24,7 @@ type State = {
 
 export default class Transpose extends Component<any, Props, State> {
   static defaultProps = {
-    transpose: -31,
+    transpose: 0,
     steps: initSteps(0),
   }
 
