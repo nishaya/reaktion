@@ -43,13 +43,13 @@ export default class StepsPreview extends Component {
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     ctx.strokeStyle = 'rgb(98, 104, 95)'
     steps.list.forEach((step) => {
-      const { note, position } = step
+      const { note, position, duration } = step
       const top = (pixelsPerNote * (max - note))
       const strokeWidth = Math.floor(top - (pixelsPerNote * (max - note - 1)))
       ctx.lineWidth = strokeWidth
       ctx.beginPath()
       ctx.moveTo(Math.ceil(position * pixelsPerStep), top)
-      ctx.lineTo(Math.ceil((position + 1) * pixelsPerStep), top)
+      ctx.lineTo(Math.ceil((position + duration) * pixelsPerStep), top)
       ctx.stroke()
     })
   }

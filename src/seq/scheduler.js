@@ -70,9 +70,11 @@ export default class Scheduler {
           this.onScheduling({ note, offset, velocity, trackId, duration: dur })
         })
 
+      /*
       if (this.step % 4 === 0) {
         this.onBeat({ note: 0, offset })
       }
+      */
 
       this.step += 1
     }

@@ -45,7 +45,6 @@ export default class SeqContainer extends Component {
   componentWillMount() {
     this.scheduler = new Scheduler()
     this.scheduler.onScheduling = (tone: Tone) => {
-      console.log('onScheduling(on Container)', tone)
       const { synthsMap } = this.state
       const { trackId } = tone
       if (trackId && synthsMap[trackId]) {
@@ -66,13 +65,10 @@ export default class SeqContainer extends Component {
     if (tracks.length + num <= MAX_TRACKS) {
       for (let i = 0; i < num; i += 1) {
         const trackId = `${tracks.length}`
-        console.log('trackId', trackId)
         const props = {
           onTrackFixed: (steps: Steps, id: string) => {
-            console.log(`track #${id} fixed(SeqContainer)`, steps)
             const { stepsMap } = this.state
             stepsMap[id] = steps
-            console.log('stepsMap', stepsMap)
             const stepsList = map2Array(stepsMap)
             const lengths = stepsList.map(s => s.length)
             const trackIds = Object.keys(stepsMap)
@@ -82,12 +78,10 @@ export default class SeqContainer extends Component {
                 stepsMap[tid].list.map(st => ({ ...st, trackId: tid }))
               ))),
             }
-            console.log('merged', newSteps)
             this.scheduler.setSteps(newSteps)
             this.setState({ stepsMap, steps: newSteps })
           },
           onSynthReady: (synth: Synth) => {
-            console.log('Container.onSynthReady', synth)
             const { synthsMap } = this.state
             synthsMap[trackId] = synth
             this.setState({ synthsMap })

@@ -49,7 +49,6 @@ export default class Stairs extends Component<any, Props, State> {
   props: Props
 
   transform(steps: Steps) {
-    console.log('repeat.transform', steps)
     const newList = []
     const { count } = this.state
     for (let i = 0; i < count; i += 1) {

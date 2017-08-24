@@ -42,7 +42,6 @@ export default class SynthControl extends Component {
 
   componentWillReceiveProps(nextProps: Props, nextContext: ?Context) {
     if (nextContext && nextContext.samples !== this.context.samples) {
-      console.log('CONTEXT UPDATED', nextContext.samples)
       this.updateSampleList(nextContext.samples)
     }
   }

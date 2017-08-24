@@ -65,13 +65,11 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   updateSteps() {
-    console.log('updateSteps')
     const { steps } = this.props
     this.setState({ initialSteps: steps })
   }
 
   modifySteps(index:number, steps: Steps) {
-    console.log('modifySteps', index, steps)
     const list = this.state.stepsList.slice(0)
     list[index] = { ...steps }
     this.setState({ stepsList: list })
@@ -97,7 +95,6 @@ export default class Pattern extends Component<any, State, Props> {
   render() {
     const { stepsList, initialSteps } = this.state
     const { patternType } = this.props
-    console.log('stepsList', stepsList)
     return (<div>
       <h2>pattern({patternType})</h2>
       <div>
@@ -112,7 +109,6 @@ export default class Pattern extends Component<any, State, Props> {
           <Finishing
             steps={stepsList[stepsList.length - 1]}
             onChange={(steps: Steps) => {
-              console.log('OPC', steps)
               this.props.onPatternChanged(steps)
             }}
           />

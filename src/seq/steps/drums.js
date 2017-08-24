@@ -2,10 +2,11 @@
 
 import type { Steps, Step } from 'types/step'
 
-const kick: Step = { position: 0, note: 0, velocity: 100 }
-const cymbal: Step = { position: 0, note: 1, velocity: 100 }
-const chh: Step = { position: 0, note: 6, velocity: 100 }
-const snare: Step = { position: 0, note: 2, velocity: 100 }
+const base = { position: 0, velocity: 100, note: 0, duration: 1.0 }
+const kick: Step = { ...base, note: 0 }
+const cymbal: Step = { ...base, note: 1 }
+const chh: Step = { ...base, note: 6 }
+const snare: Step = { ...base, note: 2 }
 
 export const basicBeats: Steps = {
   length: 16,
