@@ -54,13 +54,15 @@ export default class SamplePreview extends Component {
     ctx.strokeStyle = 'rgb(98, 104, 95)'
     ctx.lineWidth = 1
     const halfHeight = HEIGHT / 2
+    let pt = null
     for (let i = 0; i < WIDTH; i += 1) {
       const s = samples[Math.floor(samplesPerPixel * i)]
       const top = Math.ceil(halfHeight + s * halfHeight)
       ctx.beginPath()
-      ctx.moveTo(i, top)
+      ctx.moveTo(i, pt || top)
       ctx.lineTo(i + 1, top)
       ctx.stroke()
+      pt = top
     }
 
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
