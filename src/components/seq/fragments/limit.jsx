@@ -56,7 +56,6 @@ export default class Limit extends Component<any, Props, State> {
   props: Props
 
   transform(steps: Steps) {
-    console.log('limit.transform', steps)
     const { top, bottom } = this.state
     const newList = steps.list.map((step) => {
       let { note } = step

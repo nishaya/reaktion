@@ -22,7 +22,6 @@ export default class Recorder {
 
   constructor() {
     this.options = { ...defaultRecordingOptions }
-    console.log('Recorder initialized', this.options)
     const { mimeType } = this.options
     if (!MediaRecorder.isTypeSupported(mimeType)) {
       throw new Error(`MIME Type ${mimeType} is not supported by Recorder`)

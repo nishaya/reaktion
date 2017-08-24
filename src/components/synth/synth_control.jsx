@@ -138,7 +138,6 @@ export default class SynthControl extends Component {
 
   renderDrumsControl() {
     const { sampleList, drumList } = this.state
-    console.log(drumList)
     return (<div>
       <h4>drums control</h4>
       snare: <SampleSelect
@@ -162,7 +161,6 @@ export default class SynthControl extends Component {
     const sample = samples[sampleId]
     const { drumList } = this.state
     this.setState({ drumList: { ...drumList, [type]: sampleId } })
-    console.log('sample selected', sampleId, sample)
     this.props.setDrum(
       type,
       {

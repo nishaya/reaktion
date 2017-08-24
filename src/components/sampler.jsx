@@ -80,7 +80,6 @@ class SamplerComponent extends Component {
     fetch(request).then((res) => {
       res.arrayBuffer().then((arrayBuffer) => {
         ctx.decodeAudioData(arrayBuffer).then((decodedBuffer) => {
-          console.log('decoded', decodedBuffer)
           this.props.storeSample({
             id: `sample_${name}`,
             name,
@@ -101,7 +100,6 @@ class SamplerComponent extends Component {
     const { samples } = this.props
     const sample = samples[sampleId]
     if (sample) {
-      console.log('setSampleEdit', sample)
       const sampler = new PlaybackSampler(sample)
       sampler.play()
       this.setState({ recordedSample: sample })

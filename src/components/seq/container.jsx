@@ -88,7 +88,6 @@ export default class SeqContainer extends Component {
           },
           trackId,
         }
-        console.log(props)
         tracks.push(<Track key={`track_${trackId}`} {...props} />)
       }
     }

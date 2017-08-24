@@ -38,7 +38,6 @@ export default class Synth {
   sampler: PlaybackSampler
 
   constructor(type: SynthType = 'synth') {
-    console.log('init Synth', type)
     this.type = type
     if (type === 'synth') {
       this.play = this.playSynth
@@ -49,12 +48,10 @@ export default class Synth {
   }
 
   setDrum(type: DrumType, preset: DrumPreset) {
-    console.log('Synth.setDrum', type, preset)
     this.drumsMap[type] = preset
   }
 
   setSynth(preset: SynthPreset) {
-    console.log('Synth.setSynth', preset)
     if (preset.type === 'osc') {
       this.waveform = preset.waveform
       this.play = this.playSynth
@@ -71,8 +68,6 @@ export default class Synth {
     const startTime = ctx.currentTime + offset
     const part = note % 12
     if (part === 0) { // kick
-      const frequency = 440 * (2 ** ((note - 69) / 12))
-      console.log(`Synth.playDrums, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
       const osc = ctx.createOscillator()
       const duration = 0.18
       const gain = ctx.createGain()
@@ -89,8 +84,6 @@ export default class Synth {
       osc.start(startTime)
       osc.stop(startTime + duration)
     } else if (part === 6) { // chh
-      const frequency = 900
-      console.log(`Synth.playDrums, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
       const source = ctx.createBufferSource()
       const duration = 0.02
       const release = 0.1
@@ -125,7 +118,6 @@ export default class Synth {
     const { note, offset, duration, velocity } = { ...defaultTone, ...tone }
     const startTime = ctx.currentTime + offset
     const frequency = 440 * (2 ** ((note - 69) / 12))
-    console.log(`Synth.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, freq: ${frequency}`)
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
 
@@ -145,11 +137,7 @@ export default class Synth {
 
   playSample(tone: Tone) {
     const { note, offset, duration } = { ...defaultTone, ...tone }
-    const startTime = ctx.currentTime + offset
     const playbackRate = (2 ** ((note - CENTER_C) / 12))
-    console.log(`Sample.scheduled, offset: ${offset}, startTime: ${startTime}, note: ${note}, rate: ${playbackRate}`)
-    // const volume = velocity / 127 * 0.7
-    // const sampler = new PlaybackSampler(this.sampleSynthPreset.sample)
     this.sampler.play({ when: offset, playbackRate, duration, loop: true })
   }
 }

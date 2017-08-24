@@ -37,7 +37,6 @@ export default class Transpose extends Component<any, Props, State> {
 
   componentDidMount() {
     const { transpose, steps } = this.props
-    console.log('transpose did mount', transpose, steps)
     const octave = transpose >= 0 ? Math.floor(transpose / 12) : Math.ceil(transpose / 12)
     const notes = transpose % 12
     this.changeTranspose(steps, octave, notes)
@@ -52,14 +51,12 @@ export default class Transpose extends Component<any, Props, State> {
   props: Props
 
   changeTranspose(steps: Steps, octave: number, notes: number) {
-    console.log('changeTranspose', steps, octave, notes)
     this.setState({ transpose: (octave * 12) + notes, octave, notes }, () => {
       this.transform(steps)
     })
   }
 
   transform(steps: Steps) {
-    console.log('transpose.transform', steps)
     const newList = steps.list.map((step) => {
       let note = step.note + this.state.transpose
       if (note > 127) {

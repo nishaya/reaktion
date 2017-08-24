@@ -62,7 +62,6 @@ export default class Finishing extends Component<any, Props, State> {
     const newList = steps.list.slice(0)
     if (fill && oldLength > 0 && patternLength > oldLength) {
       const repeatCount = Math.ceil(patternLength / oldLength)
-      console.log('repeat count', repeatCount)
       for (let i = 1; i < repeatCount; i += 1) {
         newList.push(
           ...oldList.map(s => (
