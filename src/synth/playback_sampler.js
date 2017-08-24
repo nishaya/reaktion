@@ -34,7 +34,17 @@ export default class PlaybackSampler {
     source.playbackRate.value = playbackRate * modifiedRate
     source.loopStart = loopStart
     source.loopEnd = loopEnd
-    source.connect(ctx.destination)
+
+    const volume = 1
+    const gain = ctx.createGain()
+    gain.gain.setValueAtTime(0.001, startTime)
+    gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.01)
+    gain.gain.setValueAtTime(volume, startTime + (playDuration * 0.95))
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + playDuration)
+
+    source.connect(gain)
+    gain.connect(ctx.destination)
+
     source.start(startTime, offset, playDuration)
   }
 }

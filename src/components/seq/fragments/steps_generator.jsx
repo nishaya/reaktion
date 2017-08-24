@@ -21,9 +21,9 @@ export const initSteps = (length: number = 4): Steps => {
   for (let i = 0; i < length; i += 1) {
     list.push({
       position: i,
-      note: 64,
+      note: 60,
       velocity: 100,
-      duration: 1.0,
+      duration: 0.8,
     })
   }
   return {
