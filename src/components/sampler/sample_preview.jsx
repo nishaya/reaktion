@@ -69,16 +69,15 @@ export default class SamplePreview extends Component {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
 
 
-    if (start !== 0) {
-      const w = Math.floor(sample.buffer.sampleRate * start / samplesPerPixel)
+    if (offset !== 0) {
+      const w = Math.floor(sample.buffer.sampleRate * offset / samplesPerPixel)
       ctx.fillRect(0, 0, w, HEIGHT)
-      console.log('w', w)
     }
 
-    // stroke offset
+    // stroke start
     ctx.strokeStyle = 'rgb(255, 0, 0)'
     ctx.beginPath()
-    const x = Math.floor(sample.buffer.sampleRate * offset / samplesPerPixel)
+    const x = Math.floor(sample.buffer.sampleRate * start / samplesPerPixel)
     ctx.moveTo(x, 0)
     ctx.lineTo(x, HEIGHT)
     ctx.stroke()
@@ -87,8 +86,12 @@ export default class SamplePreview extends Component {
       const left = Math.ceil(sample.buffer.sampleRate * end / samplesPerPixel)
       const w = Math.ceil(
         sample.buffer.sampleRate * (sample.buffer.duration - end) / samplesPerPixel)
-      console.log('left/w', left, w)
       ctx.fillRect(left, 0, w, HEIGHT)
+      ctx.strokeStyle = 'rgb(0, 0, 255)'
+      ctx.beginPath()
+      ctx.moveTo(WIDTH - w, 0)
+      ctx.lineTo(WIDTH - w, HEIGHT)
+      ctx.stroke()
     }
   }
 
