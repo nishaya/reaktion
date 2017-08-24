@@ -44,6 +44,7 @@ export default class SamplePreview extends Component {
 
     const start = sample.loopStart || 0
     const end = sample.loopEnd || sample.buffer.duration
+    const offset = sample.offset || 0
     console.log('start/end', start, end)
 
     const ctx = this.canvas.getContext('2d')
@@ -66,11 +67,21 @@ export default class SamplePreview extends Component {
     }
 
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
+
+
     if (start !== 0) {
       const w = Math.floor(sample.buffer.sampleRate * start / samplesPerPixel)
       ctx.fillRect(0, 0, w, HEIGHT)
       console.log('w', w)
     }
+
+    // stroke offset
+    ctx.strokeStyle = 'rgb(255, 0, 0)'
+    ctx.beginPath()
+    const x = Math.floor(sample.buffer.sampleRate * offset / samplesPerPixel)
+    ctx.moveTo(x, 0)
+    ctx.lineTo(x, HEIGHT)
+    ctx.stroke()
 
     if (end !== sample.buffer.duration) {
       const left = Math.ceil(sample.buffer.sampleRate * end / samplesPerPixel)
