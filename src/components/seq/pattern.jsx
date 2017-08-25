@@ -7,6 +7,7 @@ import Transpose from './fragments/transpose'
 import Repeat from './fragments/repeat'
 import Stairs from './fragments/stairs'
 import Limit from './fragments/limit'
+import Stretch from './fragments/stretch'
 import Finishing from './fragments/finishing'
 import { icon } from './fragments/icon'
 
@@ -98,23 +99,28 @@ export default class Pattern extends Component<any, State, Props> {
       <div>
         <Button
           onClick={() => this.addFragment([{ class: Transpose }])}
-          label="Add Transpose"
+          label="Transpose"
           icon={icon('transpose')}
         />
         <Button
           onClick={() => this.addFragment([{ class: Repeat }])}
-          label="Add Repeat"
+          label="Repeat"
           icon={icon('repeat')}
         />
         <Button
           onClick={() => this.addFragment([{ class: Stairs }])}
-          label="Add Stairs"
+          label="Stairs"
           icon={icon('stairs')}
         />
         <Button
           onClick={() => this.addFragment([{ class: Limit }])}
-          label="Add Limit"
+          label="Limit"
           icon={icon('limit')}
+        />
+        <Button
+          onClick={() => this.addFragment([{ class: Stretch }])}
+          label="Stretch"
+          icon={icon('stretch')}
         />
       </div>
       <div>
