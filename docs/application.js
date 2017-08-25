@@ -27806,6 +27806,7 @@ var Synth = function () {
   }, {
     key: 'setSynth',
     value: function setSynth(preset) {
+      console.log('setSynth', preset);
       if (preset.type === 'osc') {
         this.waveform = preset.waveform;
         this.play = this.playSynth;
@@ -46554,7 +46555,7 @@ var map2Array = function map2Array(map) {
   });
 };
 
-var defaultBpm = 130;
+var defaultBpm = 133;
 
 var SeqContainer = function (_Component) {
   _inherits(SeqContainer, _Component);
@@ -75170,13 +75171,13 @@ var Scheduler = function () {
 
       if (this.lastPlayed < current) {
         this.lastPlayed += this.msPerStep;
-        // ms to sec
-        var offset = (this.lastPlayed - current) / 1000;
 
         var currentStep = this.step % this.steps.length;
         this.steps.list.filter(function (s) {
           return s.position >= currentStep && s.position < currentStep + 1;
         }).forEach(function (step) {
+          // ms to sec
+          var offset = (_this.lastPlayed + (step.position - currentStep) * _this.msPerStep - current) / 1000;
           var note = step.note,
               velocity = step.velocity,
               trackId = step.trackId,
@@ -75588,7 +75589,7 @@ var SynthControl = function (_Component) {
               floatingLabelText: 'Waveform',
               value: waveform,
               onChange: function onChange(ev, key, value) {
-                _this3.changeSynthPreset(_extends({}, synthPreset, { waveform: value }));
+                _this3.changeSynthPreset({ type: 'osc', waveform: value });
               }
             },
             _react2.default.createElement(_materialUi.MenuItem, { key: 'w1', value: 'square', primaryText: 'Square' }),
