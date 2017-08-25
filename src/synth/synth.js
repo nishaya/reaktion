@@ -52,6 +52,7 @@ export default class Synth {
   }
 
   setSynth(preset: SynthPreset) {
+    console.log('setSynth', preset)
     if (preset.type === 'osc') {
       this.waveform = preset.waveform
       this.play = this.playSynth

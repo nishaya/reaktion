@@ -109,7 +109,7 @@ export default class SynthControl extends Component {
           floatingLabelText="Waveform"
           value={waveform}
           onChange={(ev, key, value) => {
-            this.changeSynthPreset({ ...synthPreset, waveform: value })
+            this.changeSynthPreset({ type: 'osc', waveform: value })
           }}
         >
           <MenuItem key="w1" value="square" primaryText="Square" />
