@@ -1,8 +1,9 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Slider } from 'material-ui'
+import { Slider, MenuItem, SelectField } from 'material-ui'
 import type { Steps } from 'types/step'
+import { roots, majorScale } from 'utils/music'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -18,6 +19,8 @@ type State = {
   count: number,
   steps: Steps,
 }
+
+const rootOptions = roots.map((r, i) => <MenuItem value={i} primaryText={r} />)
 
 export default class Scale extends Component<any, Props, State> {
   static defaultProps = {
@@ -65,6 +68,9 @@ export default class Scale extends Component<any, Props, State> {
     return (<Box theme={{ bgColor: '#B39DDB' }}>
       <div className="control">
         <h2>{icon('scale')}scale</h2>
+        <SelectField>
+          {rootOptions}
+        </SelectField>
         <Slider
           max={4}
           min={0.25}

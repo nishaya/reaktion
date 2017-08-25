@@ -7,6 +7,7 @@ import Repeat from './repeat'
 import Limit from './limit'
 import Finishing from './finishing'
 import Stretch from './stretch'
+import Scale from './scales'
 
 export default {
   StepsGenerator,
@@ -16,4 +17,5 @@ export default {
   Limit,
   Finishing,
   Stretch,
+  Scale,
 }
