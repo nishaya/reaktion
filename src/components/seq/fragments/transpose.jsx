@@ -75,7 +75,7 @@ export default class Transpose extends Component<any, Props, State> {
       <div className="control">
         <h2>{icon('transpose')}transpose</h2>
         <div>
-          octave
+          octave: {octave}
           <Slider
             sliderStyle={sliderStyle}
             max={4}
@@ -86,7 +86,7 @@ export default class Transpose extends Component<any, Props, State> {
           />
         </div>
         <div>
-          notes
+          notes: {notes}
           <Slider
             sliderStyle={sliderStyle}
             max={12}

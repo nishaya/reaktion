@@ -76,7 +76,7 @@ export default class Limit extends Component<any, Props, State> {
     return (<Box theme={{ bgColor: '#F48FB1' }}>
       <div className="control">
         <h2>{icon('limit')}limit</h2>
-        top
+        top: {top}
         <Slider
           sliderStyle={sliderStyle}
           max={127}
@@ -85,7 +85,7 @@ export default class Limit extends Component<any, Props, State> {
           step={1.0}
           onChange={(e, v) => this.setLimit(v, bottom)}
         />
-        bottom
+        bottom: {bottom}
         <Slider
           sliderStyle={sliderStyle}
           max={top}
@@ -94,9 +94,6 @@ export default class Limit extends Component<any, Props, State> {
           step={1.0}
           onChange={(e, v) => this.setLimit(top, v)}
         />
-        <div>
-          {bottom} - {top}
-        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)

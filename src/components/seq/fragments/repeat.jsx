@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
+import { sliderStyle } from 'components/common/styles'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -65,16 +66,15 @@ export default class Stairs extends Component<any, Props, State> {
     return (<Box theme={{ bgColor: '#B39DDB' }}>
       <div className="control">
         <h2>{icon('repeat')}repeat</h2>
+        {count} times
         <Slider
+          sliderStyle={sliderStyle}
           max={8}
           min={1}
           value={count}
           step={1.0}
           onChange={(e, v) => this.setCount(v)}
         />
-        <div>
-          {count} times.
-        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)
