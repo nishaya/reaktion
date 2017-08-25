@@ -25,6 +25,7 @@ const buildPatternProps = (trackId: string) => {
   let patternType = 'synth'
   let steps = initSteps(4)
   let defaultFragments = []
+  let length = 32
   if (trackId === '0') {
     defaultFragments = drumsFragments
     patternType = 'drums'
@@ -33,17 +34,20 @@ const buildPatternProps = (trackId: string) => {
 
   if (trackId === '1') {
     defaultFragments = seqFragments
+    length = 16
   }
 
   if (trackId === '2') {
     defaultFragments = padFragments
     steps = basicPad
+    length = 64
   }
 
   return {
     patternType,
     steps,
     defaultFragments,
+    length,
   }
 }
 
