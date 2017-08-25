@@ -17,6 +17,7 @@ type Props = {
   patternType: PatternType,
   steps: Steps,
   defaultFragments: Array<FragmentSetting>,
+  length: number,
 }
 
 type State = {
@@ -33,6 +34,7 @@ export default class Pattern extends Component<any, State, Props> {
     patternType: 'synth',
     defaultFragments: [],
     onPatternChanged: (steps: Steps) => console.log('PATTERN CHANGED', steps),
+    length: 32,
   }
 
   state: State = {
@@ -91,6 +93,7 @@ export default class Pattern extends Component<any, State, Props> {
 
   render() {
     const { stepsList, initialSteps } = this.state
+    const { length } = this.props
     return (<div>
       <div>
         <Button
@@ -124,7 +127,7 @@ export default class Pattern extends Component<any, State, Props> {
           />
           {this.renderFragments()}
           <Finishing
-            patternLength={64}
+            patternLength={length}
             steps={stepsList[stepsList.length - 1]}
             onChange={(steps: Steps) => {
               this.props.onPatternChanged(steps)
