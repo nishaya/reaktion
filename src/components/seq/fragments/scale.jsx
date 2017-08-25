@@ -61,13 +61,19 @@ export default class Scale extends Component<any, Props, State> {
   props: Props
 
   transform(steps: Steps) {
-    const { count } = this.state
-    const list = steps.list.map(s => ({
-      ...s,
-      position: s.position * count,
-      duration: s.duration * count,
-    }))
-    const newSteps = { length: count * steps.length, list }
+    const { notes } = this.state
+    const rnotes = notes.reverse()
+    const list = steps.list.map((s) => {
+      let note = s.note
+      const m = note % 12
+      const adj = rnotes.find(rn => rn <= m)
+      note += (m - adj)
+      return {
+        ...s,
+        note,
+      }
+    })
+    const newSteps = { ...steps, list }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
   }
