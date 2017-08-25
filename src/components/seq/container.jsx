@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react'
-import { RaisedButton, FontIcon } from 'material-ui'
+import { RaisedButton, FontIcon, Slider } from 'material-ui'
+import { sliderStyle } from 'components/common/styles'
 import type { Steps } from 'types/step'
 import Rack from 'components/common/rack'
 import Scheduler from 'seq/scheduler'
@@ -24,11 +25,14 @@ type State = {
   synthsMap: { [string]: Synth },
   steps: Steps,
   playing: boolean,
+  bpm: number,
 }
 
 type Props = {
   defaultTracks: number,
 }
+
+const defaultBpm = 130
 
 export default class SeqContainer extends Component {
   static defaultProps = {
@@ -41,10 +45,11 @@ export default class SeqContainer extends Component {
     synthsMap: {},
     steps: initSteps(0),
     playing: false,
+    bpm: defaultBpm,
   }
 
   componentWillMount() {
-    this.scheduler = new Scheduler()
+    this.scheduler = new Scheduler(defaultBpm)
     this.scheduler.onScheduling = (tone: Tone) => {
       const { synthsMap } = this.state
       const { trackId } = tone
@@ -96,7 +101,7 @@ export default class SeqContainer extends Component {
   }
 
   render() {
-    const { tracks, playing } = this.state
+    const { tracks, playing, bpm } = this.state
     const playButton = (<Button
       primary
       style={buttonStyle}
@@ -126,6 +131,20 @@ export default class SeqContainer extends Component {
           onClick={() => this.addTrack()}
           label="Add Track"
         />
+        <div style={{ width: 400, padding: 20 }}>
+          BPM: {bpm}
+          <Slider
+            sliderStyle={sliderStyle}
+            value={bpm}
+            min={60}
+            max={240}
+            step={1}
+            onChange={(ev, v) => {
+              this.scheduler.setBpm(v)
+              this.setState({ bpm: v })
+            }}
+          />
+        </div>
       </div>
       {tracks}
     </Rack>)
