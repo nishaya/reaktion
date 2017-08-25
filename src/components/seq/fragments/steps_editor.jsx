@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Dialog, Checkbox } from 'material-ui'
+import { Dialog } from 'material-ui'
 import type { Steps } from 'types/step'
 
 type Props = {
@@ -53,22 +53,23 @@ export default class StepEdit extends Component {
   render() {
     const { show, steps, onRequestClose } = this.props
     const { editNotes } = this.state
+    const checkWidth = Math.ceil(480 / steps.length)
     return (<div>
       <Dialog
         open={show}
         onRequestClose={onRequestClose}
         title="edit steps"
       >
-        <div style={{ width: '500px' }}>
+        <div style={{ width: '600px' }}>
           {editNotes.map((en) => {
             const boxes = new Array(steps.length).fill(null).map((x, index) => {
               const step = steps.list.find(s => s.position === index && s.note === en)
               const checked = step !== undefined && step.note === en
+              const style = { ...(checked ? checkedStyle : checkBoxStyle), width: checkWidth }
               const key = `e_${en}_${index}`
               return (<checkbox
                 key={key}
-                style={checked ? checkedStyle : checkBoxStyle}
-                checked={checked}
+                style={style}
                 onClick={() => {
                   this.checkStep(index, en, !checked)
                 }}
@@ -76,7 +77,7 @@ export default class StepEdit extends Component {
             })
             boxes.push(<br />)
             return boxes
-          })}
+          }).reverse()}
         </div>
       </Dialog>
     </div>)
