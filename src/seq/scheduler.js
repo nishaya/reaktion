@@ -58,13 +58,16 @@ export default class Scheduler {
 
     if (this.lastPlayed < current) {
       this.lastPlayed += this.msPerStep
-      // ms to sec
-      const offset = (this.lastPlayed - current) / 1000
 
       const currentStep = this.step % this.steps.length
       this.steps.list
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
+          // ms to sec
+          const offset = (
+            this.lastPlayed +
+            ((step.position - currentStep) * this.msPerStep) -
+            current) / 1000
           const { note, velocity, trackId, duration } = step
           const dur = (duration * this.msPerStep) / 1000
           this.onScheduling({ note, offset, velocity, trackId, duration: dur })

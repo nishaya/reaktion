@@ -32,7 +32,7 @@ type Props = {
   defaultTracks: number,
 }
 
-const defaultBpm = 130
+const defaultBpm = 133
 
 export default class SeqContainer extends Component {
   static defaultProps = {
