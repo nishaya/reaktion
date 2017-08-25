@@ -29,7 +29,6 @@ export default class StepEdit extends Component {
   }
 
   componentWillMount() {
-    console.log('drums', this.props.drums)
     if (this.props.drums) {
       this.setState({ editNotes: [0, 1, 2, 6] })
     }
@@ -41,7 +40,6 @@ export default class StepEdit extends Component {
   }
 
   checkStep(position: number, note: number, checked: boolean) {
-    console.log('checkStep', position, note, checked)
     const { onEdit, steps } = this.props
     if (checked) {
       const newSteps = steps.list.slice(0)
@@ -54,7 +52,6 @@ export default class StepEdit extends Component {
       onEdit({ ...steps, list: newSteps })
     } else {
       const newSteps = steps.list.filter(s => s.position !== position || s.note !== note)
-      console.log(newSteps)
       onEdit({ ...steps, list: newSteps })
     }
   }
