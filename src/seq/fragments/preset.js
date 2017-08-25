@@ -20,7 +20,7 @@ export const seqFragments: Array<FragmentSetting> = [
   },
   {
     class: Scale,
-    props: { root: 0 },
+    props: { root: 2 },
   },
   {
     class: Limit,

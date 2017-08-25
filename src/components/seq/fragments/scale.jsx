@@ -13,12 +13,13 @@ type Props = {
   steps: Steps,
   onChange: (steps: Steps) => any,
   count: number,
-  scale: number,
+  root: number,
 }
 
 type State = {
   count: number,
   steps: Steps,
+  root: number,
 }
 
 const rootOptions = roots.map((r, i) => <MenuItem key={`root_${r}`} value={i} primaryText={r} />)
@@ -26,17 +27,19 @@ const rootOptions = roots.map((r, i) => <MenuItem key={`root_${r}`} value={i} pr
 export default class Scale extends Component<any, Props, State> {
   static defaultProps = {
     count: 1,
-    scale: 0,
+    root: 0,
     steps: initSteps(0),
   }
 
   state: State = {
+    root: 0,
     count: 1,
     steps: initSteps(0),
   }
 
   componentDidMount() {
-    this.setScale(this.props.scale)
+    console.log(this.props)
+    this.setScale(this.props.root)
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -45,8 +48,8 @@ export default class Scale extends Component<any, Props, State> {
     }
   }
 
-  setScale(scale: number) {
-    this.setState({ scale }, () => {
+  setScale(root: number) {
+    this.setState({ root }, () => {
       this.transform(this.props.steps)
     })
   }
@@ -66,13 +69,16 @@ export default class Scale extends Component<any, Props, State> {
   }
 
   render() {
-    const { steps, scale } = this.state
+    const { steps, root } = this.state
     return (<Box theme={{ bgColor: '#B39DDB' }}>
       <div className="control">
         <h2>{icon('scale')}scale</h2>
         <SelectField
           style={{ width: 100 }}
-          value={scale}
+          value={root}
+          onChange={(ev, v) => {
+            this.setScale(v)
+          }}
         >
           {rootOptions}
         </SelectField>
