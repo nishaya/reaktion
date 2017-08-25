@@ -15,6 +15,9 @@ type State = {
   editNotes: Array<number>,
 }
 
+const checkBoxStyle = { border: '2px solid #ccc', display: 'inline-block', width: 20, height: 20, padding: 0, margin: 1 }
+const checkedStyle = { ...checkBoxStyle, backgroundColor: '#999' }
+
 export default class StepEdit extends Component {
   static defaultProps = {
     show: false,
@@ -58,19 +61,21 @@ export default class StepEdit extends Component {
       >
         <div style={{ width: '500px' }}>
           {editNotes.map((en) => {
-            return new Array(steps.length).fill(null).map((x, index) => {
-              const step = steps.list.find(s => s.position === index)
-              const checked = step !== undefined
-              const key = `e_${index}`
-              return (<Checkbox
+            const boxes = new Array(steps.length).fill(null).map((x, index) => {
+              const step = steps.list.find(s => s.position === index && s.note === en)
+              const checked = step !== undefined && step.note === en
+              const key = `e_${en}_${index}`
+              return (<checkbox
                 key={key}
-                style={{ padding: 0, margin: 0, width: 30 }}
+                style={checked ? checkedStyle : checkBoxStyle}
                 checked={checked}
-                onCheck={(e, v) => {
-                  this.checkStep(index, 60, v)
+                onClick={() => {
+                  this.checkStep(index, en, !checked)
                 }}
               />)
             })
+            boxes.push(<br />)
+            return boxes
           })}
         </div>
       </Dialog>
