@@ -12,6 +12,7 @@ const iconNames = {
   limit: 'vertical_align_top',
   finishing: 'done',
   stretch: 'zoom_out_map',
+  scale: 'reorder',
 }
 
 export const icon = (name: string, size?: number) => {
