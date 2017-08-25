@@ -1,9 +1,9 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Slider, MenuItem, SelectField } from 'material-ui'
+import { MenuItem, SelectField } from 'material-ui'
 import type { Steps } from 'types/step'
-import { roots, majorScale } from 'utils/music'
+import { roots } from 'utils/music'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -13,6 +13,7 @@ type Props = {
   steps: Steps,
   onChange: (steps: Steps) => any,
   count: number,
+  scale: number,
 }
 
 type State = {
@@ -20,11 +21,12 @@ type State = {
   steps: Steps,
 }
 
-const rootOptions = roots.map((r, i) => <MenuItem value={i} primaryText={r} />)
+const rootOptions = roots.map((r, i) => <MenuItem key={`root_${r}`} value={i} primaryText={r} />)
 
 export default class Scale extends Component<any, Props, State> {
   static defaultProps = {
     count: 1,
+    scale: 0,
     steps: initSteps(0),
   }
 
@@ -34,7 +36,7 @@ export default class Scale extends Component<any, Props, State> {
   }
 
   componentDidMount() {
-    this.setCount(this.props.count)
+    this.setScale(this.props.scale)
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -43,8 +45,8 @@ export default class Scale extends Component<any, Props, State> {
     }
   }
 
-  setCount(count: number) {
-    this.setState({ count }, () => {
+  setScale(scale: number) {
+    this.setState({ scale }, () => {
       this.transform(this.props.steps)
     })
   }
@@ -64,23 +66,16 @@ export default class Scale extends Component<any, Props, State> {
   }
 
   render() {
-    const { steps, count } = this.state
+    const { steps, scale } = this.state
     return (<Box theme={{ bgColor: '#B39DDB' }}>
       <div className="control">
         <h2>{icon('scale')}scale</h2>
-        <SelectField>
+        <SelectField
+          style={{ width: 100 }}
+          value={scale}
+        >
           {rootOptions}
         </SelectField>
-        <Slider
-          max={4}
-          min={0.25}
-          value={count}
-          step={0.25}
-          onChange={(e, v) => this.setCount(v)}
-        />
-        <div>
-          x {count}
-        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)
