@@ -9,6 +9,7 @@ type Props = {
   steps: Steps,
   onEdit: (newSteps: Steps) => any,
   onRequestClose: () => void,
+  drums: boolean,
 }
 
 type State = {
@@ -24,6 +25,14 @@ export default class StepEdit extends Component {
     steps: [],
     onEdit: (newSteps: Steps) => console.log(newSteps),
     onRequestClose: () => {},
+    drums: false,
+  }
+
+  componentWillMount() {
+    console.log('drums', this.props.drums)
+    if (this.props.drums) {
+      this.setState({ editNotes: [0, 1, 2, 6] })
+    }
   }
 
   props: Props

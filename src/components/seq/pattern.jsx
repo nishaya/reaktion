@@ -93,6 +93,7 @@ export default class Pattern extends Component<any, State, Props> {
   }
 
   render() {
+    const { patternType } = this.props
     const { stepsList, initialSteps } = this.state
     const { length } = this.props
     return (<div>
@@ -126,6 +127,7 @@ export default class Pattern extends Component<any, State, Props> {
       <div>
         <div>
           <StepsGenerator
+            drums={patternType === 'drums'}
             steps={initialSteps}
             onChange={(steps: Steps) => {
               this.modifySteps(0, steps)

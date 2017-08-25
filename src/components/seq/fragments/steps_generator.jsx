@@ -10,6 +10,7 @@ import { icon } from './icon'
 type Props = {
   steps: Steps,
   onChange: (steps: Steps) => any,
+  drums: boolean,
 }
 
 type State = {
@@ -36,6 +37,7 @@ export default class StepsGenerator extends Component<any, Props, State> {
   static defaultProps = {
     steps: initSteps(0),
     onChange: (steps: Steps) => console.log('Step.onChange', steps),
+    drums: false,
   }
 
   state: { showEdit: bool, steps: Steps } = {
@@ -63,6 +65,7 @@ export default class StepsGenerator extends Component<any, Props, State> {
   props: Props
 
   render() {
+    const { drums } = this.props
     const { showEdit, steps } = this.state
     const length = steps.length
     if (length <= 0) {
@@ -83,6 +86,7 @@ export default class StepsGenerator extends Component<any, Props, State> {
         />
         <RaisedButton onClick={() => this.setState({ showEdit: !showEdit })}>Edit</RaisedButton>
         <StepsEditor
+          drums={drums}
           show={showEdit}
           steps={steps}
           onEdit={(newSteps: Steps) => {
