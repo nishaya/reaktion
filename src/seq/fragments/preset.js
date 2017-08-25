@@ -1,6 +1,6 @@
 // @flow
 
-import { FragmentSetting } from 'types/pattern'
+import type { FragmentSetting } from 'types/pattern'
 import Fragments from 'components/seq/fragments/index'
 
 const { Stairs, Transpose, Repeat, Limit, Stretch, Scale } = Fragments
@@ -18,10 +18,12 @@ export const seqFragments: Array<FragmentSetting> = [
     class: Repeat,
     props: { count: 2 },
   },
+  /*
   {
     class: Scale,
     props: { root: 2 },
   },
+  */
   {
     class: Limit,
     props: { top: 100, bottom: 10 },
