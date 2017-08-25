@@ -3,7 +3,7 @@
 import { FragmentSetting } from 'types/pattern'
 import Fragments from 'components/seq/fragments/index'
 
-const { Stairs, Transpose, Repeat, Limit } = Fragments
+const { Stairs, Transpose, Repeat, Limit, Stretch } = Fragments
 
 export const seqFragments: Array<FragmentSetting> = [
   {
@@ -21,6 +21,13 @@ export const seqFragments: Array<FragmentSetting> = [
   {
     class: Limit,
     props: { top: 100, bottom: 10 },
+  },
+]
+
+export const drumsFragments: Array<FragmentSetting> = [
+  {
+    class: Stretch,
+    props: { count: 1.0 },
   },
 ]
 

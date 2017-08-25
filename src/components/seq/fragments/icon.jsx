@@ -11,6 +11,7 @@ const iconNames = {
   repeat: 'repeat',
   limit: 'vertical_align_top',
   finishing: 'done',
+  stretch: 'zoom_out_map',
 }
 
 export const icon = (name: string, size?: number) => {
