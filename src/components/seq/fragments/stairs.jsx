@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
+import { sliderStyle } from 'components/common/styles'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -80,7 +81,9 @@ export default class Stairs extends Component<any, Props, State> {
     return (<Box theme={{ bgColor: '#E6EE9C' }}>
       <div className="control">
         <h2>{icon('stairs')}stairs</h2>
+        by {notes} notes
         <Slider
+          sliderStyle={sliderStyle}
           max={12}
           min={-12}
           value={notes}
@@ -88,7 +91,7 @@ export default class Stairs extends Component<any, Props, State> {
           onChange={(e, v) => this.setNotes(v, perNote)}
         />
         <div>
-          by {notes} notes / {perNote ? 'per note' : 'per step'}
+          {perNote ? 'per note' : 'per step'}
         </div>
       </div>
       <StepsPreview steps={steps} />
