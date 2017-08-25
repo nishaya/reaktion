@@ -29,10 +29,12 @@ export const padFragments: Array<FragmentSetting> = [
     class: Repeat,
     props: { count: 4 },
   },
+/*
   {
     class: Stairs,
     props: { notes: 5 },
   },
+*/
 ]
 
 
