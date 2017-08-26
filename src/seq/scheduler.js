@@ -8,11 +8,13 @@ const now = (): number => performance.now()
 export default class Scheduler {
   bpm: number = 130
   msPerStep: number
+  shuffleOffset: number
 
   playing: boolean = false
   started: number = -1
   lastPlayed: number = 0
   step: number = 0
+  shuffle: number = 1.0
 
   steps: Steps = { length: 0, list: [] }
 
@@ -30,6 +32,7 @@ export default class Scheduler {
   setBpm(bpm: number) {
     this.bpm = bpm
     this.msPerStep = 60000 / bpm / 4
+    this.shuffleOffset = (this.msPerStep / 3) * this.shuffle
   }
 
   getLoopInterval() {
@@ -60,6 +63,10 @@ export default class Scheduler {
       this.lastPlayed += this.msPerStep
 
       const currentStep = this.step % this.steps.length
+      let sof = 0
+      if (currentStep % 2 === 1) {
+        sof = this.shuffleOffset
+      }
       this.steps.list
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
@@ -67,7 +74,7 @@ export default class Scheduler {
           const offset = (
             this.lastPlayed +
             ((step.position - currentStep) * this.msPerStep) -
-            current) / 1000
+            current + sof) / 1000
           const { note, velocity, trackId, duration } = step
           const dur = (duration * this.msPerStep) / 1000
           this.onScheduling({ note, offset, velocity, trackId, duration: dur })
