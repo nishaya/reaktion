@@ -30,7 +30,7 @@ export default class StepEdit extends Component {
 
   componentWillMount() {
     if (this.props.drums) {
-      this.setState({ editNotes: [0, 1, 2, 6] })
+      this.setState({ editNotes: [0, 2, 6, 7, 1] })
     }
   }
 
