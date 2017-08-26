@@ -79,13 +79,6 @@ export default class Scheduler {
           const dur = (duration * this.msPerStep) / 1000
           this.onScheduling({ note, offset, velocity, trackId, duration: dur })
         })
-
-      /*
-      if (this.step % 4 === 0) {
-        this.onBeat({ note: 0, offset })
-      }
-      */
-
       this.step += 1
     }
 
