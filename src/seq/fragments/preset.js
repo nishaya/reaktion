@@ -6,7 +6,10 @@ import Fragments from 'components/seq/fragments/index'
 const { Stairs, Transpose, Repeat, Limit, Stretch, Scale } = Fragments
 
 export const seqFragments: Array<FragmentSetting> = [
-/*
+  {
+    class: Repeat,
+    props: { count: 2 },
+  },
   {
     class: Stairs,
     props: { notes: 5 },
@@ -16,25 +19,8 @@ export const seqFragments: Array<FragmentSetting> = [
     props: { transpose: -31 },
   },
   {
-    class: Repeat,
-    props: { count: 2 },
-  },
-*/
-  {
-    class: Repeat,
-    props: { count: 4 },
-  },
-  {
-    class: Stairs,
-    props: { notes: 1 },
-  },
-  {
     class: Scale,
     props: { root: 2 },
-  },
-  {
-    class: Limit,
-    props: { top: 100, bottom: 10 },
   },
 ]
 
@@ -50,12 +36,10 @@ export const padFragments: Array<FragmentSetting> = [
     class: Repeat,
     props: { count: 4 },
   },
-/*
   {
-    class: Stairs,
-    props: { notes: 5 },
+    class: Scale,
+    props: { root: 2 },
   },
-*/
 ]
 
 
