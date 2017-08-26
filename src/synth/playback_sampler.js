@@ -18,7 +18,7 @@ export default class PlaybackSampler {
   }
 
   play(options: PlaybackOptions = {}) {
-    console.log('PlaybackSampler.play', this.sample)
+    // console.log('PlaybackSampler.play', this.sample)
     const { when, duration, playbackRate } = {
       ...defaultOptions,
       ...options,

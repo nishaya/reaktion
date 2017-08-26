@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { MenuItem, SelectField } from 'material-ui'
 import type { Steps } from 'types/step'
-import { roots, scales, note2name } from 'utils/music'
+import { roots, scales } from 'utils/music'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -54,7 +54,6 @@ export default class Scale extends Component<any, Props, State> {
 
   setScale(root: number) {
     const notes = scaleNotes.map(n => (root + n) % 12).sort((a, b) => a - b)
-    console.log('setScalee', root, notes)
     this.setState({ root, notes }, () => {
       this.transform(this.props.steps)
     })
@@ -70,13 +69,12 @@ export default class Scale extends Component<any, Props, State> {
       const m = note % 12
       const adj = cnotes.find(rn => rn >= m) || 0
       note = Math.floor(note / 12) * 12 + m + (m - adj)
-      console.log(`${note2name(s.note)}(${s.note}) => ${note2name(note)}(${note})`, m, adj)
+      // console.log(`${note2name(s.note)}(${s.note}) => ${note2name(note)}(${note})`, m, adj)
       return {
         ...s,
         note,
       }
     })
-    console.log(list)
     const newSteps = { ...steps, list }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
