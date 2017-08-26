@@ -26,6 +26,7 @@ type State = {
   steps: Steps,
   playing: boolean,
   bpm: number,
+  shuffle: number,
 }
 
 type Props = {
@@ -46,10 +47,13 @@ export default class SeqContainer extends Component {
     steps: initSteps(0),
     playing: false,
     bpm: defaultBpm,
+    shuffle: 0.3,
   }
 
   componentWillMount() {
-    this.scheduler = new Scheduler(defaultBpm)
+    const { shuffle } = this.state
+    this.scheduler = new Scheduler()
+    this.scheduler.setBpm(defaultBpm, shuffle)
     this.scheduler.onScheduling = (tone: Tone) => {
       const { synthsMap } = this.state
       const { trackId } = tone
@@ -101,7 +105,7 @@ export default class SeqContainer extends Component {
   }
 
   render() {
-    const { tracks, playing, bpm } = this.state
+    const { tracks, playing, bpm, shuffle } = this.state
     const playButton = (<Button
       primary
       style={buttonStyle}
@@ -131,19 +135,35 @@ export default class SeqContainer extends Component {
           onClick={() => this.addTrack()}
           label="Add Track"
         />
-        <div style={{ width: 400, padding: 20 }}>
-          BPM: {bpm}
-          <Slider
-            sliderStyle={sliderStyle}
-            value={bpm}
-            min={60}
-            max={240}
-            step={1}
-            onChange={(ev, v) => {
-              this.scheduler.setBpm(v)
-              this.setState({ bpm: v })
-            }}
-          />
+        <div>
+          <div style={{ width: 400, padding: 10, display: 'inline-block' }}>
+            BPM: {bpm}
+            <Slider
+              sliderStyle={sliderStyle}
+              value={bpm}
+              min={60}
+              max={240}
+              step={1}
+              onChange={(ev, v) => {
+                this.scheduler.setBpm(v, shuffle)
+                this.setState({ bpm: v })
+              }}
+            />
+          </div>
+          <div style={{ width: 200, padding: 10, display: 'inline-block' }}>
+            Suffle: {Math.ceil(shuffle * 100)} %
+            <Slider
+              sliderStyle={sliderStyle}
+              value={shuffle}
+              min={0}
+              max={1.0}
+              step={0.01}
+              onChange={(ev, v) => {
+                this.scheduler.setBpm(bpm, v)
+                this.setState({ shuffle: v })
+              }}
+            />
+          </div>
         </div>
       </div>
       {tracks}

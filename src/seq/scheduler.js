@@ -29,8 +29,9 @@ export default class Scheduler {
     this.steps = steps
   }
 
-  setBpm(bpm: number) {
+  setBpm(bpm: number, shuffle: number = 0) {
     this.bpm = bpm
+    this.shuffle = shuffle
     this.msPerStep = 60000 / bpm / 4
     this.shuffleOffset = (this.msPerStep / 3) * this.shuffle
   }
