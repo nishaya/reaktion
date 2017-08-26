@@ -62,12 +62,12 @@ export default class Scale extends Component<any, Props, State> {
 
   transform(steps: Steps) {
     const { notes } = this.state
-    const rnotes = [...notes].reverse()
-    console.log('rnotes', rnotes)
+    const cnotes = [...notes].concat(notes.map(n => n + 12))
+    console.log(cnotes)
     const list = steps.list.map((s) => {
       let note = s.note
       const m = note % 12
-      const adj = rnotes.find(rn => rn <= m) || 0
+      const adj = cnotes.find(rn => rn >= m) || 0
       note = Math.floor(note / 12) * 12 + m + (m - adj)
       console.log(`${note2name(s.note)}(${s.note}) => ${note2name(note)}(${note})`, m, adj)
       return {
