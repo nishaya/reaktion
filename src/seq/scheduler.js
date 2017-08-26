@@ -14,7 +14,7 @@ export default class Scheduler {
   started: number = -1
   lastPlayed: number = 0
   step: number = 0
-  shuffle: number = 1.0
+  shuffle: number = 0.5
 
   steps: Steps = { length: 0, list: [] }
 
@@ -64,8 +64,10 @@ export default class Scheduler {
 
       const currentStep = this.step % this.steps.length
       let sof = 0
+      let sgap = this.shuffleOffset
       if (currentStep % 2 === 1) {
         sof = this.shuffleOffset
+        sgap *= -1
       }
       this.steps.list
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
@@ -73,7 +75,7 @@ export default class Scheduler {
           // ms to sec
           const offset = (
             this.lastPlayed +
-            ((step.position - currentStep) * this.msPerStep) -
+            ((step.position - currentStep) * (this.msPerStep + sgap)) -
             current + sof) / 1000
           const { note, velocity, trackId, duration } = step
           const dur = (duration * this.msPerStep) / 1000
