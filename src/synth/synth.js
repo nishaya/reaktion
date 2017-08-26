@@ -7,8 +7,6 @@ import type {
   DrumType,
   DrumPreset,
   SynthPreset,
-  OscSynthPreset,
-  SampleSynthPreset,
 } from 'types/synth'
 import PlaybackSampler from './playback_sampler'
 import { generateWhiteNoise } from './gen/noise'
@@ -57,7 +55,7 @@ export default class Synth {
       this.waveform = preset.waveform
       this.play = this.playSynth
       this.oscSynthPreset = preset
-    } else if (preset.type === 'sample') {
+    } else if (preset.type === 'sample' && preset.sample) {
       this.play = this.playSample
       this.sampleSynthPreset = preset
       this.sampler = new PlaybackSampler(preset.sample)

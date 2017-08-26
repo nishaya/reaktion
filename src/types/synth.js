@@ -21,15 +21,11 @@ export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle'
 
 export type SynthPresetType = 'osc' | 'sample'
 
-export type OscSynthPreset = {
-  type: string,
+export type SynthPreset = {
+  type: SynthPresetType,
   waveform: Waveform,
+  sample: ?Sample,
 }
-export type SampleSynthPreset = {
-  type: string,
-  sample: Sample,
-}
-export type SynthPreset = OscSynthPreset | SampleSynthPreset
 
 export type DrumType = 'kick' | 'snare' | 'ohh' | 'chh' | 'cymbal'
 export type DrumPresetType = 'sample' | 'synth'

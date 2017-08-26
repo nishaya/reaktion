@@ -41,7 +41,7 @@ export default class SynthControl extends Component {
   state: State = {
     sampleList: {},
     drumList: {},
-    synthPreset: { type: 'osc', waveform: 'square' },
+    synthPreset: { type: 'osc', waveform: 'square', sample: null },
     synthEditType: 'osc',
   }
 
@@ -82,7 +82,7 @@ export default class SynthControl extends Component {
     if (preloadSample && synthPreset.type !== 'sample') {
       const selectedSample = samples[preloadSample]
       if (selectedSample) {
-        this.changeSynthPreset({ type: 'sample', sample: selectedSample })
+        this.changeSynthPreset({ ...synthPreset, type: 'sample', sample: selectedSample })
       }
     }
 
@@ -109,7 +109,7 @@ export default class SynthControl extends Component {
           floatingLabelText="Waveform"
           value={waveform}
           onChange={(ev, key, value) => {
-            this.changeSynthPreset({ type: 'osc', waveform: value })
+            this.changeSynthPreset({ type: 'osc', waveform: value, sample: null })
           }}
         >
           <MenuItem key="w1" value="square" primaryText="Square" />
@@ -130,7 +130,7 @@ export default class SynthControl extends Component {
           sampleList={sampleList}
           onChange={(sampleId) => {
             const selectedSample = samples[sampleId]
-            this.changeSynthPreset({ type: 'sample', sample: selectedSample })
+            this.changeSynthPreset({ ...synthPreset, ype: 'sample', sample: selectedSample })
           }}
         />
       </div>)
