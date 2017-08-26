@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Dialog } from 'material-ui'
 import type { Steps } from 'types/step'
+import { roots } from 'utils/music'
 
 type Props = {
   show: boolean,
@@ -16,8 +17,26 @@ type State = {
   editNotes: Array<number>,
 }
 
-const checkBoxStyle = { border: '2px solid #ccc', display: 'inline-block', width: 20, height: 20, padding: 0, margin: 1 }
+const checkBoxStyle = {
+  border: '2px solid #ccc',
+  display: 'inline-block',
+  width: 20,
+  height: 20,
+  padding: 0,
+  margin: 1,
+  marginBottom: 0,
+}
 const checkedStyle = { ...checkBoxStyle, backgroundColor: '#999' }
+
+const drumLabels: Array<{ note: number, name: string }> = [
+  { note: 0, name: 'kick' },
+  { note: 2, name: 'snare' },
+  { note: 6, name: 'chh' },
+  { note: 10, name: 'ohh' },
+  { note: 1, name: 'cymbal' },
+]
+
+const labelStyle = { width: 60, display: 'inline-block', textAlign: 'right', paddingRight: 4, verticalAlign: '30%' }
 
 export default class StepEdit extends Component {
   static defaultProps = {
@@ -30,7 +49,7 @@ export default class StepEdit extends Component {
 
   componentWillMount() {
     if (this.props.drums) {
-      this.setState({ editNotes: [0, 2, 6, 7, 1] })
+      this.setState({ editNotes: [0, 2, 6, 10, 1] })
     }
   }
 
@@ -57,9 +76,9 @@ export default class StepEdit extends Component {
   }
 
   render() {
-    const { show, steps, onRequestClose } = this.props
+    const { show, steps, onRequestClose, drums } = this.props
     const { editNotes } = this.state
-    const checkWidth = Math.ceil(480 / steps.length)
+    const checkWidth = Math.ceil(400 / steps.length)
     return (<div>
       <Dialog
         open={show}
@@ -81,8 +100,15 @@ export default class StepEdit extends Component {
                 }}
               />)
             })
-            boxes.push(<br />)
-            return boxes
+            // boxes.push(<br />)
+            let label = roots[en % 12]
+            if (drums) {
+              const drumLabel = drumLabels.find(dl => dl.note === en % 12)
+              if (drumLabel) {
+                label = drumLabel.name
+              }
+            }
+            return [(<div style={labelStyle}>{label}</div>), ...boxes, (<br />)]
           }).reverse()}
         </div>
       </Dialog>
