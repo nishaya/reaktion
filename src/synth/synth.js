@@ -31,8 +31,7 @@ export default class Synth {
   noise: AudioBuffer
   play: (tone: Tone) => void
   drumsMap: DrumsMap = {}
-  oscSynthPreset: OscSynthPreset = { type: 'osc', waveform: 'square' }
-  sampleSynthPreset: SampleSynthPreset
+  synthPreset: SynthPreset = { type: 'osc', waveform: 'square', sample: null }
   sampler: PlaybackSampler
 
   constructor(type: SynthType = 'synth') {
@@ -50,14 +49,12 @@ export default class Synth {
   }
 
   setSynth(preset: SynthPreset) {
-    console.log('setSynth', preset)
+    this.synthPreset = preset
     if (preset.type === 'osc') {
       this.waveform = preset.waveform
       this.play = this.playSynth
-      this.oscSynthPreset = preset
     } else if (preset.type === 'sample' && preset.sample) {
       this.play = this.playSample
-      this.sampleSynthPreset = preset
       this.sampler = new PlaybackSampler(preset.sample)
     }
   }
@@ -82,15 +79,20 @@ export default class Synth {
       gain.connect(ctx.destination)
       osc.start(startTime)
       osc.stop(startTime + duration)
-    } else if (part === 6) { // chh
+    } else if (part === 6 || part === 10) { // chh & ohh
       const source = ctx.createBufferSource()
-      const duration = 0.02
-      const release = 0.1
+      let duration = 0.01
+      let release = 0.05
       const gain = ctx.createGain()
+
+      if (part === 10) {
+        duration = 0.01
+        release = 0.4
+      }
 
       source.buffer = this.noise
       source.loop = true
-      const volume = velocity / 127 * 0.8
+      const volume = velocity / 127 * 0.7
       gain.gain.setValueAtTime(volume, startTime)
       gain.gain.setValueAtTime(volume, startTime + duration)
       gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration + release)
