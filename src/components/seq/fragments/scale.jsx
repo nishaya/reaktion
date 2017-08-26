@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { MenuItem, SelectField } from 'material-ui'
 import type { Steps } from 'types/step'
-import { roots, majorScale } from 'utils/music'
+import { roots, majorScale, note2name } from 'utils/music'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -62,17 +62,20 @@ export default class Scale extends Component<any, Props, State> {
 
   transform(steps: Steps) {
     const { notes } = this.state
-    const rnotes = notes.reverse()
+    const rnotes = [...notes].reverse()
+    console.log('rnotes', rnotes)
     const list = steps.list.map((s) => {
       let note = s.note
       const m = note % 12
-      const adj = rnotes.find(rn => rn <= m)
-      note += (m - adj)
+      const adj = rnotes.find(rn => rn <= m) || 0
+      note = Math.floor(note / 12) * 12 + m + (m - adj)
+      console.log(`${note2name(s.note)}(${s.note}) => ${note2name(note)}(${note})`, m, adj)
       return {
         ...s,
         note,
       }
     })
+    console.log(list)
     const newSteps = { ...steps, list }
     this.props.onChange(newSteps)
     this.setState({ steps: newSteps })
