@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { MenuItem, SelectField } from 'material-ui'
 import type { Steps } from 'types/step'
-import { roots, majorScale, note2name } from 'utils/music'
+import { roots, scales, note2name } from 'utils/music'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -25,6 +25,8 @@ type State = {
 
 const rootOptions = roots.map((r, i) => <MenuItem key={`root_${r}`} value={i} primaryText={r} />)
 
+const scaleNotes = scales.major
+
 export default class Scale extends Component<any, Props, State> {
   static defaultProps = {
     count: 1,
@@ -36,7 +38,7 @@ export default class Scale extends Component<any, Props, State> {
     root: 0,
     count: 1,
     steps: initSteps(0),
-    notes: majorScale,
+    notes: scaleNotes,
   }
 
   componentDidMount() {
@@ -51,7 +53,7 @@ export default class Scale extends Component<any, Props, State> {
   }
 
   setScale(root: number) {
-    const notes = majorScale.map(n => (root + n) % 12).sort((a, b) => a - b)
+    const notes = scaleNotes.map(n => (root + n) % 12).sort((a, b) => a - b)
     console.log('setScalee', root, notes)
     this.setState({ root, notes }, () => {
       this.transform(this.props.steps)
@@ -63,7 +65,6 @@ export default class Scale extends Component<any, Props, State> {
   transform(steps: Steps) {
     const { notes } = this.state
     const cnotes = [...notes].concat(notes.map(n => n + 12))
-    console.log(cnotes)
     const list = steps.list.map((s) => {
       let note = s.note
       const m = note % 12
