@@ -27965,8 +27965,7 @@ var PlaybackSampler = function () {
     value: function play() {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      console.log('PlaybackSampler.play', this.sample);
-
+      // console.log('PlaybackSampler.play', this.sample)
       var _defaultOptions$optio = _extends({}, defaultOptions, options),
           when = _defaultOptions$optio.when,
           duration = _defaultOptions$optio.duration,
@@ -28021,6 +28020,18 @@ Object.defineProperty(exports, "__esModule", {
 var roots = exports.roots = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
 var majorScale = exports.majorScale = [0, 2, 4, 5, 7, 9, 11];
+var minorScale = exports.minorScale = [0, 2, 3, 5, 7, 8, 10];
+
+var scales = exports.scales = {
+  major: majorScale,
+  minor: minorScale
+};
+
+var note2name = exports.note2name = function note2name(note) {
+  var m = note % 12;
+  var o = Math.floor(note / 12) - 2;
+  return '' + roots[m] + o;
+};
 
 exports.default = {};
 
@@ -75895,26 +75906,20 @@ var Stairs = _index2.default.Stairs,
     Transpose = _index2.default.Transpose,
     Repeat = _index2.default.Repeat,
     Limit = _index2.default.Limit,
-    Stretch = _index2.default.Stretch;
+    Stretch = _index2.default.Stretch,
+    Scale = _index2.default.Scale;
 var seqFragments = exports.seqFragments = [{
+  class: Repeat,
+  props: { count: 2 }
+}, {
   class: Stairs,
   props: { notes: 5 }
 }, {
   class: Transpose,
   props: { transpose: -31 }
 }, {
-  class: Repeat,
-  props: { count: 2 }
-},
-/*
-{
   class: Scale,
-  props: { root: 2 },
-},
-*/
-{
-  class: Limit,
-  props: { top: 100, bottom: 10 }
+  props: { root: 2 }
 }];
 
 var drumsFragments = exports.drumsFragments = [{
@@ -75925,6 +75930,9 @@ var drumsFragments = exports.drumsFragments = [{
 var padFragments = exports.padFragments = [{
   class: Repeat,
   props: { count: 4 }
+}, {
+  class: Scale,
+  props: { root: 2 }
 }];
 
 exports.default = {};
@@ -76197,6 +76205,8 @@ var _steps_generator = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -76206,6 +76216,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var rootOptions = _music.roots.map(function (r, i) {
   return _react2.default.createElement(_materialUi.MenuItem, { key: 'root_' + r, value: i, primaryText: r });
 });
+
+var scaleNotes = _music.scales.major;
 
 var Scale = function (_Component) {
   _inherits(Scale, _Component);
@@ -76225,7 +76237,7 @@ var Scale = function (_Component) {
       root: 0,
       count: 1,
       steps: (0, _steps_generator.initSteps)(0),
-      notes: _music.majorScale
+      notes: scaleNotes
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -76247,12 +76259,11 @@ var Scale = function (_Component) {
     value: function setScale(root) {
       var _this2 = this;
 
-      var notes = _music.majorScale.map(function (n) {
+      var notes = scaleNotes.map(function (n) {
         return (root + n) % 12;
       }).sort(function (a, b) {
         return a - b;
       });
-      console.log('setScalee', root, notes);
       this.setState({ root: root, notes: notes }, function () {
         _this2.transform(_this2.props.steps);
       });
@@ -76262,14 +76273,17 @@ var Scale = function (_Component) {
     value: function transform(steps) {
       var notes = this.state.notes;
 
-      var rnotes = notes.reverse();
+      var cnotes = [].concat(_toConsumableArray(notes)).concat(notes.map(function (n) {
+        return n + 12;
+      }));
       var list = steps.list.map(function (s) {
         var note = s.note;
         var m = note % 12;
-        var adj = rnotes.find(function (rn) {
-          return rn <= m;
-        });
-        note += m - adj;
+        var adj = cnotes.find(function (rn) {
+          return rn >= m;
+        }) || 0;
+        note = Math.floor(note / 12) * 12 + m + (m - adj);
+        // console.log(`${note2name(s.note)}(${s.note}) => ${note2name(note)}(${note})`, m, adj)
         return _extends({}, s, {
           note: note
         });
