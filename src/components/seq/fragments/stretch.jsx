@@ -62,7 +62,7 @@ export default class Stretch extends Component<any, Props, State> {
 
   render() {
     const { steps, count } = this.state
-    return (<Box theme={{ bgColor: '#B39DDB' }}>
+    return (<Box theme={{ bgColor: '#FFF59D' }}>
       <div className="control">
         <h2>{icon('stretch')}stretch</h2>
         <Slider

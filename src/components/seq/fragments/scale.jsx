@@ -82,7 +82,7 @@ export default class Scale extends Component<any, Props, State> {
 
   render() {
     const { steps, root } = this.state
-    return (<Box theme={{ bgColor: '#B39DDB' }}>
+    return (<Box theme={{ bgColor: '#81D4FA' }}>
       <div className="control">
         <h2>{icon('scale')}scale</h2>
         <SelectField
