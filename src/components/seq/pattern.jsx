@@ -1,18 +1,9 @@
 import React, { Component } from 'react'
 import type { Steps } from 'types/step'
-import { RaisedButton } from 'material-ui'
 import { PatternType, FragmentSetting } from 'types/pattern'
 import AddFragment from './add_fragment'
 import StepsGenerator, { initSteps } from './fragments/steps_generator'
-import Transpose from './fragments/transpose'
-import Repeat from './fragments/repeat'
-import Stairs from './fragments/stairs'
-import Limit from './fragments/limit'
-import Stretch from './fragments/stretch'
 import Finishing from './fragments/finishing'
-import { icon } from './fragments/icon'
-
-const Button = RaisedButton
 
 type Props = {
   onPatternChanged: (steps: Steps) => void,
@@ -99,33 +90,6 @@ export default class Pattern extends Component<any, State, Props> {
     const { length } = this.props
     return (<div>
       <div>
-        <Button
-          onClick={() => this.addFragment([{ class: Transpose }])}
-          label="Transpose"
-          icon={icon('transpose')}
-        />
-        <Button
-          onClick={() => this.addFragment([{ class: Repeat }])}
-          label="Repeat"
-          icon={icon('repeat')}
-        />
-        <Button
-          onClick={() => this.addFragment([{ class: Stairs }])}
-          label="Stairs"
-          icon={icon('stairs')}
-        />
-        <Button
-          onClick={() => this.addFragment([{ class: Limit }])}
-          label="Limit"
-          icon={icon('limit')}
-        />
-        <Button
-          onClick={() => this.addFragment([{ class: Stretch }])}
-          label="Stretch"
-          icon={icon('stretch')}
-        />
-      </div>
-      <div>
         <div>
           <StepsGenerator
             drums={patternType === 'drums'}
@@ -135,6 +99,7 @@ export default class Pattern extends Component<any, State, Props> {
             }}
           />
           {this.renderFragments()}
+          <AddFragment onMenuSelected={klass => this.addFragment([{ class: klass }])} />
           <Finishing
             patternLength={length}
             steps={stepsList[stepsList.length - 1]}
@@ -142,7 +107,6 @@ export default class Pattern extends Component<any, State, Props> {
               this.props.onPatternChanged(steps)
             }}
           />
-          <AddFragment onMenuSelected={klass => this.addFragment([{ class: klass }])} />
         </div>
       </div>
     </div>)
