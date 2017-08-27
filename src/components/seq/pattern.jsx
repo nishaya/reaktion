@@ -99,7 +99,10 @@ export default class Pattern extends Component<any, State, Props> {
             }}
           />
           {this.renderFragments()}
-          <AddFragment onMenuSelected={klass => this.addFragment([{ class: klass }])} />
+          <AddFragment
+            patternType={patternType}
+            onMenuSelected={klass => this.addFragment([{ class: klass }])}
+          />
           <Finishing
             patternLength={length}
             steps={stepsList[stepsList.length - 1]}

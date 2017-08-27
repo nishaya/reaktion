@@ -7,14 +7,22 @@ import Fragments from './fragments/index'
 
 const { Transpose, Repeat, Stairs, Stretch, Limit, Scale } = Fragments
 
-const fragmentClasses = [Transpose, Repeat, Stairs, Stretch, Limit, Scale]
+const drumFragmentClasses = [Repeat, Stretch]
+const synthFragmentClasses = [Transpose, Repeat, Stairs, Stretch, Limit, Scale]
 
 type Props = {
   onMenuSelected: (klass: Function) => void,
+  patternType: string,
 }
 
 export default class AddFragment extends Component {
   props: Props
+
+  fragmentClasses(): Array<Function> {
+    const { patternType } = this.props
+    return patternType === 'drums' ? drumFragmentClasses : synthFragmentClasses
+  }
+
   render() {
     return (<IconMenu
       iconButtonElement={<IconButton>{icon('add')}</IconButton>}
@@ -22,7 +30,7 @@ export default class AddFragment extends Component {
       anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
       targetOrigin={{ vertical: 'bottom', horizontal: 'left' }}
     >
-      {fragmentClasses.map((klass, i) => {
+      {this.fragmentClasses().map((klass, i) => {
         const className = klass.name
         const iconName = className.toLowerCase()
         const key = `af_${i}_${className}`
