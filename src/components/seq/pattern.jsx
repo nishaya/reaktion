@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import type { Steps } from 'types/step'
 import { RaisedButton } from 'material-ui'
 import { PatternType, FragmentSetting } from 'types/pattern'
+import AddFragment from './add_fragment'
 import StepsGenerator, { initSteps } from './fragments/steps_generator'
 import Transpose from './fragments/transpose'
 import Repeat from './fragments/repeat'
@@ -141,6 +142,7 @@ export default class Pattern extends Component<any, State, Props> {
               this.props.onPatternChanged(steps)
             }}
           />
+          <AddFragment onMenuSelected={klass => this.addFragment([{ class: klass }])} />
         </div>
       </div>
     </div>)

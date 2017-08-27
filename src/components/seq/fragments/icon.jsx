@@ -5,6 +5,7 @@ import { FontIcon } from 'material-ui'
 
 // https://material.io/icons/
 const iconNames = {
+  add: 'add',
   generator: 'more_horiz',
   transpose: 'swap_vert',
   stairs: 'call_made',

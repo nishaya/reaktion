@@ -20,7 +20,7 @@ type State = {
   steps: Steps,
 }
 
-export default class Stairs extends Component<any, Props, State> {
+export default class Repeat extends Component<any, Props, State> {
   static defaultProps = {
     count: 1,
     steps: initSteps(0),
