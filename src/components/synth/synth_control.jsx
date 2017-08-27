@@ -61,6 +61,7 @@ export default class SynthControl extends Component {
   }
 
   changeSynthPreset(synthPreset: SynthPreset) {
+    console.log(synthPreset)
     this.setState({ synthPreset, synthEditType: synthPreset.type })
     this.props.onPresetChanged(synthPreset)
   }
@@ -130,7 +131,7 @@ export default class SynthControl extends Component {
           sampleList={sampleList}
           onChange={(sampleId) => {
             const selectedSample = samples[sampleId]
-            this.changeSynthPreset({ ...synthPreset, ype: 'sample', sample: selectedSample })
+            this.changeSynthPreset({ ...synthPreset, type: 'sample', sample: selectedSample })
           }}
         />
       </div>)
