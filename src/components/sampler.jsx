@@ -169,8 +169,9 @@ class SamplerComponent extends Component {
         step={step}
         value={offset}
         onChange={(e, v) => {
-          const newOffset = v > start ? start : v
-          this.setTrim(newOffset, start, end, loop)
+          const newOffset = v > end ? end : v
+          const newStart = start < newOffset ? newOffset : start
+          this.setTrim(newOffset, newStart, end, loop)
         }}
       />
       start:
@@ -182,7 +183,11 @@ class SamplerComponent extends Component {
         value={start}
         onChange={(e, v) => {
           const newStart = v > end ? end : v
-          this.setTrim(offset, newStart, end, loop)
+          let newOffset = offset
+          if (newStart < offset) {
+            newOffset = newStart
+          }
+          this.setTrim(newOffset, newStart, end, loop)
         }}
       />
       end:
