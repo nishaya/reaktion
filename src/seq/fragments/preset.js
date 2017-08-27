@@ -3,20 +3,20 @@
 import type { FragmentSetting } from 'types/pattern'
 import Fragments from 'components/seq/fragments/index'
 
-const { Stairs, Transpose, Repeat, Limit, Stretch, Scale } = Fragments
+const { Stairs, Transpose, Repeat, Stretch, Scale } = Fragments
 
 export const seqFragments: Array<FragmentSetting> = [
   {
     class: Repeat,
-    props: { count: 2 },
+    props: { count: 1 },
   },
   {
     class: Stairs,
-    props: { notes: 5 },
+    props: { notes: 2 },
   },
   {
     class: Transpose,
-    props: { transpose: -31 },
+    props: { transpose: -20 },
   },
   {
     class: Scale,
@@ -35,6 +35,10 @@ export const padFragments: Array<FragmentSetting> = [
   {
     class: Repeat,
     props: { count: 4 },
+  },
+  {
+    class: Transpose,
+    props: { transpose: -6 },
   },
   {
     class: Scale,
