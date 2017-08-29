@@ -4,9 +4,10 @@ import type { Steps } from 'types/step'
 import type { Tone } from 'types/synth'
 
 const now = (): number => performance.now()
+const DEFAULT_BPM = 130
 
 export default class Scheduler {
-  bpm: number = 130
+  bpm: number = DEFAULT_BPM
   msPerStep: number
   shuffleOffset: number
 
@@ -22,7 +23,7 @@ export default class Scheduler {
   onBeat: (tone: Tone) => void = (tone: Tone) => console.log('onBeat', tone)
 
   constructor() {
-    this.setBpm(130)
+    this.setBpm(DEFAULT_BPM)
   }
 
   setSteps(steps: Steps) {
