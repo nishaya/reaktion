@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Slider } from 'material-ui'
 import type { Steps } from 'types/step'
+import { sliderStyle } from 'components/common/styles'
 import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
@@ -65,16 +66,15 @@ export default class Stretch extends Component<any, Props, State> {
     return (<Box theme={{ bgColor: '#FFF59D' }}>
       <div className="control">
         <h2>{icon('stretch')}stretch</h2>
+        x {count}
         <Slider
+          sliderStyle={sliderStyle}
           max={4}
           min={0.25}
           value={count}
           step={0.25}
           onChange={(e, v) => this.setCount(v)}
         />
-        <div>
-          x {count}
-        </div>
       </div>
       <StepsPreview steps={steps} />
     </Box>)
