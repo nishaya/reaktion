@@ -75,7 +75,7 @@ export default class Limit extends Component<any, Props, State> {
     const { steps, top, bottom } = this.state
     return (<Box theme={{ bgColor: '#F48FB1' }}>
       <div className="control">
-        <h2>{icon('limit')}limit</h2>
+        <h2>{icon('limit')}<span className="text">limit</span></h2>
         top: {top}
         <Slider
           sliderStyle={sliderStyle}

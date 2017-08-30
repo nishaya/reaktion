@@ -80,7 +80,7 @@ export default class Stairs extends Component<any, Props, State> {
     const { steps, notes, perNote } = this.state
     return (<Box theme={{ bgColor: '#E6EE9C' }}>
       <div className="control">
-        <h2>{icon('stairs')}stairs</h2>
+        <h2>{icon('stairs')}<span className="text">stairs</span></h2>
         by {notes} notes
         <Slider
           sliderStyle={sliderStyle}

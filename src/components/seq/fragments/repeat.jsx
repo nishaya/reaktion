@@ -65,7 +65,7 @@ export default class Repeat extends Component<any, Props, State> {
     const { steps, count } = this.state
     return (<Box theme={{ bgColor: '#B39DDB' }}>
       <div className="control">
-        <h2>{icon('repeat')}repeat</h2>
+        <h2>{icon('repeat')}<span className="text">repeat</span></h2>
         {count} times
         <Slider
           sliderStyle={sliderStyle}

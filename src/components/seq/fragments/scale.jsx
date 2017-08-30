@@ -84,7 +84,7 @@ export default class Scale extends Component<any, Props, State> {
     const { steps, root } = this.state
     return (<Box theme={{ bgColor: '#81D4FA' }}>
       <div className="control">
-        <h2>{icon('scale')}scale</h2>
+        <h2>{icon('scale')}<span className="text">scale</span></h2>
         <SelectField
           style={{ width: 100 }}
           value={root}

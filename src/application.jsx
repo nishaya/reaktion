@@ -8,8 +8,14 @@ import { buildStore } from 'utils/build_store'
 import IndexContainer from 'components/index'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 injectTapEventPlugin()
+
+const fontFamily = "'Roboto Mono', monospace"
+const muiTheme = getMuiTheme({
+  fontFamily,
+})
 
 const store = buildStore()
 const root = document.getElementById('app')
@@ -17,8 +23,8 @@ const root = document.getElementById('app')
 try {
   render(
     (<Provider store={store}>
-      <MuiThemeProvider>
-        <div>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div style={{ fontFamily }} >
           <IndexContainer />
         </div>
       </MuiThemeProvider>

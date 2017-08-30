@@ -73,7 +73,7 @@ export default class Transpose extends Component<any, Props, State> {
     const { steps, transpose, octave, notes } = this.state
     return (<Box theme={{ bgColor: '#FFCC80' }}>
       <div className="control">
-        <h2>{icon('transpose')}transpose</h2>
+        <h2>{icon('transpose')}<span className="text">transpose</span></h2>
         <div>
           octave: {octave}
           <Slider
