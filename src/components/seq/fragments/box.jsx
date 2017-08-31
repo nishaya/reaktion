@@ -8,7 +8,7 @@ const Box = styled.div`
   padding: 8px;
   background-color: ${props => props.theme.bgColor};
   display: inline-block;
-  width: 148px;
+  width: 136px;
   box-shadow:1px 1px 2px 1px rgba(0,0,0,0.39);
   xfont-family: 'Roboto Mono', monospace;
   font-size: 14px;
@@ -25,7 +25,7 @@ const Box = styled.div`
 
   .control {
     display: block;
-    height: 200px;
+    height: 180px;
   }
 `
 
