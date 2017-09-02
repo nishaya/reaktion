@@ -43,7 +43,6 @@ export default class Recorder {
   }
 
   stopRecording() {
-    console.log('stop recording')
     if (this.monitor) {
       this.monitor.disconnect(ctx.destination)
       delete this.monitor
@@ -62,35 +61,23 @@ export default class Recorder {
 
   initMediaRecorder(stream: MediaStream) {
     this.stream = stream
-    console.log('initMediaRecorder', stream)
 
     this.mediaRecorder = new MediaRecorder(this.stream, this.options)
     this.mediaRecorder.addEventListener('dataavailable', (e) => {
       if (e.data.size > 0) {
-        console.log('recoring', e.data.size, e.data)
         this.chunks.push(e.data)
       }
     })
 
     this.mediaRecorder.addEventListener('stop', () => {
-      console.log('recorder stopped.')
       const blob: Blob = this.chunks.length === 1 ? this.chunks[0] : new Blob(this.chunks)
-      console.log(this.chunks)
 
       const fileReader = new FileReader()
       fileReader.onload = (e) => {
         const arrayBuffer = e.target.result
-        console.log('arrayBuffer', arrayBuffer)
         ctx.decodeAudioData(arrayBuffer)
           .then((decodeAudioBuffer: AudioBuffer) => {
-            console.log('AudioBuffer decoded', decodeAudioBuffer)
             this.onAudioBufferCaptured(decodeAudioBuffer)
-            /* preview
-            const source = ctx.createBufferSource()
-            source.buffer = decodedData
-            source.connect(ctx.destination)
-            source.start(0)
-            */
           })
       }
 

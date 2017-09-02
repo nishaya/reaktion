@@ -4,9 +4,10 @@ import type { Steps } from 'types/step'
 import type { Tone } from 'types/synth'
 
 const now = (): number => performance.now()
+const DEFAULT_BPM = 130
 
 export default class Scheduler {
-  bpm: number = 130
+  bpm: number = DEFAULT_BPM
   msPerStep: number
   shuffleOffset: number
 
@@ -22,7 +23,7 @@ export default class Scheduler {
   onBeat: (tone: Tone) => void = (tone: Tone) => console.log('onBeat', tone)
 
   constructor() {
-    this.setBpm(130)
+    this.setBpm(DEFAULT_BPM)
   }
 
   setSteps(steps: Steps) {
@@ -64,23 +65,27 @@ export default class Scheduler {
       this.lastPlayed += this.msPerStep
 
       const currentStep = this.step % this.steps.length
-      let sof = 0
-      let sgap = this.shuffleOffset
+      let cShuffleOffset = 0
+      let cShuffleGap = this.shuffleOffset
       if (currentStep % 2 === 1) {
-        sof = this.shuffleOffset
-        sgap *= -1
+        cShuffleOffset = this.shuffleOffset
+        cShuffleGap *= -1
       }
       this.steps.list
         .filter(s => s.position >= currentStep && s.position < currentStep + 1)
         .forEach((step) => {
-          // ms to sec
           const offset = (
             this.lastPlayed +
-            ((step.position - currentStep) * (this.msPerStep + sgap)) -
-            current + sof) / 1000
+            ((step.position - currentStep) * (this.msPerStep + cShuffleGap)) -
+            current + cShuffleOffset) / 1000 // ms to sec
           const { note, velocity, trackId, duration } = step
-          const dur = (duration * this.msPerStep) / 1000
-          this.onScheduling({ note, offset, velocity, trackId, duration: dur })
+          this.onScheduling({
+            note,
+            offset,
+            velocity,
+            trackId,
+            duration: (duration * this.msPerStep) / 1000,
+          })
         })
       this.step += 1
     }

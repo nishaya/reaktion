@@ -7,6 +7,7 @@ import Box from './box'
 const PreviewBox = Box.extend`
   width: 128px;
   margin: 0px;
+  padding: 4px;
 `
 
 const WIDTH = 128
