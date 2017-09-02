@@ -2496,7 +2496,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  margin: 4px;\n  margin-bottom: 16px;\n  padding: 8px;\n  background-color: ', ';\n  display: inline-block;\n  width: 148px;\n  box-shadow:1px 1px 2px 1px rgba(0,0,0,0.39);\n  xfont-family: \'Roboto Mono\', monospace;\n  font-size: 14px;\n\n  h2 {\n    font-size: 18px;\n    font-weight: 800;\n    padding: 2px;\n    margin: 2px;\n    .text {\n      vertical-align: top;\n    }\n  }\n\n  .control {\n    display: block;\n    height: 200px;\n  }\n'], ['\n  margin: 4px;\n  margin-bottom: 16px;\n  padding: 8px;\n  background-color: ', ';\n  display: inline-block;\n  width: 148px;\n  box-shadow:1px 1px 2px 1px rgba(0,0,0,0.39);\n  xfont-family: \'Roboto Mono\', monospace;\n  font-size: 14px;\n\n  h2 {\n    font-size: 18px;\n    font-weight: 800;\n    padding: 2px;\n    margin: 2px;\n    .text {\n      vertical-align: top;\n    }\n  }\n\n  .control {\n    display: block;\n    height: 200px;\n  }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  margin: 4px;\n  margin-bottom: 16px;\n  padding: 8px;\n  background-color: ', ';\n  display: inline-block;\n  width: 136px;\n  box-shadow:1px 1px 2px 1px rgba(0,0,0,0.39);\n  xfont-family: \'Roboto Mono\', monospace;\n  font-size: 14px;\n\n  h2 {\n    font-size: 18px;\n    font-weight: 800;\n    padding: 2px;\n    margin: 2px;\n    .text {\n      vertical-align: top;\n    }\n  }\n\n  .control {\n    display: block;\n    height: 180px;\n  }\n'], ['\n  margin: 4px;\n  margin-bottom: 16px;\n  padding: 8px;\n  background-color: ', ';\n  display: inline-block;\n  width: 136px;\n  box-shadow:1px 1px 2px 1px rgba(0,0,0,0.39);\n  xfont-family: \'Roboto Mono\', monospace;\n  font-size: 14px;\n\n  h2 {\n    font-size: 18px;\n    font-weight: 800;\n    padding: 2px;\n    margin: 2px;\n    .text {\n      vertical-align: top;\n    }\n  }\n\n  .control {\n    display: block;\n    height: 180px;\n  }\n']);
 
 var _styledComponents = __webpack_require__(266);
 
@@ -3522,7 +3522,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 128px;\n  margin: 0px;\n'], ['\n  width: 128px;\n  margin: 0px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 128px;\n  margin: 0px;\n  padding: 4px;\n'], ['\n  width: 128px;\n  margin: 0px;\n  padding: 4px;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -76943,8 +76943,9 @@ var SamplerComponent = function (_Component) {
           step: step,
           value: offset,
           onChange: function onChange(e, v) {
-            var newOffset = v > start ? start : v;
-            _this5.setTrim(newOffset, start, end, loop);
+            var newOffset = v > end ? end : v;
+            var newStart = start < newOffset ? newOffset : start;
+            _this5.setTrim(newOffset, newStart, end, loop);
           }
         }),
         'start:',
@@ -76956,7 +76957,11 @@ var SamplerComponent = function (_Component) {
           value: start,
           onChange: function onChange(e, v) {
             var newStart = v > end ? end : v;
-            _this5.setTrim(offset, newStart, end, loop);
+            var newOffset = offset;
+            if (newStart < offset) {
+              newOffset = newStart;
+            }
+            _this5.setTrim(newOffset, newStart, end, loop);
           }
         }),
         'end:',

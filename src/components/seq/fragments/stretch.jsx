@@ -8,6 +8,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
 import { initSteps } from './steps_generator'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -63,7 +64,7 @@ export default class Stretch extends Component<any, Props, State> {
 
   render() {
     const { steps, count } = this.state
-    return (<Box theme={{ bgColor: '#FFF59D' }}>
+    return (<Box theme={{ bgColor: colors.stretch }}>
       <div className="control">
         <h2>{icon('stretch')}<span className="text">stretch</span></h2>
         x {count}
