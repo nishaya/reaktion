@@ -8,6 +8,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
 import { initSteps } from './steps_generator'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -63,7 +64,7 @@ export default class Repeat extends Component<any, Props, State> {
 
   render() {
     const { steps, count } = this.state
-    return (<Box theme={{ bgColor: '#B39DDB' }}>
+    return (<Box theme={{ bgColor: colors.repeat }}>
       <div className="control">
         <h2>{icon('repeat')}<span className="text">repeat</span></h2>
         {count} times

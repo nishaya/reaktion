@@ -8,6 +8,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { initSteps } from './steps_generator'
 import { icon } from './icon'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -71,7 +72,7 @@ export default class Transpose extends Component<any, Props, State> {
 
   render() {
     const { steps, transpose, octave, notes } = this.state
-    return (<Box theme={{ bgColor: '#FFCC80' }}>
+    return (<Box theme={{ bgColor: colors.transpose }}>
       <div className="control">
         <h2>{icon('transpose')}<span className="text">transpose</span></h2>
         <div>

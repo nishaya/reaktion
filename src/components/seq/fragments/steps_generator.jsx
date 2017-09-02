@@ -6,6 +6,7 @@ import StepsEditor from './steps_editor'
 import StepsPreview from './steps_preview'
 import Box from './box'
 import { icon } from './icon'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -72,9 +73,9 @@ export default class StepsGenerator extends Component<any, Props, State> {
       return null
     }
 
-    return (<Box theme={{ bgColor: '#CFD8DC' }}>
+    return (<Box theme={{ bgColor: colors.gen }}>
       <div className="control">
-        <h2>{icon('generator')}<span className="text">step gen</span></h2>
+        <h2>{icon('generator')}<span className="text">generator</span></h2>
         length: {length}
         <Slider
           sliderStyle={sliderStyle}

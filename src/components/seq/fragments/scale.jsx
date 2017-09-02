@@ -8,6 +8,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
 import { initSteps } from './steps_generator'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -82,7 +83,7 @@ export default class Scale extends Component<any, Props, State> {
 
   render() {
     const { steps, root } = this.state
-    return (<Box theme={{ bgColor: '#81D4FA' }}>
+    return (<Box theme={{ bgColor: colors.scale }}>
       <div className="control">
         <h2>{icon('scale')}<span className="text">scale</span></h2>
         <SelectField

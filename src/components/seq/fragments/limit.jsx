@@ -8,6 +8,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
 import { initSteps } from './steps_generator'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -73,7 +74,7 @@ export default class Limit extends Component<any, Props, State> {
 
   render() {
     const { steps, top, bottom } = this.state
-    return (<Box theme={{ bgColor: '#F48FB1' }}>
+    return (<Box theme={{ bgColor: colors.limit }}>
       <div className="control">
         <h2>{icon('limit')}<span className="text">limit</span></h2>
         top: {top}

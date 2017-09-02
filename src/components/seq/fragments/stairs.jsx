@@ -8,6 +8,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
 import { initSteps } from './steps_generator'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -78,7 +79,7 @@ export default class Stairs extends Component<any, Props, State> {
 
   render() {
     const { steps, notes, perNote } = this.state
-    return (<Box theme={{ bgColor: '#E6EE9C' }}>
+    return (<Box theme={{ bgColor: colors.stairs }}>
       <div className="control">
         <h2>{icon('stairs')}<span className="text">stairs</span></h2>
         by {notes} notes

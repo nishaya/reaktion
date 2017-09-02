@@ -7,6 +7,7 @@ import Box from './box'
 import StepsPreview from './steps_preview'
 import { icon } from './icon'
 import { initSteps } from './steps_generator'
+import colors from './colors'
 
 type Props = {
   steps: Steps,
@@ -80,7 +81,7 @@ export default class Finishing extends Component<any, Props, State> {
 
   render() {
     const { steps, mute } = this.state
-    return (<Box theme={{ bgColor: '#FFAB91' }}>
+    return (<Box theme={{ bgColor: colors.finishing }}>
       <div className="control">
         <h2>{icon('finishing')}<span className="text">finishing</span></h2>
         <Toggle
